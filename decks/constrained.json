@@ -101,6 +101,47 @@
    "placeholder": "age"
   },
   {
+   "id": "gender",
+   "type": "question",
+   "phase": 2,
+   "questionId": "gender",
+   "title": [
+    "How do you identify?"
+   ],
+   "subtitle": "Optional. Some members prefer sessions that speak to their experience.",
+   "reassure": "Optional, and never shown anywhere.",
+   "options": [
+    {
+     "id": "woman",
+     "text": "Woman",
+     "color": "polar_blue"
+    },
+    {
+     "id": "man",
+     "text": "Man",
+     "color": "mint_green"
+    },
+    {
+     "id": "nonbinary",
+     "text": "Non-binary",
+     "color": "papaya_whip"
+    },
+    {
+     "id": "prefer_not",
+     "text": "Prefer not to say",
+     "color": "purple_haze"
+    }
+   ],
+   "notes": {
+    "template": "question",
+    "tag": "existing",
+    "why": "Kept as an added question (Alex, Sep 4). Nothing downstream reads it in the constrained deck yet.",
+    "calmer": "#3 (gender)",
+    "evidence": "Alex 2:34; round 2 P6",
+    "loss": "No downstream use without interpolation."
+   }
+  },
+  {
    "id": "hdyhau",
    "type": "scrollableQuestion",
    "phase": 2,
@@ -1979,6 +2020,7 @@
    "id": "paywall",
    "type": "paywall",
    "phase": 5,
+   "design": "recime",
    "headlines": {
     "stress": "Reduce daily stress and anxiety",
     "sleep": "Fall asleep faster, wake up rested",
@@ -1987,14 +2029,13 @@
     "default": "Reduce daily stress and anxiety"
    },
    "notes": {
-    "template": "Superwall post_sign_up",
+    "template": "Superwall post_sign_up (ReciMe layout)",
     "tag": "superwall",
-    "why": "Terminal screen: the paywall as recorded Aug 16 (carousel). Alex: the live one is now the ReciMe version, so swap the mock if this is used for testing. Research ideas live here as notes: reminder-promise headline with a Day 0/5/7 timeline, an on-paywall 'how do I cancel' answer, echo bullets built from the picks.",
+    "why": "Terminal screen: the live ReciMe-style paywall ('Try Balance for free', trial badge, benefit list, annual vs monthly, 'Try for $0.00', Restore Purchase), rebuilt from the Aug 12 recording's layout with today's $69.99 / $9.99 / 7-day set. Research ideas live here as notes: reminder-promise headline with a Day 0/5/7 timeline, an on-paywall 'how do I cancel' answer, echo bullets built from the picks.",
     "calmer": "#43 (trial timeline paywall, not copied)",
-    "evidence": "Alex 10:05 to 10:18; round 2 A3",
+    "evidence": "Alex 10:05 to 10:18; round 2 A3; megan-balance-path-diff-2026-08-12.md screen 18",
     "fills": [
-     "Swap for the ReciMe paywall design",
-     "Sleep/focus/mood headlines from the live paywall"
+     "Check the benefit bullets and badge copy against the live Superwall paywall"
     ]
    }
   },

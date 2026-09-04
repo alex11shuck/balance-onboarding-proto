@@ -293,9 +293,18 @@ RENDER.paywall = (c, el)=>{
   el.innerHTML = '';
   const pw = document.createElement('div'); pw.className='pw';
   const headline = (c.headlines && (c.headlines[S.a.goal_1]||c.headlines.default)) || 'Reduce daily stress and anxiety';
-  pw.innerHTML = `<button class="x" aria-label="Close">×</button><div class="art"><img src="assets/paywall-art.png" alt="" style="width:250px;height:250px;object-fit:contain"></div><h2>${tpl(headline)}</h2><div class="dots"><i class="on"></i><i></i><i></i><i></i></div>
-    <div class="plans"><div class="plan on"><span class="r"></span><div class="a">Annual</div><div class="p">$5.83/month</div><div class="d">$69.99 for 12 months</div></div><div class="plan"><span class="r"></span><div class="a">Monthly</div><div class="p">$9.99/month</div><div class="d">No free trial included</div></div></div>
-    <div class="bottom" style="padding-bottom:0"><button class="cta" id="cta">Start your FREE week</button></div><div class="fine">7 days free, then $5.83 per month ($69.99 per year)</div>`;
+  if(c.design==='recime'){
+    const items = c.benefits || ['400+ meditations for stress, sleep, focus and mood','Sleep stories, music and soundscapes','A new session built for you every day','Ad-free, on every device'];
+    pw.innerHTML = `<button class="x" aria-label="Close">×</button>
+      <div class="pw-top"><img src="assets/paywall-art.png" alt=""><div class="pw-badge">7-day free trial</div><h2>Try Balance for free</h2></div>
+      <div class="pw-list">${items.map(t=>`<div class="pw-item">${CHECK}<span>${tpl(t)}</span></div>`).join('')}</div>
+      <div class="plans"><div class="plan on"><span class="r"></span><div class="a">Annual</div><div class="p">$69.99/year</div><div class="d">$5.83 a month. 7 days free.</div></div><div class="plan"><span class="r"></span><div class="a">Monthly</div><div class="p">$9.99/month</div><div class="d">No free trial</div></div></div>
+      <div class="bottom" style="padding-bottom:0"><button class="cta" id="cta">Try for $0.00</button></div><div class="fine">7 days free, then $69.99 per year. Cancel anytime.</div><div class="fine" style="margin-top:6px"><span class="link">Restore Purchase</span></div>`;
+  } else {
+    pw.innerHTML = `<button class="x" aria-label="Close">×</button><div class="art"><img src="assets/paywall-art.png" alt="" style="width:250px;height:250px;object-fit:contain"></div><h2>${tpl(headline)}</h2><div class="dots"><i class="on"></i><i></i><i></i><i></i></div>
+      <div class="plans"><div class="plan on"><span class="r"></span><div class="a">Annual</div><div class="p">$5.83/month</div><div class="d">$69.99 for 12 months</div></div><div class="plan"><span class="r"></span><div class="a">Monthly</div><div class="p">$9.99/month</div><div class="d">No free trial included</div></div></div>
+      <div class="bottom" style="padding-bottom:0"><button class="cta" id="cta">Start your FREE week</button></div><div class="fine">7 days free, then $5.83 per month ($69.99 per year)</div>`;
+  }
   screen.appendChild(pw);
   pw.querySelector('.x').onclick=()=>{ setA('paywall','declined','Declined'); pw.remove(); go(1); };
   pw.querySelector('#cta').onclick=()=>{ setA('paywall','trial','Started trial'); pw.remove(); go(1); };
