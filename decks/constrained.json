@@ -1,6 +1,83 @@
 {
  "id": "constrained",
  "name": "Constrained",
+ "principles": {
+  "arrival": {
+   "name": "Meet the arrival",
+   "text": "Most new users come from a Meta ad about stress or anxiety and have never used a meditation app. Orient them before asking anything personal, and speak to the reason they tapped.",
+   "source": "HDYHAU Sep 4: Meta is 40% of respondents at 6.6% trial start vs 13.9% overall; round 2 A2 (newcomers reached a paywall not knowing what the app does)"
+  },
+  "proof-early": {
+   "name": "Proof before the ask",
+   "text": "Trust is built before the commitment moment, not at it. Awards, ratings and member counts go where the user is still deciding whether to invest 3 minutes.",
+   "source": "March A3 (the store listing was the strongest pre-app trust signal); Calmer #1; Insight Timer's 5 proof placements"
+  },
+  "payoff": {
+   "name": "Every ask has a payoff",
+   "text": "A question earns its place by changing something the user can see: a reason line for why we ask, and the answer used within 2 screens.",
+   "source": "Growth Gems principle 2; 23-app benchmark rule 2 (reason in the header); rule 3 (result points back to what you said)"
+  },
+  "echo": {
+   "name": "Say it back",
+   "text": "Read the user's own words back to them. Personalization the user cannot see is not personalization to them.",
+   "source": "Synthesis #1 (answer echo, the biggest gap vs the field); round 2 A4 (a named result is where 'it understood me' landed); Alex 5:00 ('a major need')"
+  },
+  "rhythm": {
+   "name": "Ask, echo, teach, preview",
+   "text": "Never run 2 question blocks back to back. After 1 or 2 questions, pay the user back with a validation, a piece of evidence or a look at the product.",
+   "source": "Calmer's spine (15 questions, ~20 interstitials); synthesis #2; round 2: 3 of 4 Calmer testers named the explanations unprompted"
+  },
+  "sourced": {
+   "name": "Sourced, dated evidence",
+   "text": "Every number carries a source and a date. Claims are stated plainly with a disclaimer where results vary. No 'clinically proven', no unsourced stats.",
+   "source": "March B4/B5 (age-specific stats were the strongest confidence builder; ours were dated and unsourced); Anna's citation set; Balance whitepaper 2025"
+  },
+  "felt-value": {
+   "name": "Show the product before the paywall",
+   "text": "The paywall arriving before any sense of the product was the abandonment trigger in March. Previews of real sections and a named first session stand in for felt value.",
+   "source": "March D1 (12 of 18) and F1 (5 of 6 newcomers); round 2 A5 (content access resolved the try-first objection); synthesis #10"
+  },
+  "humans": {
+   "name": "Made by humans, shown not said",
+   "text": "Faces, voices and the handcrafted mechanism answer the 'is this AI' worry without using the word, which plants the thought.",
+   "source": "Cindy (Sep 2024); coaches prior art; App Store review 'Love that they use real voices and not AI'; 3 competitors sell teacher credibility"
+  },
+  "reassure": {
+   "name": "Specific reassurance beside sensitive asks",
+   "text": "A concrete, checkable line next to the field it protects ('never shown to anyone') builds more trust than any general promise.",
+   "source": "23-app benchmark rule 4 (Strava, Gentler Streak: highest trust ratings in the set); the deck had zero reassurance copy"
+  },
+  "no-deficit": {
+   "name": "Compassion, never agitation",
+   "text": "No scare copy, no presupposed diagnosis, always a 'Not sure'. Validate what the user said, then teach. The structure of Calmer's agitate-then-absolve arc is used; its claims are not.",
+   "source": "Balance voice (compassionate, grounded); synthesis #9; Calmer's dark patterns documented-not-copied"
+  },
+  "commit": {
+   "name": "A small commitment before the big one",
+   "text": "A realistic practice goal and a reminder time right before the paywall turn intent into a plan, and make the trial feel like a decision already half made.",
+   "source": "Synthesis #4 (Insight Timer's praise ladder, cheapest high-leverage steal); Calmer #41; CYTR +24.7% trial starts"
+  },
+  "honest-result": {
+   "name": "A result built only from real answers",
+   "text": "The profile reflects what the user actually said. No invented sub-scores, no manufactured headroom, no clinical framing.",
+   "source": "Round 2 P18 (Calmer scored his healthy diet as Fair and he thanked it); A4; 'not a clinical assessment' line"
+  },
+  "keep-what-works": {
+   "name": "Keep what already tests well",
+   "text": "The goal screens, the reminder flow, the trial-reminder chooser and the live paywall stay as they are. The redesign is the connective tissue around them.",
+   "source": "Alex 4:35 ('keep our goal screens as they exist'); prior-art census (wins came from reordering and framing, not new content); CYTR and ReciMe are baseline wins"
+  },
+  "voice": {
+   "name": "Balance voice",
+   "text": "Accessible, grounded, compassionate, realistic. Digits, full sentences, contractions, no first person except 'Let's', no exclamation points, no 'mindfulness' unless we teach it.",
+   "source": "Balance content style guide"
+  },
+  "trial-anxiety": {
+   "name": "Name the trial mechanics",
+   "text": "Forgetting to cancel is the objection behind the objection. Say when the reminder comes and what happens on day 7 before asking for the trial.",
+   "source": "Round 2 A3 (the trial-reminder paywall was the only element praised unprompted for the objection it targets); Insight Timer and Calmer timelines"
+  }
+ },
  "description": "The same spine built only from card templates that exist in the app today (in use or built-but-unused), with today's branching kept intact and new questions allowed. Interpolation (except the name on text cards), sliders, the computed profile, the two-column outcomes card and the step counter are cut; what each cut loses is recorded per screen.",
  "cards": [
   {
@@ -37,7 +114,13 @@
      "Badges are text-only on purpose (Apple rejected a laurel with its logo in 2022); confirm wording with marketing",
      "Rating and count pulled Sep 4, 2026 (4.88, 120,363 US ratings); refresh before shipping"
     ]
-   }
+   },
+   "principles": [
+    "proof-early",
+    "arrival",
+    "keep-what-works"
+   ],
+   "how": "Screen 1 carries the awards and rating because a newcomer from an ad decides in seconds whether this is a real company. The headline is the variant winning the live test."
   },
   {
    "id": "assessment_intro",
@@ -55,7 +138,12 @@
     "why": "Tell people what the questions do before asking them. Replaces the current 'Answer a few questions to personalize your experience' card.",
     "calmer": "#2 (assessment intro)",
     "evidence": "Alex 2:12; benchmark rule 2 (reason in the header)"
-   }
+   },
+   "principles": [
+    "payoff",
+    "arrival"
+   ],
+   "how": "Tell people what the questions do before the first one. 3 minutes is a promise about their time."
   },
   {
    "id": "first_name",
@@ -73,7 +161,11 @@
     "tag": "existing",
     "why": "Name early is the cheapest enabler of the answer-echo register. The keyboard card validates first_name today, and text/textImage cards already replace a name placeholder.",
     "evidence": "Benchmark: name is the field's 2nd most common ask (74%); rule 3 (result points back to what you said)"
-   }
+   },
+   "principles": [
+    "echo"
+   ],
+   "how": "A first name is the cheapest thing that lets every later screen speak to the person."
   },
   {
    "id": "age",
@@ -93,6 +185,12 @@
     "evidence": "Alex 2:34 (who-you-are first); benchmark rule 4; web funnel /age",
     "loss": "Age bands (web-funnel style)."
    },
+   "principles": [
+    "reassure",
+    "payoff",
+    "sourced"
+   ],
+   "how": "Age unlocks the age-specific member count on the next screen, so the ask pays back immediately. The reassurance line says where the answer goes.",
    "numpad": true,
    "placeholder": "age"
   },
@@ -135,7 +233,12 @@
     "calmer": "#3 (gender)",
     "evidence": "Alex 2:34; round 2 P6",
     "loss": "No downstream use without interpolation."
-   }
+   },
+   "principles": [
+    "reassure",
+    "no-deficit"
+   ],
+   "how": "Optional, with a plain 'prefer not to say'. Kept for review; the echo stays light because a round-2 tester read Calmer's gendered copy as generic."
   },
   {
    "id": "hdyhau",
@@ -198,7 +301,12 @@
     "fills": [
      "Confirm the new answer_id with data (Balance HDYHAU buckets differ from Elevate's)"
     ]
-   }
+   },
+   "principles": [
+    "arrival",
+    "proof-early"
+   ],
+   "how": "Asked early so it does not sit next to the paywall, and so a health-professional referral can become a proof signal."
   },
   {
    "id": "right_place",
@@ -242,7 +350,14 @@
      "Session length and 'made from your answers' mechanism: confirm with Anna"
     ],
     "loss": "The age-count and friend-referral echoes; the body paragraph is behind Learn More."
-   }
+   },
+   "principles": [
+    "echo",
+    "proof-early",
+    "felt-value",
+    "arrival"
+   ],
+   "how": "The first thing the user sees after giving their name and age is their name, a member count for their age, and a picture of what they get."
   },
   {
    "id": "goals",
@@ -262,7 +377,11 @@
     "why": "Kept exactly as today, per Alex. Hardcoded in Lua, not authorable.",
     "calmer": "#13 (main priority)",
     "evidence": "Alex 4:35"
-   }
+   },
+   "principles": [
+    "keep-what-works"
+   ],
+   "how": "The goal screens are unchanged. They test well and everything downstream branches on them."
   },
   {
    "id": "goals_metrics",
@@ -299,7 +418,12 @@
     "tag": "copy",
     "why": "Existing card with sourced, dated numbers from the Balance whitepaper (survey of 3,700+ members, 2025). Today's 95/92/82/75 line has no locatable source, and two different sleep numbers coexist in the codebase.",
     "evidence": "March B4/B5; whitepaper Personalization Pays Off (2025); Anna's Aug 11 DM"
-   }
+   },
+   "principles": [
+    "sourced",
+    "proof-early"
+   ],
+   "how": "Same card as today, with numbers that have a source and a date."
   },
   {
    "id": "stress_1",
@@ -342,7 +466,12 @@
     "why": "Existing card with a 2-week window and a reason line.",
     "calmer": "#19 (frequency item, 'over the last two weeks')",
     "evidence": "Synthesis #7 (reason-first framing)"
-   }
+   },
+   "principles": [
+    "payoff",
+    "no-deficit"
+   ],
+   "how": "A 2-week window and a reason line make the question feel like an instrument without scoring it as one. 'Not sure' is always there."
   },
   {
    "id": "stress_2",
@@ -383,7 +512,12 @@
     "why": "Same question, now multi-answer. The top quiz friction in March was being forced to pick one symptom. The question card already supports allowMultipleAnswers (unused in today's deck), so the icons and pastel rows stay.",
     "calmer": "#6 ('Which of these feel familiar?')",
     "evidence": "March B2 (8 of 18)"
-   }
+   },
+   "principles": [
+    "payoff",
+    "no-deficit"
+   ],
+   "how": "Multi-select, because being forced to pick one symptom was the top quiz friction in March."
   },
   {
    "id": "stress_echo",
@@ -404,7 +538,14 @@
     "calmer": "#8 (validation interstitial)",
     "evidence": "Synthesis #1; Alex 5:00",
     "loss": "The user's own words read back."
-   }
+   },
+   "principles": [
+    "echo",
+    "rhythm",
+    "sourced",
+    "no-deficit"
+   ],
+   "how": "The user's own symptoms read back within one screen, then a sourced number. Validation, not agitation."
   },
   {
    "id": "stress_science",
@@ -426,7 +567,13 @@
     "fills": [
      "Disclaimer wording with content"
     ]
-   }
+   },
+   "principles": [
+    "sourced",
+    "rhythm",
+    "no-deficit"
+   ],
+   "how": "One cited finding with a disclaimer, placed where Calmer puts the scare."
   },
   {
    "id": "singles_preview",
@@ -470,7 +617,13 @@
      "Real Single titles and durations from the catalog"
     ],
     "loss": "Body paragraph on screen (behind Learn More)."
-   }
+   },
+   "principles": [
+    "felt-value",
+    "rhythm",
+    "payoff"
+   ],
+   "how": "A look at the part of the product that answers the stress just described, and an affordance the user will find waiting on home."
   },
   {
    "id": "stress_3",
@@ -518,7 +671,11 @@
     "tag": "copy",
     "why": "Existing card plus a reason line.",
     "calmer": "#14 (stress drivers)"
-   }
+   },
+   "principles": [
+    "payoff"
+   ],
+   "how": "Reason line: your sessions are matched to it."
   },
   {
    "id": "stress_recap",
@@ -551,7 +708,13 @@
     "calmer": "#15 (answer-echo checklist)",
     "evidence": "Alex 5:00 to 5:15; synthesis #1",
     "loss": "Name and the user's own answers in the copy; the list card does not replace the name placeholder."
-   }
+   },
+   "principles": [
+    "echo",
+    "payoff",
+    "rhythm"
+   ],
+   "how": "What we heard, in the user's words, before moving on. This is the screen Alex called a major need."
   },
   {
    "id": "sleep_ready",
@@ -580,7 +743,11 @@
     "template": "question",
     "tag": "existing",
     "why": "Kept verbatim. Routes the post-onboarding destination (Sleep Single vs Plan) on the native side."
-   }
+   },
+   "principles": [
+    "keep-what-works"
+   ],
+   "how": "Existing routing question, kept verbatim."
   },
   {
    "id": "sleep_1",
@@ -619,7 +786,12 @@
     "tag": "copy",
     "why": "Existing card with the 2-week window.",
     "calmer": "#24 (sleep frequency item)"
-   }
+   },
+   "principles": [
+    "payoff",
+    "no-deficit"
+   ],
+   "how": "2-week window."
   },
   {
    "id": "sleep_2",
@@ -659,7 +831,12 @@
     "tag": "existing",
     "why": "Same question, now multi-answer (March B2).",
     "calmer": "#6"
-   }
+   },
+   "principles": [
+    "payoff",
+    "no-deficit"
+   ],
+   "how": "Multi-select (March B2)."
   },
   {
    "id": "sleep_echo",
@@ -680,7 +857,13 @@
     "calmer": "#8",
     "evidence": "Synthesis #1",
     "loss": "The user's own answer read back."
-   }
+   },
+   "principles": [
+    "echo",
+    "rhythm",
+    "sourced"
+   ],
+   "how": "Says back what keeps them up, then a sourced sleep number."
   },
   {
    "id": "sleep_science",
@@ -702,7 +885,12 @@
     "fills": [
      "Confirm the citation and wording with Anna"
     ]
-   }
+   },
+   "principles": [
+    "sourced",
+    "rhythm"
+   ],
+   "how": "Cited education beat in place of Calmer's cortisol chart."
   },
   {
    "id": "sleep_library_preview",
@@ -746,7 +934,12 @@
      "Sleep catalog counts and titles"
     ],
     "loss": "Body paragraph on screen (behind Learn More)."
-   }
+   },
+   "principles": [
+    "felt-value",
+    "rhythm"
+   ],
+   "how": "The sleep content shown, not listed."
   },
   {
    "id": "sleep_3",
@@ -787,7 +980,11 @@
     "template": "question",
     "tag": "copy",
     "why": "Existing card plus a reason line."
-   }
+   },
+   "principles": [
+    "payoff"
+   ],
+   "how": "Reason line: it sets when Balance suggests sessions."
   },
   {
    "id": "sleep_recap",
@@ -819,7 +1016,13 @@
     "why": "Static what-we-heard recap for this goal branch on the list template. The branch already scopes it.",
     "calmer": "#15",
     "loss": "Name and the user's own answers in the copy; the list card does not replace the name placeholder."
-   }
+   },
+   "principles": [
+    "echo",
+    "payoff",
+    "rhythm"
+   ],
+   "how": "What we heard on the sleep path."
   },
   {
    "id": "mood_1",
@@ -863,7 +1066,12 @@
     "tag": "existing",
     "why": "New frequency item with the 2-week window, so the mood path has a pace-setting question like stress does. Never scored as a screen.",
     "calmer": "#19"
-   }
+   },
+   "principles": [
+    "payoff",
+    "no-deficit"
+   ],
+   "how": "A pace-setting question with a 2-week window; never scored as a screen."
   },
   {
    "id": "mood_2",
@@ -901,7 +1109,11 @@
     "template": "question",
     "tag": "copy",
     "why": "Existing card plus a reason line."
-   }
+   },
+   "principles": [
+    "payoff"
+   ],
+   "how": "Reason line."
   },
   {
    "id": "mood_echo",
@@ -922,7 +1134,14 @@
     "calmer": "#8",
     "evidence": "Synthesis #1",
     "loss": "The echoed answer."
-   }
+   },
+   "principles": [
+    "echo",
+    "rhythm",
+    "no-deficit",
+    "sourced"
+   ],
+   "how": "Builds on what already lifts the user instead of diagnosing them."
   },
   {
    "id": "mood_science",
@@ -940,7 +1159,12 @@
     "tag": "unused",
     "why": "Cited education beat for the mood path.",
     "calmer": "#9 to #11"
-   }
+   },
+   "principles": [
+    "sourced",
+    "rhythm"
+   ],
+   "how": "One cited finding."
   },
   {
    "id": "mood_preview",
@@ -985,7 +1209,12 @@
      "Mood check-in mechanics and Single titles from the catalog"
     ],
     "loss": "Body paragraph on screen (behind Learn More)."
-   }
+   },
+   "principles": [
+    "felt-value",
+    "rhythm"
+   ],
+   "how": "The daily mood check-in shown as it works."
   },
   {
    "id": "mood_3",
@@ -1028,7 +1257,12 @@
     "template": "question",
     "tag": "copy",
     "why": "Existing card plus a reason line."
-   }
+   },
+   "principles": [
+    "payoff",
+    "no-deficit"
+   ],
+   "how": "'No wrong answers' in the reason line."
   },
   {
    "id": "mood_recap",
@@ -1059,7 +1293,13 @@
     "why": "Static what-we-heard recap for this goal branch on the list template. The branch already scopes it.",
     "calmer": "#15",
     "loss": "Name and the user's own answers in the copy; the list card does not replace the name placeholder."
-   }
+   },
+   "principles": [
+    "echo",
+    "payoff",
+    "rhythm"
+   ],
+   "how": "What we heard on the mood path."
   },
   {
    "id": "focus_1",
@@ -1104,7 +1344,11 @@
     "template": "question",
     "tag": "copy",
     "why": "Existing card plus a reason line."
-   }
+   },
+   "principles": [
+    "payoff"
+   ],
+   "how": "Reason line."
   },
   {
    "id": "focus_2",
@@ -1142,7 +1386,11 @@
     "template": "question",
     "tag": "copy",
     "why": "Existing card plus the 2-week window."
-   }
+   },
+   "principles": [
+    "payoff"
+   ],
+   "how": "2-week window."
   },
   {
    "id": "focus_echo",
@@ -1163,7 +1411,14 @@
     "calmer": "#8",
     "evidence": "Synthesis #1",
     "loss": "The echoed answer."
-   }
+   },
+   "principles": [
+    "echo",
+    "rhythm",
+    "no-deficit",
+    "sourced"
+   ],
+   "how": "Normalizes wandering attention before teaching."
   },
   {
    "id": "focus_adhd",
@@ -1207,7 +1462,12 @@
     "tag": "copy",
     "why": "Existing card with a specific reassurance line beside the most sensitive ask in the flow.",
     "evidence": "Benchmark rule 4"
-   }
+   },
+   "principles": [
+    "reassure",
+    "no-deficit"
+   ],
+   "how": "The most sensitive ask in the flow gets a specific line about where the answer goes, and 'I prefer not to share'."
   },
   {
    "id": "focus_primer",
@@ -1228,7 +1488,11 @@
     "fills": [
      "ADHD citation from Anna"
     ]
-   }
+   },
+   "principles": [
+    "sourced"
+   ],
+   "how": "Existing DID YOU KNOW card with a citation."
   },
   {
    "id": "focus_preview",
@@ -1272,7 +1536,12 @@
      "Focus Single titles, the timer feature name, ADHD Single title"
     ],
     "loss": "Body paragraph on screen (behind Learn More)."
-   }
+   },
+   "principles": [
+    "felt-value",
+    "rhythm"
+   ],
+   "how": "Focus content shown, not listed."
   },
   {
    "id": "focus_3",
@@ -1310,7 +1579,11 @@
     "template": "question",
     "tag": "copy",
     "why": "Existing card with the 2-week window."
-   }
+   },
+   "principles": [
+    "payoff"
+   ],
+   "how": "2-week window."
   },
   {
    "id": "focus_recap",
@@ -1341,7 +1614,13 @@
     "why": "Static what-we-heard recap for this goal branch on the list template. The branch already scopes it.",
     "calmer": "#15",
     "loss": "Name and the user's own answers in the copy; the list card does not replace the name placeholder."
-   }
+   },
+   "principles": [
+    "echo",
+    "payoff",
+    "rhythm"
+   ],
+   "how": "What we heard on the focus path."
   },
   {
    "id": "coaches",
@@ -1367,14 +1646,15 @@
    "notes": {
     "template": "list (2 items with image, title, subtitle)",
     "tag": "unused",
-    "why": "The decided 'made by humans' screen (angle 1), warmed up on Alex's note: it names the user's goals, gives a quick background on each coach, carries the handcrafted line from angle 2, and says the first session is with Ofosu and you can switch anytime (coach switching exists in the app). Showcase, not chooser; no 'AI' in the copy.",
-    "evidence": "handcrafted-coaches-screen-angles.md; 3 competitors lean on teacher credibility",
-    "fills": [
-     "Bios trimmed from the approved website bios; Cindy to confirm the one-liners",
-     "Headline: question-and-statement register"
-    ],
-    "loss": "The goals named in the intro line."
-   }
+    "why": "The constrained version keeps today's Creating Program animation, so the coaches get their own static card here instead of the assembly reveal (Alex, Sep 4). Faces, a quick background, the handcrafted line, 'switch anytime'.",
+    "evidence": "handcrafted-coaches-screen-angles.md",
+    "loss": "The Option 3 assembly reveal, and the goals named in the intro line."
+   },
+   "principles": [
+    "humans",
+    "echo"
+   ],
+   "how": "Faces, first names, a quick background and the handcrafted line. Showcase, not chooser."
   },
   {
    "id": "sleep_trouble",
@@ -1416,7 +1696,12 @@
     "why": "Sleep block now fires whenever sleep is selected, not only when it ranks first. Two-thirds of sleep-motivated users never see a sleep question today.",
     "calmer": "#24",
     "evidence": "Deck map: only goal #1 drives question blocks; sleep is the clearest PMF segment (March 4.83 vs 3.00)"
-   }
+   },
+   "principles": [
+    "payoff",
+    "keep-what-works"
+   ],
+   "how": "Sleep questions now fire whenever sleep is selected. Two-thirds of sleep-motivated users never see one today."
   },
   {
    "id": "sleep_preview_b",
@@ -1457,7 +1742,11 @@
     "calmer": "#25",
     "evidence": "Alex 6:15",
     "loss": "Body paragraph on screen (behind Learn More)."
-   }
+   },
+   "principles": [
+    "felt-value"
+   ],
+   "how": "Sleep content for people who picked it as a secondary goal."
   },
   {
    "id": "exercise",
@@ -1497,7 +1786,12 @@
     "why": "Same question as a 4-option select. Sliders need a new template.",
     "calmer": "#28",
     "loss": "The slider interaction and per-stop art."
-   }
+   },
+   "principles": [
+    "payoff",
+    "no-deficit"
+   ],
+   "how": "A whole-health question we never asked. It feeds the profile."
   },
   {
    "id": "schedule",
@@ -1536,7 +1830,12 @@
     "tag": "existing",
     "why": "Lifted from the web funnel, rationale line included (content-vetted copy).",
     "evidence": "web-onboarding-2026-08-20.md /schedule; Alex 8:58"
-   }
+   },
+   "principles": [
+    "payoff",
+    "echo"
+   ],
+   "how": "Web-funnel question with its rationale line; the answer shapes the next screen and the profile."
   },
   {
    "id": "no_judgment",
@@ -1555,7 +1854,13 @@
     "calmer": "#31 (non-judgment beat)",
     "evidence": "Alex: more moments that speak back to the user",
     "loss": "The schedule answer read back."
-   }
+   },
+   "principles": [
+    "no-deficit",
+    "echo",
+    "voice"
+   ],
+   "how": "De-shames the lifestyle answers and says back the schedule before the aspiration question."
   },
   {
    "id": "future",
@@ -1607,7 +1912,12 @@
     "why": "Positive-future question, neutral framing. Picks come back on the outcomes screen and the program-ready card.",
     "calmer": "#32 ('reclaim' outcomes multi)",
     "evidence": "Alex 7:05 to 7:26"
-   }
+   },
+   "principles": [
+    "echo",
+    "payoff"
+   ],
+   "how": "The picks come back on the outcomes screen and the program-ready card, so the question visibly matters."
   },
   {
    "id": "experience",
@@ -1649,7 +1959,12 @@
     "template": "question",
     "tag": "copy",
     "why": "Existing card, one shared version with a reason line instead of 4 goal-specific copies."
-   }
+   },
+   "principles": [
+    "payoff",
+    "keep-what-works"
+   ],
+   "how": "Existing card with a reason line."
   },
   {
    "id": "age_metrics",
@@ -1669,7 +1984,13 @@
     "fills": [
      "Confirm the January 2026 refresh of the age buckets with Yana"
     ]
-   }
+   },
+   "principles": [
+    "sourced",
+    "proof-early",
+    "echo"
+   ],
+   "how": "The age-specific stat, March's strongest confidence builder."
   },
   {
    "id": "proof",
@@ -1706,30 +2027,40 @@
     "why": "One testimonial card. userReview shows a single quote and an asset, so the carousel is one card here (or several cards).",
     "calmer": "#33",
     "loss": "The combined age-stat headline and the 3-review carousel; badges depend on the asset."
-   }
+   },
+   "principles": [
+    "proof-early",
+    "sourced",
+    "humans"
+   ],
+   "how": "Verbatim reviews and the awards right before the Plan is built. One review says 'real voices' in a user's words."
   },
   {
    "id": "loading",
-   "type": "loading",
+   "type": "legacyLoading",
    "phase": 5,
    "title": [
-    "Building your Plan."
+    "Creating program"
    ],
-   "bars": [
-    "Your goals",
-    "Sleep habits",
-    "Routine and schedule",
-    "Meditation experience",
-    "Choosing your first session"
+   "texts": [
+    "your goals…",
+    "your experience…",
+    "your preferences…",
+    "your age…"
    ],
    "notes": {
-    "template": "meditationLoading (upperText/lowerText pairs)",
-    "tag": "unused",
-    "why": "Named bars with static labels on the existing personalization-reveal card.",
-    "calmer": "#34 (5-bar 'Building your Calmer experience')",
-    "evidence": "Alex 7:36; benchmark rule 3",
-    "loss": "Goal name and first name in the labels (meditationLoading does not replace the name placeholder)."
-   }
+    "template": "Swift Creating Program screen (Lottie)",
+    "tag": "existing",
+    "why": "Today's Creating Program animation and copy, unchanged (Alex, Sep 4).",
+    "loss": "The Option 3 assembly reveal: coach faces, answer chips and the first session card."
+   },
+   "principles": [
+    "humans",
+    "echo",
+    "felt-value",
+    "payoff"
+   ],
+   "how": "The coaches appear where the Plan gets made: their faces, the user's answers, and the first session that comes out of them. It answers 'is this AI' without the word and gives 10 questions a visible payoff."
   },
   {
    "id": "profile",
@@ -1774,7 +2105,13 @@
      "Profile names: content pass"
     ],
     "loss": "Answer-derived sub-scores, the score number, and the experience/schedule echo."
-   }
+   },
+   "principles": [
+    "echo",
+    "honest-result",
+    "no-deficit"
+   ],
+   "how": "A named profile built only from the answers given, with an insight that names the user's experience and schedule."
   },
   {
    "id": "chart",
@@ -1805,7 +2142,12 @@
      "Copy pass against the web funnel's Before/Day 2/Day 30 timeline"
     ],
     "loss": "Nothing visible; the curve is illustrative either way."
-   }
+   },
+   "principles": [
+    "sourced",
+    "felt-value"
+   ],
+   "how": "The trajectory with Balance vs alone, with the survey figures behind it named."
   },
   {
    "id": "comparison",
@@ -1827,6 +2169,11 @@
     "evidence": "Alex 8:46; Tangent paywall intro screen; Alex: differentiate the list screens",
     "loss": "The two columns and the user's own 'look forward to' picks."
    },
+   "principles": [
+    "echo",
+    "felt-value"
+   ],
+   "how": "Outcomes in the user's own words from the 'look forward to' question. Never 'Balance Premium'.",
    "with": [
     {
      "text": "Calmer nights and deeper sleep",
@@ -1896,7 +2243,12 @@
     "calmer": "#41 (commitment pledge)",
     "evidence": "Synthesis #4; Alex 9:57",
     "loss": "The praise line after selection."
-   }
+   },
+   "principles": [
+    "commit",
+    "no-deficit"
+   ],
+   "how": "Consistency over length; a realistic goal before the trial ask."
   },
   {
    "id": "reminder_time_sleep",
@@ -1923,7 +2275,12 @@
     "tag": "existing",
     "why": "Existing bedtime card (sleep track). Placement kept: earned and contextual.",
     "evidence": "Benchmark rule 7 vs its structural read: a prototype arm, not a defect"
-   }
+   },
+   "principles": [
+    "commit",
+    "keep-what-works"
+   ],
+   "how": "Existing bedtime card."
   },
   {
    "id": "reminder_time",
@@ -1949,7 +2306,12 @@
     "template": "setReminderTime",
     "tag": "existing",
     "why": "Existing training-reminder card."
-   }
+   },
+   "principles": [
+    "commit",
+    "keep-what-works"
+   ],
+   "how": "Existing reminder card."
   },
   {
    "id": "push",
@@ -1967,7 +2329,13 @@
     "tag": "copy",
     "why": "Existing OS permission wrapper with a real number in the subtext. One shared copy instead of a per-track echo.",
     "evidence": "Benchmark rule 8"
-   }
+   },
+   "principles": [
+    "commit",
+    "payoff",
+    "keep-what-works"
+   ],
+   "how": "An earned, contextual permission ask."
   },
   {
    "id": "program_ready",
@@ -1988,7 +2356,13 @@
      "Confirm with Matheus whether the Swift program-ready card can take the first name (the Lua text cards can)"
     ],
     "loss": "Goal and 'look forward to' echo."
-   }
+   },
+   "principles": [
+    "echo",
+    "felt-value",
+    "voice"
+   ],
+   "how": "Names the first session and the first thing the user said they look forward to. No 'free'-led framing at the commit moment."
   },
   {
    "id": "cytr",
@@ -2003,7 +2377,12 @@
     "tag": "superwall",
     "why": "Today's Choose-Your-Trial-Reminder screen, kept as is, right before the paywall (Alex).",
     "evidence": "CYTR +24.7% trial starts (prior art)"
-   }
+   },
+   "principles": [
+    "trial-anxiety",
+    "keep-what-works"
+   ],
+   "how": "Says when the reminder comes before asking for the trial."
   },
   {
    "id": "signup",
@@ -2021,7 +2400,11 @@
     "why": "Sign-up stays before the paywall, as today.",
     "evidence": "Growth Gems item 3; benchmark: deferred account gate is the norm for Balance's archetype",
     "loss": "Sign-up after the trial starts (wish list)."
-   }
+   },
+   "principles": [
+    "keep-what-works"
+   ],
+   "how": "Account creation, as today in the constrained version; after the trial in the wish list."
   },
   {
    "id": "paywall",
@@ -2044,7 +2427,13 @@
     "fills": [
      "Paywall reviews: Tracy's is the live paywall's own; the other 2 are from our verified set"
     ]
-   }
+   },
+   "principles": [
+    "keep-what-works",
+    "trial-anxiety",
+    "proof-early"
+   ],
+   "how": "Today's live paywall, unchanged."
   },
   {
    "id": "end",

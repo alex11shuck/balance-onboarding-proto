@@ -18,10 +18,11 @@ def br(c):
              .replace("a.goal_sleep==='yes' && a.goal_1!=='sleep'","sleep selected, not #1").replace("a.goal_sleep!=='yes'","no sleep goal").replace("a.goal_sleep==='yes'","sleep selected").replace("a.paywall==='trial'","trial started"))
 asks={'question','scrollableQuestion','multiselect','keyboard','slider','commitment','goalRanking'}
 def flow_table(d):
-    out=["| # | Screen | Type | Shown when | Cost | Calmer | Why it's here |","|---|---|---|---|---|---|---|"]
+    g=d.get('principles',{})
+    out=["| # | Screen | Type | Shown when | Cost | Calmer | Why it's here (build) | Principles (why mode) |","|---|---|---|---|---|---|---|---|"]
     for i,c in enumerate(d['cards'],1):
-        n=c.get('notes',{})
-        out.append(f"| {i} | **{title(c)}** (`{c['id']}`) | {c['type']} | {br(c)} | {TAG.get(n.get('tag'),n.get('tag',''))} | {n.get('calmer','')} | {n.get('why','')} |")
+        n=c.get('notes',{}); pr=', '.join(g.get(k,{}).get('name',k) for k in c.get('principles',[]))
+        out.append(f"| {i} | **{title(c)}** (`{c['id']}`) | {c['type']} | {br(c)} | {TAG.get(n.get('tag'),n.get('tag',''))} | {n.get('calmer','')} | {n.get('why','')} | {pr}{(': '+c['how']) if c.get('how') else ''} |")
     return '\n'.join(out)
 m=["| Wish-list screen | In the constrained version | Production template | Cost | What we lose |","|---|---|---|---|---|"]
 kept=adapted=cut=0
@@ -49,7 +50,7 @@ def tags(d):
 wa=sum(1 for c in W['cards'] if c['type'] in asks); ca=sum(1 for c in C['cards'] if c['type'] in asks)
 doc=f"""# Balance onboarding prototype v1: Calmer's package, two versions
 
-_Built Sep 4, 2026; revised the same afternoon on Alex's critique. Live at **https://alex11shuck.github.io/balance-onboarding-proto/** (add `?notes=1` for build notes; flow maps at `#/map/wishlist` and `#/map/constrained`). Source: [alex11shuck/balance-onboarding-proto](https://github.com/alex11shuck/balance-onboarding-proto). Inputs: Alex's talk-over ([calmer-alex-walkthrough-2026-09-04.md](competitors/calmer-alex-walkthrough-2026-09-04.md)), the [Calmer teardown](competitors/calmer-2026-08-21.md), the [deck map](baseline/deck-map.md), the [cross-app synthesis](competitors/synthesis-2026-08-20.md), the Sep 3 dry-run report (A3, A4, A5; Calmer lowest objection load), the [web funnel walkthrough](web-onboarding-2026-08-20.md), the [Meet-the-coaches decision](handcrafted-coaches-screen-angles.md) and the [23-app vertical benchmark](vertical-benchmarks-23-apps.md)._
+_Built Sep 4, 2026; revised through the afternoon on Alex's critiques. Live at **https://alex11shuck.github.io/balance-onboarding-proto/** (`?notes=1` for build notes, `?why=1` for the principles behind each screen, both combine; flow maps at `#/map/wishlist` and `#/map/constrained`). Source: [alex11shuck/balance-onboarding-proto](https://github.com/alex11shuck/balance-onboarding-proto). Inputs: Alex's talk-over ([calmer-alex-walkthrough-2026-09-04.md](competitors/calmer-alex-walkthrough-2026-09-04.md)), the [Calmer teardown](competitors/calmer-2026-08-21.md), the [deck map](baseline/deck-map.md), the [cross-app synthesis](competitors/synthesis-2026-08-20.md), the Sep 3 dry-run report (A3, A4, A5; Calmer lowest objection load), the [web funnel walkthrough](web-onboarding-2026-08-20.md), the [Meet-the-coaches decision](handcrafted-coaches-screen-angles.md) and the [23-app vertical benchmark](vertical-benchmarks-23-apps.md)._
 
 ## What it is
 
@@ -63,6 +64,7 @@ Two clickable flows, one URL, mobile-first (a BetaTesting tester can run it on a
 | Sign-up | after the trial starts (Swift bookend change) | before the paywall, as today |
 | Branching | all four goal paths carry the ask, echo, teach, preview rhythm; sleep block fires on sleep *selection* | today's goal-1 branching kept intact; new cards only inserted |
 | Result profile | computed sub-scores from answers actually given, insight echoes experience and schedule | named profile per goal on the primer card, no scores |
+| Coaches | appear where the Plan gets made: faces, the user's answer chips, and the first session that comes out of them (Option 3) | static coaches card (faces, backgrounds, handcrafted line); today's Creating Program animation stays |
 | Interpolation | name, symptoms, sources, schedule and 'look forward to' picks echoed | none, except the name on text cards (the engine already replaces a name placeholder there) |
 
 ## The slimming, in one view
@@ -78,6 +80,12 @@ Of the {len(W['cards'])} wish-list screens: **{kept} carry over unchanged**, **{
 Checked against what the Lua cards read (hoth, Aug 7 pin): `question` has `subTitle`, `allowMultipleAnswers`, per-answer `asset`; `multiselect`, `keyboard`, `setReminderTime` and `list` have `subTitle`; `text` and `textImage` replace the name placeholder and offer a Learn More panel; `goalMeditationPrimer` has title, text and subtext (the richest static card); `userReview` is one quote and one asset; `meditationLoading` takes upperText/lowerText pairs; `quizResult` scores a quiz and is not a profile card. Two flags for Matheus: F1D1 audio triggers are embedded in the onboarding sequence (inserted cards need a check), and Android only forwards whitelisted flags into the deck.
 
 **Decisions taken at the plan (Alex, Sep 4):** public GitHub Pages repo with Work Sans standing in for Graphik · stop at today's paywall, no new paywall or decline path · wish list moves sign-up after the trial starts · all four goal paths written (mood and focus added on the critique).
+
+## The principles (why mode)
+
+Turn on with `?why=1`. A separate layer from the build notes, written for content design and marketing: what each screen is doing for the user and the evidence it rests on.
+
+{chr(10).join(f"- **{v['name']}.** {v['text']} _{v.get('source','')}_" for v in W['principles'].values())}
 
 ## Wish list, screen by screen
 

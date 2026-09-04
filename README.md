@@ -5,7 +5,7 @@ Two clickable versions of a Calmer-style onboarding flow in Balance's skin, from
 - **Wish list**: the flow as we'd build it with no template limits.
 - **Constrained**: the same spine using only card templates that exist in the app today, with the current goal-1 branching kept intact and new questions allowed.
 
-Open `index.html` over HTTP (`python3 -m http.server`) or the GitHub Pages URL. Add `?notes=1` to see build notes per screen (template, feasibility tag, Calmer reference, evidence, things to verify). `#/map/wishlist` and `#/map/constrained` are the screen-by-screen spec views.
+Open `index.html` over HTTP (`python3 -m http.server`) or the GitHub Pages URL. Add `?notes=1` to see build notes per screen (template, feasibility tag, Calmer reference, evidence, things to verify) and `?why=1` for the principles behind each screen (for content design and marketing); both can be on at once. `#/map/wishlist` and `#/map/constrained` are the screen-by-screen spec views.
 
 ## How it's built
 

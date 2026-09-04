@@ -12,6 +12,8 @@ const DECKS = {};
 const S = { deckId:null, deck:null, idx:-1, a:{}, L:{}, hist:[], notes:false, sheet:false };
 const qs = new URLSearchParams(location.search);
 S.notes = qs.get('notes') === '1';
+S.why = qs.get('why') === '1';
+function modeQ(){ const p=[]; if(S.notes) p.push('notes=1'); if(S.why) p.push('why=1'); return p.length?('?'+p.join('&')):''; }
 
 const PERSONA = { name:'Sam', age:34, age_count:1034000, age_range:'25-44', gender:'prefer_not', hdyhau:'facebook_or_instagram',
   goals:['stress','sleep'], goal_1:'stress', goal_2:'sleep', goal_stress:'yes', goal_sleep:'yes', goal_mood:'no', goal_focus:'no',
@@ -76,7 +78,8 @@ function setHash(){ const id = S.deck.cards[S.idx]?.id; history.replaceState(nul
 async function renderLanding(){
   const w = await loadDeck('wishlist'); const c = await loadDeck('constrained');
   const stat = d => { const q = d.cards.filter(x=>['question','scrollableQuestion','multiselect','keyboard','slider','commitment','goalRanking'].includes(x.type)).length; return `<div class="stats"><span><b>${d.cards.length}</b> screens</span><span><b>${q}</b> asks</span><span><b>${d.cards.filter(x=>x.notes&&x.notes.tag==='new').length}</b> new templates</span></div>`; };
-  const notesQ = S.notes ? '?notes=1' : '';
+  const notesQ = modeQ();
+  const tq=(n,w)=>{ const p=[]; if(n) p.push('notes=1'); if(w) p.push('why=1'); return p.length?('?'+p.join('&')):''; };
   app.innerHTML = `<div class="landing">
     <h1>Balance onboarding prototype</h1>
     <p class="sub">Two clickable versions of a Calmer-style flow in Balance's skin, from welcome to today's paywall. Built Sep 4, 2026 for the Balance top-of-funnel bet. Tap through on a phone, or open the flow map for the screen-by-screen spec. Copy in <b>[brackets]</b> is a placeholder to verify.</p>
@@ -84,8 +87,11 @@ async function renderLanding(){
       <div class="vcard"><h2>${esc(w.name)}</h2><p>${esc(w.description)}</p>${stat(w)}<div class="row"><a class="btn" href="${location.pathname}${notesQ}#/wishlist">Start</a><a class="btn secondary small" href="${location.pathname}${notesQ}#/map/wishlist">Flow map</a></div></div>
       <div class="vcard"><h2>${esc(c.name)}</h2><p>${esc(c.description)}</p>${stat(c)}<div class="row"><a class="btn" href="${location.pathname}${notesQ}#/constrained">Start</a><a class="btn secondary small" href="${location.pathname}${notesQ}#/map/constrained">Flow map</a></div></div>
     </div>
+    <div class="legend" style="margin-bottom:16px"><h3>Two review modes</h3>
+      <div class="row" style="margin:8px 0 12px"><a class="btn small ${S.why?'':'secondary'}" href="${location.pathname}${tq(S.notes,!S.why)}#/">${S.why?'✓ ':''}Why mode</a><a class="btn small ${S.notes?'':'secondary'}" href="${location.pathname}${tq(!S.notes,S.why)}#/">${S.notes?'✓ ':''}Build notes</a></div>
+      <b>Why mode</b> (for content design and marketing) shows the principles behind each screen: what it is doing for the user, and the research or competitor evidence it rests on. <b>Build notes</b> (for product and engineering) show each screen's template and what it costs to ship. Either mode adds a small button at the top of the phone; on a desktop the panel sits beside the frame.</div>
     <div class="legend"><h3>Reading the build notes</h3>
-      Build notes show each screen's template and what it costs to ship. Turn them on with <a href="${location.pathname}?notes=${S.notes?'0':'1'}#/">${S.notes?'notes off':'notes on'}</a>. Tags:
+      Tags:
       <div class="row" style="margin-top:8px">${Object.keys(TAG_LABEL).map(t=>`<span class="tag tag-${t}">${TAG_LABEL[t]}</span>`).join('')}</div>
       <p style="margin:12px 0 0">The real onboarding is a JSON card array read by a Lua card engine, so every screen tagged <i>existing</i> or <i>built, unused</i> is a content change in <code>session.json</code>, not engineering. <i>Copy change</i> means new words on a card that already ships. <i>Swift bookend</i> and <i>Superwall dashboard</i> live outside the deck. <i>New template</i> is Lua engine work that ships to Android too.</p>
     </div>
@@ -94,7 +100,8 @@ async function renderLanding(){
 
 /* ---------- flow map ---------- */
 function renderMap(d){
-  const notesQ = S.notes ? '?notes=1' : '';
+  const notesQ = modeQ();
+  const g = d.principles||{};
   const asks = d.cards.filter(x=>['question','scrollableQuestion','multiselect','keyboard','slider','commitment','goalRanking'].includes(x.type));
   const tags = {}; d.cards.forEach(c=>{ const t=(c.notes&&c.notes.tag)||'existing'; tags[t]=(tags[t]||0)+1; });
   app.innerHTML = `<div class="map">
@@ -102,9 +109,9 @@ function renderMap(d){
     <h1>${esc(d.name)}: flow map</h1>
     <p style="color:var(--dark);max-width:760px">${esc(d.description)} Core questions are counted the way the 23-app Health &amp; Fitness benchmark counts them (field median 6, ceiling 12; Balance today 8 on the stress + sleep path).</p>
     <div class="summary"><div class="stat"><b>${d.cards.length}</b>screens in the deck</div><div class="stat"><b>${asks.length}</b>asks (questions, pickers, entries)</div>${Object.keys(tags).map(t=>`<div class="stat"><b>${tags[t]}</b><span class="tag tag-${t}">${TAG_LABEL[t]||t}</span></div>`).join('')}</div>
-    <div style="overflow-x:auto"><table><thead><tr><th>#</th><th>Screen</th><th>Type / template</th><th>Shown when</th><th>Tag</th><th>Source</th><th>Notes</th></tr></thead><tbody>
-    ${d.cards.map((c,i)=>{ const n=c.notes||{}; return `<tr><td class="n">${i+1}</td><td><a href="${location.pathname}${notesQ}#/${d.id}/${c.id}"><b>${esc((Array.isArray(c.title)?c.title.join(' '):(c.title||c.id)).replace(/<[^>]+>/g,''))}</b></a><br><code>${esc(c.id)}</code></td><td>${esc(c.type)}${n.template&&n.template!==c.type?`<br><code>${esc(n.template)}</code>`:''}</td><td>${c.branch?`<code>${esc(c.branch)}</code>`:'everyone'}</td><td><span class="tag tag-${n.tag||'existing'}">${TAG_LABEL[n.tag]||n.tag||'Existing template'}</span></td><td>${n.calmer?`Calmer ${esc(n.calmer)}<br>`:''}${esc(n.evidence||'')}</td><td>${esc(n.why||'')}${n.loss?`<br><b>Lost vs wish list:</b> ${esc(n.loss)}`:''}${n.fills&&n.fills.length?`<br><b>Verify:</b> ${n.fills.map(esc).join('; ')}`:''}</td></tr>`; }).join('')}
-    </tbody></table></div></div>`;
+    <div style="overflow-x:auto"><table><thead><tr><th>#</th><th>Screen</th><th>Type / template</th><th>Shown when</th><th>Tag</th><th>Source</th><th>Notes</th>${S.why?'<th>Principles</th>':''}</tr></thead><tbody>
+    ${d.cards.map((c,i)=>{ const n=c.notes||{}; return `<tr><td class="n">${i+1}</td><td><a href="${location.pathname}${notesQ}#/${d.id}/${c.id}"><b>${esc((Array.isArray(c.title)?c.title.join(' '):(c.title||c.id)).replace(/<[^>]+>/g,''))}</b></a><br><code>${esc(c.id)}</code></td><td>${esc(c.type)}${n.template&&n.template!==c.type?`<br><code>${esc(n.template)}</code>`:''}</td><td>${c.branch?`<code>${esc(c.branch)}</code>`:'everyone'}</td><td><span class="tag tag-${n.tag||'existing'}">${TAG_LABEL[n.tag]||n.tag||'Existing template'}</span></td><td>${n.calmer?`Calmer ${esc(n.calmer)}<br>`:''}${esc(n.evidence||'')}</td><td>${esc(n.why||'')}${n.loss?`<br><b>Lost vs wish list:</b> ${esc(n.loss)}`:''}${n.fills&&n.fills.length?`<br><b>Verify:</b> ${n.fills.map(esc).join('; ')}`:''}</td>${S.why?`<td>${(c.principles||[]).map(k=>`<span class="tag tag-why">${esc((g[k]||{}).name||k)}</span>`).join(' ')}${c.how?`<br><span style="color:var(--dark)">${esc(c.how)}</span>`:''}</td>`:''}</tr>`; }).join('')}
+    </tbody></table></div>${S.why?`<h2 style="font-weight:300;margin:36px 0 10px">The principles</h2><div class="gloss">${Object.keys(g).map(k=>`<div class="princ"><b>${esc(g[k].name)}</b><div>${esc(g[k].text)}</div>${g[k].source?`<div class="src">${esc(g[k].source)}</div>`:''}</div>`).join('')}</div>`:''}</div>`;
 }
 
 /* ---------- card rendering ---------- */
@@ -114,7 +121,7 @@ function renderCard(){
   const vis = visibleCards(); const pos = Math.max(0, vis.indexOf(card)); const pct = Math.round(((pos+1)/vis.length)*100);
   const phase = S.deck.phases && card.phase ? `<div class="steps">Part ${card.phase} of ${S.deck.phases.length} · ${esc(S.deck.phases[card.phase-1])}</div>` : '';
   const back = S.hist.length ? `<button class="back" aria-label="Back">‹</button>` : '';
-  const notesBtn = S.notes ? `<button class="notesbtn" aria-label="Build notes">i</button>` : '';
+  const notesBtn = (S.notes ? `<button class="notesbtn" aria-label="Build notes">i</button>` : '') + (S.why ? `<button class="notesbtn why" style="right:${S.notes?50:14}px" aria-label="Why this screen">?</button>` : '');
   const hideProgress = ['paywall','end','welcome'].includes(card.type);
   app.innerHTML = `<div class="stage">
     <div class="frame"><div class="screen">
@@ -123,15 +130,16 @@ function renderCard(){
       ${back}${notesBtn}
       <div id="cardbody" class="card ${card.layout||'center'}"></div>
     </div></div>
-    ${S.notes ? sidePanel(card) : ''}
+    ${(S.notes||S.why) ? sidePanel(card) : ''}
   </div>`;
   const body = $('#cardbody');
   const r = RENDER[card.type] || RENDER.text;
   r(card, body);
   requestAnimationFrame(()=>{ if(body.scrollHeight > body.clientHeight + 4) body.classList.replace('center','top'); });
   $('.back')?.addEventListener('click', ()=>go(-1));
-  $('.notesbtn')?.addEventListener('click', ()=>toggleSheet(card));
-  if(window.innerWidth<=820 && S.notes && S.sheet) toggleSheet(card, true);
+  $('.notesbtn:not(.why)')?.addEventListener('click', ()=>toggleSheet(card,false,'notes'));
+  $('.notesbtn.why')?.addEventListener('click', ()=>toggleSheet(card,false,'why'));
+
 }
 function notesHTML(card){ const n = card.notes||{}; return `<h4>Build notes · ${esc(card.id)}</h4>
   <span class="tag tag-${n.tag||'existing'}">${TAG_LABEL[n.tag]||n.tag||'Existing template'}</span>
@@ -142,8 +150,9 @@ function notesHTML(card){ const n = card.notes||{}; return `<h4>Build notes · $
   ${n.loss?`<div>Lost</div><div>${esc(n.loss)}</div>`:''}
   ${card.branch?`<div>Shown when</div><div><code>${esc(card.branch)}</code></div>`:''}</div>
   ${n.fills&&n.fills.length?`<h4 style="margin-top:12px">Verify before shipping</h4><ul class="fills">${n.fills.map(f=>`<li>${esc(f)}</li>`).join('')}</ul>`:''}`; }
-function sidePanel(card){ const vis = visibleCards(); return `<div class="side"><div class="panel">${notesHTML(card)}</div><div class="panel"><h4>Where you are</h4>${esc(S.deck.name)} · screen ${vis.indexOf(card)+1} of ${vis.length} on this path<br><a href="${location.pathname}?notes=1#/map/${S.deckId}">Flow map</a> · <a href="${location.pathname}?notes=1#/">All versions</a><br><span style="color:var(--grey)">Answers so far: ${esc(Object.keys(S.L).filter(k=>S.L[k]).map(k=>k+': '+S.L[k]).join(' · ')||'none')}</span></div></div>`; }
-function toggleSheet(card, force){ const ex = $('.sheet'); if(ex && !force){ ex.remove(); S.sheet=false; return; } if(ex) ex.remove(); S.sheet=true; const d = document.createElement('div'); d.className='sheet'; d.innerHTML = `<button class="close" aria-label="Close">×</button>${notesHTML(card)}`; $('.screen').appendChild(d); d.querySelector('.close').onclick=()=>{ d.remove(); S.sheet=false; }; }
+function whyHTML(card){ const g = S.deck.principles||{}; const keys = card.principles||[]; if(!keys.length) return `<h4>Why this screen</h4><span style="color:var(--grey)">No principle recorded for this card.</span>`; return `<h4>Why this screen</h4>${card.how?`<p style="margin:0 0 12px;color:var(--ink)">${tpl(card.how)}</p>`:''}${keys.map(k=>{ const p=g[k]||{name:k,text:''}; return `<div class="princ"><b>${esc(p.name)}</b><div>${esc(p.text)}</div>${p.source?`<div class="src">${esc(p.source)}</div>`:''}</div>`; }).join('')}`; }
+function sidePanel(card){ const vis = visibleCards(); return `<div class="side">${S.why?`<div class="panel why">${whyHTML(card)}</div>`:''}${S.notes?`<div class="panel">${notesHTML(card)}</div>`:''}<div class="panel"><h4>Where you are</h4>${esc(S.deck.name)} · screen ${vis.indexOf(card)+1} of ${vis.length} on this path<br><a href="${location.pathname}${modeQ()}#/map/${S.deckId}">Flow map</a> · <a href="${location.pathname}${modeQ()}#/">All versions</a><br><span style="color:var(--grey)">Answers so far: ${esc(Object.keys(S.L).filter(k=>S.L[k]).map(k=>k+': '+S.L[k]).join(' · ')||'none')}</span></div></div>`; }
+function toggleSheet(card, force, kind){ const ex = $('.sheet'); if(ex && !force && ex.dataset.kind===kind){ ex.remove(); S.sheet=false; return; } if(ex) ex.remove(); S.sheet=true; const d = document.createElement('div'); d.className='sheet'; d.dataset.kind=kind||'notes'; d.innerHTML = `<button class="close" aria-label="Close">×</button>${kind==='why'?whyHTML(card):notesHTML(card)}`; $('.screen').appendChild(d); d.querySelector('.close').onclick=()=>{ d.remove(); S.sheet=false; }; }
 
 /* ---------- shared fragments ---------- */
 const CHECK = `<svg class="check" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="10" fill="#30C5CA"/><path d="M6.5 11.5l3 3 6-6.5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
@@ -260,6 +269,28 @@ RENDER.loading = (c, el)=>{
   bars.forEach((b,i)=>{ setTimeout(()=>{ const e=$('#b'+i); if(e) e.style.width='100%'; }, 200+i*900); setTimeout(()=>{ const o=$('#ok'+i); if(o) o.textContent='✓'; }, 1100+i*900); });
   setTimeout(()=>{ if(S.deck.cards[S.idx]===c) go(1); }, 1500+bars.length*900);
 };
+RENDER.assembly = (c, el)=>{
+  const chips = [S.L.goal_1, S.L.goal_2, S.L.how_experience_stress && S.L.how_experience_stress.split(', ')[0], S.L.keep_awake && S.L.keep_awake.split(', ')[0], S.L.has_meditated_before, S.L.schedule].filter(Boolean).slice(0,5);
+  const colors=['purple_haze','polar_blue','mint_green','papaya_whip','misty_peach'];
+  const sess = (c.sessions&&(c.sessions[S.a.goal_1]||c.sessions.default))||{title:'Settling a busy mind',coach:'Ofosu'};
+  el.innerHTML = `<div class="coaches small"><div class="coach"><img src="assets/coaches/ofosu.png" alt="Ofosu"><div class="n">Ofosu</div></div><div class="coach"><img src="assets/coaches/leah.png" alt="Leah"><div class="n">Leah</div></div></div>${head(c,{sm:true})}
+    <div class="chips" id="chips">${chips.map((t,i)=>`<span class="chip" style="background:var(--${colors[i%colors.length]})">${esc(t)}</span>`).join('')}</div>
+    <svg class="arrow" width="24" height="26" viewBox="0 0 24 28" fill="none"><path d="M12 2v22M5 17l7 7 7-7" stroke="#878888" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <div class="sesscard" id="sess"><img src="assets/coaches/${sess.coach==='Leah'?'leah':'ofosu'}.png" alt=""><div><div class="mh">Your first session</div><div class="st">${esc(sess.title)}</div><div class="ss">10 min · with ${esc(sess.coach)}</div></div></div>
+    ${c.body?`<p class="body" id="abody">${tl(c.body)}</p>`:''}${c.foot?`<div class="foot" id="afoot">${tpl(c.foot)}</div>`:''}<div class="spacer"></div>`;
+  el.insertAdjacentHTML('beforeend', cta(c.cta||'Continue'));
+  const b=$('#cta'); b.style.visibility='hidden';
+  el.querySelectorAll('.chip').forEach((ch,i)=>setTimeout(()=>ch.classList.add('in'), 300+i*350));
+  setTimeout(()=>{ $('#sess')?.classList.add('in'); }, 500+chips.length*350);
+  setTimeout(()=>{ $('#abody')?.classList.add('in'); $('#afoot')?.classList.add('in'); b.style.visibility='visible'; }, 1100+chips.length*350);
+  bindNext();
+};
+RENDER.legacyLoading = (c, el)=>{
+  const texts = c.texts || ['your goals…','your experience…','your preferences…','your age…'];
+  el.innerHTML = `<img src="assets/loading-art.png" alt="" style="width:190px;height:190px">${'<p class="body ink" style="margin-top:6px">Creating program based on<br><span class="link" id="lt">'+esc(texts[0])+'</span></p>'}<div class="spacer"></div>`;
+  texts.forEach((t,i)=>setTimeout(()=>{ const e=$('#lt'); if(e) e.textContent=t; }, 900*i));
+  setTimeout(()=>{ if(S.deck.cards[S.idx]===c) go(1); }, 900*texts.length+400);
+};
 RENDER.profile = (c, el)=>{
   // sub-scores derived only from answers actually given; unanswered dimensions are omitted rather than invented
   const rows = (c.scores||[]).map(s=>{ const v = S.a[s.from]; if(v==null || (Array.isArray(v)&&!v.length)) return null; const key = Array.isArray(v)? (v.length>=3?'many':v.length===2?'some':'one') : v; const lvl = (s.map&&s.map[key]) || s.default || 'mid'; return {label:s.label, lvl, text:(s.text&&s.text[lvl])||{good:'Steady',mid:'Room to grow',low:'Needs care'}[lvl]}; }).filter(Boolean);
@@ -337,7 +368,7 @@ RENDER.paywall = (c, el)=>{
 };
 RENDER.end = (c, el)=>{
   const other = S.deckId==='wishlist'?'constrained':'wishlist';
-  el.innerHTML = `${head(c,{sm:true})}${c.body?`<p class="body">${tl(c.body)}</p>`:''}${c.items?`<div class="vlist">${c.items.map(it=>`<div class="vitem">${CHECK}<div><div class="t">${tpl(it.title||it)}</div>${it.subtitle?`<div class="s">${tpl(it.subtitle)}</div>`:''}</div></div>`).join('')}</div>`:''}<div class="endnote">${tpl(c.note||'')}</div><div class="spacer"></div><div class="bottom"><button class="cta" id="cta">Start over</button><a class="cta outline" style="display:flex;align-items:center;justify-content:center;text-decoration:none" href="${location.pathname}${S.notes?'?notes=1':''}#/${other}">Try the ${other==='wishlist'?'wish list':'constrained'} version</a><a class="ghost" style="text-align:center;text-decoration:none" href="${location.pathname}${S.notes?'?notes=1':''}#/map/${S.deckId}">Flow map</a></div>`;
+  el.innerHTML = `${head(c,{sm:true})}${c.body?`<p class="body">${tl(c.body)}</p>`:''}${c.items?`<div class="vlist">${c.items.map(it=>`<div class="vitem">${CHECK}<div><div class="t">${tpl(it.title||it)}</div>${it.subtitle?`<div class="s">${tpl(it.subtitle)}</div>`:''}</div></div>`).join('')}</div>`:''}<div class="endnote">${tpl(c.note||'')}</div><div class="spacer"></div><div class="bottom"><button class="cta" id="cta">Start over</button><a class="cta outline" style="display:flex;align-items:center;justify-content:center;text-decoration:none" href="${location.pathname}${modeQ()}#/${other}">Try the ${other==='wishlist'?'wish list':'constrained'} version</a><a class="ghost" style="text-align:center;text-decoration:none" href="${location.pathname}${modeQ()}#/map/${S.deckId}">Flow map</a></div>`;
   $('#cta').onclick=()=>{ S.idx=-1; location.hash = `#/${S.deckId}`; route(); };
 };
 function deriveFrom(c,id){

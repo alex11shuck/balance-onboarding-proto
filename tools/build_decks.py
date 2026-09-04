@@ -42,6 +42,23 @@ REVIEWS = [
   {"text":"This app has changed how I view myself and the world. Taught me how to meditate, the benefits of mindfulness and meditation. Love that they use real voices and not AI. It's worth paying for.","who":"Sgomz, App Store review"}]
 FREQ4 = [{"id":"not_at_all","text":"Not at all","color":"mint_green"},{"id":"some","text":"Some days","color":"papaya_whip"},{"id":"most","text":"Most days","color":"apricot"},{"id":"nearly_every","text":"Nearly every day","color":"misty_peach"}]
 
+PRINCIPLES = {
+ "arrival": {"name":"Meet the arrival","text":"Most new users come from a Meta ad about stress or anxiety and have never used a meditation app. Orient them before asking anything personal, and speak to the reason they tapped.","source":"HDYHAU Sep 4: Meta is 40% of respondents at 6.6% trial start vs 13.9% overall; round 2 A2 (newcomers reached a paywall not knowing what the app does)"},
+ "proof-early": {"name":"Proof before the ask","text":"Trust is built before the commitment moment, not at it. Awards, ratings and member counts go where the user is still deciding whether to invest 3 minutes.","source":"March A3 (the store listing was the strongest pre-app trust signal); Calmer #1; Insight Timer's 5 proof placements"},
+ "payoff": {"name":"Every ask has a payoff","text":"A question earns its place by changing something the user can see: a reason line for why we ask, and the answer used within 2 screens.","source":"Growth Gems principle 2; 23-app benchmark rule 2 (reason in the header); rule 3 (result points back to what you said)"},
+ "echo": {"name":"Say it back","text":"Read the user's own words back to them. Personalization the user cannot see is not personalization to them.","source":"Synthesis #1 (answer echo, the biggest gap vs the field); round 2 A4 (a named result is where 'it understood me' landed); Alex 5:00 ('a major need')"},
+ "rhythm": {"name":"Ask, echo, teach, preview","text":"Never run 2 question blocks back to back. After 1 or 2 questions, pay the user back with a validation, a piece of evidence or a look at the product.","source":"Calmer's spine (15 questions, ~20 interstitials); synthesis #2; round 2: 3 of 4 Calmer testers named the explanations unprompted"},
+ "sourced": {"name":"Sourced, dated evidence","text":"Every number carries a source and a date. Claims are stated plainly with a disclaimer where results vary. No 'clinically proven', no unsourced stats.","source":"March B4/B5 (age-specific stats were the strongest confidence builder; ours were dated and unsourced); Anna's citation set; Balance whitepaper 2025"},
+ "felt-value": {"name":"Show the product before the paywall","text":"The paywall arriving before any sense of the product was the abandonment trigger in March. Previews of real sections and a named first session stand in for felt value.","source":"March D1 (12 of 18) and F1 (5 of 6 newcomers); round 2 A5 (content access resolved the try-first objection); synthesis #10"},
+ "humans": {"name":"Made by humans, shown not said","text":"Faces, voices and the handcrafted mechanism answer the 'is this AI' worry without using the word, which plants the thought.","source":"Cindy (Sep 2024); coaches prior art; App Store review 'Love that they use real voices and not AI'; 3 competitors sell teacher credibility"},
+ "reassure": {"name":"Specific reassurance beside sensitive asks","text":"A concrete, checkable line next to the field it protects ('never shown to anyone') builds more trust than any general promise.","source":"23-app benchmark rule 4 (Strava, Gentler Streak: highest trust ratings in the set); the deck had zero reassurance copy"},
+ "no-deficit": {"name":"Compassion, never agitation","text":"No scare copy, no presupposed diagnosis, always a 'Not sure'. Validate what the user said, then teach. The structure of Calmer's agitate-then-absolve arc is used; its claims are not.","source":"Balance voice (compassionate, grounded); synthesis #9; Calmer's dark patterns documented-not-copied"},
+ "commit": {"name":"A small commitment before the big one","text":"A realistic practice goal and a reminder time right before the paywall turn intent into a plan, and make the trial feel like a decision already half made.","source":"Synthesis #4 (Insight Timer's praise ladder, cheapest high-leverage steal); Calmer #41; CYTR +24.7% trial starts"},
+ "honest-result": {"name":"A result built only from real answers","text":"The profile reflects what the user actually said. No invented sub-scores, no manufactured headroom, no clinical framing.","source":"Round 2 P18 (Calmer scored his healthy diet as Fair and he thanked it); A4; 'not a clinical assessment' line"},
+ "keep-what-works": {"name":"Keep what already tests well","text":"The goal screens, the reminder flow, the trial-reminder chooser and the live paywall stay as they are. The redesign is the connective tissue around them.","source":"Alex 4:35 ('keep our goal screens as they exist'); prior-art census (wins came from reordering and framing, not new content); CYTR and ReciMe are baseline wins"},
+ "voice": {"name":"Balance voice","text":"Accessible, grounded, compassionate, realistic. Digits, full sentences, contractions, no first person except 'Let's', no exclamation points, no 'mindfulness' unless we teach it.","source":"Balance content style guide"},
+ "trial-anxiety": {"name":"Name the trial mechanics","text":"Forgetting to cancel is the objection behind the objection. Say when the reminder comes and what happens on day 7 before asking for the trial.","source":"Round 2 A3 (the trial-reminder paywall was the only element praised unprompted for the objection it targets); Insight Timer and Calmer timelines"}
+}
 W = []
 def add(**c): W.append(c); return c
 
@@ -189,6 +206,7 @@ add(id="coaches", type="coaches", phase=3, title=["Meet Ofosu and Leah,","your c
     notes=N("list (2 items with image, title, subtitle)","unused","The decided 'made by humans' screen (angle 1), warmed up on Alex's note: it names the user's goals, gives a quick background on each coach, carries the handcrafted line from angle 2, and says the first session is with Ofosu and you can switch anytime (coach switching exists in the app). Showcase, not chooser; no 'AI' in the copy.",
       evidence="handcrafted-coaches-screen-angles.md; 3 competitors lean on teacher credibility", fills=["Bios trimmed from the approved website bios; Cindy to confirm the one-liners","Headline: question-and-statement register"]))
 
+COACHES_CARD = W.pop([i for i,c in enumerate(W) if c["id"]=="coaches"][0])
 # ---------------- Part 4: Your routine ----------------
 add(id="sleep_trouble", type="question", phase=4, branch=SLEEP_ANY_NOT_FIRST, questionId="sleep_trouble", derive="sleepTrouble", title=["How often have you had","trouble falling asleep?"], subtitle=TWOWK+" Even when you felt tired.",
     options=[{"id":"not_at_all","text":"Not at all","color":"mint_green"},{"id":"some","text":"Some nights","color":"papaya_whip"},{"id":"most","text":"Most nights","color":"apricot"},{"id":"nearly_every","text":"Nearly every night","color":"misty_peach"}],
@@ -213,8 +231,10 @@ add(id="experience", type="question", phase=4, questionId="has_meditated_before"
 # ---------------- Part 5: Your program ----------------
 add(id="proof", type="userReview", phase=5, title=["Members like you","say it works."], laurels=BADGES, reviews=REVIEWS, cite="Reviews verbatim from the App Store.", cta="Continue",
     notes=N("userReview","unused","One proof screen: badges and 3 verbatim reviews. The age-specific member count moved up to the 'right place' screen so it reflects the age answer the moment it is given. userReview shows one quote per card in the deck.", calmer="#33 (social proof carousel)", evidence="Alex 7:28; Alex: combine reviews and the age stat, then reflect answers back earlier", fills=["Reviews are verbatim public App Store reviews (Sep 4, 2026); the 'real voices and not AI' line is in on Alex's call","Age counts on record date from Jan 2022; confirm the January 2026 refresh with Yana"]))
-add(id="loading", type="loading", phase=5, title=["Building your Plan,","{{a.name}}."], bars=["{{H.goal(a.goal_1)}} patterns","Sleep habits","Routine and schedule","Meditation experience","Choosing your first session"],
-    notes=N("meditationLoading","unused","Named-instrument loading: the bars name the question sections just answered. meditationLoading takes upperText/lowerText pairs; the name placeholder works on text cards.", calmer="#34 (5-bar 'Building your Calmer experience')", evidence="Alex 7:36; benchmark rule 3"))
+add(id="loading", type="assembly", phase=5, title=["Built by hand,","for you."],
+    body="Ofosu and Leah recorded every segment by hand. Balance is choosing the ones that fit your answers, so your first session sounds like it was made for you. Because it was.", foot="Switch coaches anytime.", cta="Continue",
+    sessions={"stress":{"title":"Settling a busy mind","coach":"Ofosu"},"sleep":{"title":"Letting the day go","coach":"Leah"},"mood":{"title":"Meeting the day as it is","coach":"Ofosu"},"focus":{"title":"Coming back to one thing","coach":"Ofosu"},"default":{"title":"Settling a busy mind","coach":"Ofosu"}},
+    notes=N("meditationLoading (personalization reveal) + new animation","new","Option 3 (Alex, Sep 4): the coaches appear where the Plan gets made. Their faces, the user's answer chips, and the first session that comes out of them replace the generic Creating Program screen. Replaces dead time instead of adding a step; the standalone coaches card is gone from this version.", calmer="#34 (named-instrument loading), #37 (result reveal)", evidence="Round 2 A4; March D1/F1; Growth Gems principle 2; coaches prior art (angle 2)", fills=["The 'recorded every segment by hand' mechanism: confirm wording and any number with Anna or Cindy","Session titles per goal from the catalog"]))
 add(id="profile", type="profile", phase=5, kicker="Your Balance profile", title=["Your starting point."], scoreLabel="Starting point", cta="Continue",
     scores=[{"label":"Stress load","from":"how_often_feel_stress","map":{"always":"low","sometimes":"mid","rarely":"good","unsure":"mid"},"text":{"low":"High","mid":"Moderate","good":"Low"}},
             {"label":"Mood","from":"low_mood_freq","map":{"not_at_all":"good","some":"mid","most":"low","nearly_every":"low","unsure":"mid"},"text":{"good":"Steady","mid":"Up and down","low":"Needs care"}},
@@ -258,11 +278,458 @@ add(id="end", type="end", title=["Prototype ends here."], body="In the app, a st
     note="This is the wish-list version: the flow as we'd build it with no template limits. The constrained version keeps the same spine using only card templates that exist in the app today.",
     notes=N("(prototype only)","existing","End card for reviewers."))
 
-WISH = {"id":"wishlist","name":"Wish list","description":"Calmer's package in Balance's skin: proof up front, questions in an ask, echo, teach, preview rhythm on every goal path, a named result profile and a progress graph, then today's paywall. Built as if templates were free.",
+PR = {
+"welcome": [
+[
+"proof-early",
+"arrival",
+"keep-what-works"
+],
+"Screen 1 carries the awards and rating because a newcomer from an ad decides in seconds whether this is a real company. The headline is the variant winning the live test."
+],
+"assessment_intro": [
+[
+"payoff",
+"arrival"
+],
+"Tell people what the questions do before the first one. 3 minutes is a promise about their time."
+],
+"first_name": [
+[
+"echo"
+],
+"A first name is the cheapest thing that lets every later screen speak to the person."
+],
+"age": [
+[
+"reassure",
+"payoff",
+"sourced"
+],
+"Age unlocks the age-specific member count on the next screen, so the ask pays back immediately. The reassurance line says where the answer goes."
+],
+"gender": [
+[
+"reassure",
+"no-deficit"
+],
+"Optional, with a plain 'prefer not to say'. Kept for review; the echo stays light because a round-2 tester read Calmer's gendered copy as generic."
+],
+"hdyhau": [
+[
+"arrival",
+"proof-early"
+],
+"Asked early so it does not sit next to the paywall, and so a health-professional referral can become a proof signal."
+],
+"right_place": [
+[
+"echo",
+"proof-early",
+"felt-value",
+"arrival"
+],
+"The first thing the user sees after giving their name and age is their name, a member count for their age, and a picture of what they get."
+],
+"goals": [
+[
+"keep-what-works"
+],
+"The goal screens are unchanged. They test well and everything downstream branches on them."
+],
+"goals_metrics": [
+[
+"sourced",
+"proof-early"
+],
+"Same card as today, with numbers that have a source and a date."
+],
+"stress_1": [
+[
+"payoff",
+"no-deficit"
+],
+"A 2-week window and a reason line make the question feel like an instrument without scoring it as one. 'Not sure' is always there."
+],
+"stress_2": [
+[
+"payoff",
+"no-deficit"
+],
+"Multi-select, because being forced to pick one symptom was the top quiz friction in March."
+],
+"stress_echo": [
+[
+"echo",
+"rhythm",
+"sourced",
+"no-deficit"
+],
+"The user's own symptoms read back within one screen, then a sourced number. Validation, not agitation."
+],
+"stress_science": [
+[
+"sourced",
+"rhythm",
+"no-deficit"
+],
+"One cited finding with a disclaimer, placed where Calmer puts the scare."
+],
+"singles_preview": [
+[
+"felt-value",
+"rhythm",
+"payoff"
+],
+"A look at the part of the product that answers the stress just described, and an affordance the user will find waiting on home."
+],
+"stress_3": [
+[
+"payoff"
+],
+"Reason line: your sessions are matched to it."
+],
+"stress_recap": [
+[
+"echo",
+"payoff",
+"rhythm"
+],
+"What we heard, in the user's words, before moving on. This is the screen Alex called a major need."
+],
+"sleep_ready": [
+[
+"keep-what-works"
+],
+"Existing routing question, kept verbatim."
+],
+"sleep_1": [
+[
+"payoff",
+"no-deficit"
+],
+"2-week window."
+],
+"sleep_2": [
+[
+"payoff",
+"no-deficit"
+],
+"Multi-select (March B2)."
+],
+"sleep_echo": [
+[
+"echo",
+"rhythm",
+"sourced"
+],
+"Says back what keeps them up, then a sourced sleep number."
+],
+"sleep_science": [
+[
+"sourced",
+"rhythm"
+],
+"Cited education beat in place of Calmer's cortisol chart."
+],
+"sleep_library_preview": [
+[
+"felt-value",
+"rhythm"
+],
+"The sleep content shown, not listed."
+],
+"sleep_3": [
+[
+"payoff"
+],
+"Reason line: it sets when Balance suggests sessions."
+],
+"sleep_recap": [
+[
+"echo",
+"payoff",
+"rhythm"
+],
+"What we heard on the sleep path."
+],
+"mood_1": [
+[
+"payoff",
+"no-deficit"
+],
+"A pace-setting question with a 2-week window; never scored as a screen."
+],
+"mood_2": [
+[
+"payoff"
+],
+"Reason line."
+],
+"mood_echo": [
+[
+"echo",
+"rhythm",
+"no-deficit",
+"sourced"
+],
+"Builds on what already lifts the user instead of diagnosing them."
+],
+"mood_science": [
+[
+"sourced",
+"rhythm"
+],
+"One cited finding."
+],
+"mood_preview": [
+[
+"felt-value",
+"rhythm"
+],
+"The daily mood check-in shown as it works."
+],
+"mood_3": [
+[
+"payoff",
+"no-deficit"
+],
+"'No wrong answers' in the reason line."
+],
+"mood_recap": [
+[
+"echo",
+"payoff",
+"rhythm"
+],
+"What we heard on the mood path."
+],
+"focus_1": [
+[
+"payoff"
+],
+"Reason line."
+],
+"focus_2": [
+[
+"payoff"
+],
+"2-week window."
+],
+"focus_echo": [
+[
+"echo",
+"rhythm",
+"no-deficit",
+"sourced"
+],
+"Normalizes wandering attention before teaching."
+],
+"focus_adhd": [
+[
+"reassure",
+"no-deficit"
+],
+"The most sensitive ask in the flow gets a specific line about where the answer goes, and 'I prefer not to share'."
+],
+"focus_primer": [
+[
+"sourced"
+],
+"Existing DID YOU KNOW card with a citation."
+],
+"focus_preview": [
+[
+"felt-value",
+"rhythm"
+],
+"Focus content shown, not listed."
+],
+"focus_3": [
+[
+"payoff"
+],
+"2-week window."
+],
+"focus_recap": [
+[
+"echo",
+"payoff",
+"rhythm"
+],
+"What we heard on the focus path."
+],
+"sleep_trouble": [
+[
+"payoff",
+"keep-what-works"
+],
+"Sleep questions now fire whenever sleep is selected. Two-thirds of sleep-motivated users never see one today."
+],
+"sleep_preview_b": [
+[
+"felt-value"
+],
+"Sleep content for people who picked it as a secondary goal."
+],
+"exercise": [
+[
+"payoff",
+"no-deficit"
+],
+"A whole-health question we never asked. It feeds the profile."
+],
+"schedule": [
+[
+"payoff",
+"echo"
+],
+"Web-funnel question with its rationale line; the answer shapes the next screen and the profile."
+],
+"no_judgment": [
+[
+"no-deficit",
+"echo",
+"voice"
+],
+"De-shames the lifestyle answers and says back the schedule before the aspiration question."
+],
+"future": [
+[
+"echo",
+"payoff"
+],
+"The picks come back on the outcomes screen and the program-ready card, so the question visibly matters."
+],
+"experience": [
+[
+"payoff",
+"keep-what-works"
+],
+"Existing card with a reason line."
+],
+"proof": [
+[
+"proof-early",
+"sourced",
+"humans"
+],
+"Verbatim reviews and the awards right before the Plan is built. One review says 'real voices' in a user's words."
+],
+"loading": [
+[
+"humans",
+"echo",
+"felt-value",
+"payoff"
+],
+"The coaches appear where the Plan gets made: their faces, the user's answers, and the first session that comes out of them. It answers 'is this AI' without the word and gives 10 questions a visible payoff."
+],
+"coaches": [
+[
+"humans",
+"echo"
+],
+"Faces, first names, a quick background and the handcrafted line. Showcase, not chooser."
+],
+"age_metrics": [
+[
+"sourced",
+"proof-early",
+"echo"
+],
+"The age-specific stat, March's strongest confidence builder."
+],
+"profile": [
+[
+"echo",
+"honest-result",
+"no-deficit"
+],
+"A named profile built only from the answers given, with an insight that names the user's experience and schedule."
+],
+"chart": [
+[
+"sourced",
+"felt-value"
+],
+"The trajectory with Balance vs alone, with the survey figures behind it named."
+],
+"comparison": [
+[
+"echo",
+"felt-value"
+],
+"Outcomes in the user's own words from the 'look forward to' question. Never 'Balance Premium'."
+],
+"commitment": [
+[
+"commit",
+"no-deficit"
+],
+"Consistency over length; a realistic goal before the trial ask."
+],
+"reminder_time_sleep": [
+[
+"commit",
+"keep-what-works"
+],
+"Existing bedtime card."
+],
+"reminder_time": [
+[
+"commit",
+"keep-what-works"
+],
+"Existing reminder card."
+],
+"push": [
+[
+"commit",
+"payoff",
+"keep-what-works"
+],
+"An earned, contextual permission ask."
+],
+"program_ready": [
+[
+"echo",
+"felt-value",
+"voice"
+],
+"Names the first session and the first thing the user said they look forward to. No 'free'-led framing at the commit moment."
+],
+"cytr": [
+[
+"trial-anxiety",
+"keep-what-works"
+],
+"Says when the reminder comes before asking for the trial."
+],
+"paywall": [
+[
+"keep-what-works",
+"trial-anxiety",
+"proof-early"
+],
+"Today's live paywall, unchanged."
+],
+"signup": [
+[
+"keep-what-works"
+],
+"Account creation, as today in the constrained version; after the trial in the wish list."
+]
+}
+for c in W:
+    pk, how = PR.get(c["id"], ([], ""))
+    if pk: c["principles"] = pk
+    if how: c["how"] = how
+WISH = {"id":"wishlist","name":"Wish list","principles":PRINCIPLES,"description":"Calmer's package in Balance's skin: proof up front, questions in an ask, echo, teach, preview rhythm on every goal path, a named result profile and a progress graph, then today's paywall. Built as if templates were free.",
         "phases":["Welcome","About you","Your goals","Your routine","Your program"], "cards": W}
 
 # ---------------- Constrained: derive by explicit overrides ----------------
-ALLOWED = {"welcome","text","textImage","list","question","scrollableQuestion","multiselect","goalRanking","goalsMetrics","ageMetrics","keyboard","setReminderTime","pushOptIn","userReview","primer","loading","quizResult","coaches","paywall","signup","end","commitment","chart","comparison","cytr"}
+ALLOWED = {"welcome","text","textImage","list","question","scrollableQuestion","multiselect","goalRanking","goalsMetrics","ageMetrics","keyboard","setReminderTime","pushOptIn","userReview","primer","loading","quizResult","coaches","paywall","signup","end","commitment","chart","comparison","cytr","legacyLoading"}
 NAME_OK = {"text","textImage"}   # the engine replaces a name placeholder on these cards (Common.replacePlaceholderText)
 C = copy.deepcopy(W)
 by = {c["id"]: c for c in C}
@@ -302,8 +769,10 @@ static_recap("stress_recap", ["Stress that shows up in your thoughts, body or sl
 static_recap("sleep_recap", ["What keeps you up at night","How long it takes you to fall asleep",{"text":"Less stress matters to you too","when":"a.goal_stress==='yes'"}], "Your program starts with the wind-down.")
 static_recap("mood_recap", ["How often a low mood gets in the way","Who you feel happiest around","What already helps"], "Your first sessions build on that.")
 static_recap("focus_recap", ["What pulls your attention away","How hard finishing tasks feels","How often you procrastinate"], "Your first sessions train attention to come back.")
-by["coaches"]["subtitle"] = "They'll guide you toward your goals."
-setnotes("coaches", loss="The goals named in the intro line.")
+cc = copy.deepcopy(COACHES_CARD); cc["subtitle"] = "They'll guide you toward your goals."
+cc["notes"] = N("list (2 items with image, title, subtitle)","unused","The constrained version keeps today's Creating Program animation, so the coaches get their own static card here instead of the assembly reveal (Alex, Sep 4). Faces, a quick background, the handcrafted line, 'switch anytime'.", evidence="handcrafted-coaches-screen-angles.md", loss="The Option 3 assembly reveal, and the goals named in the intro line.")
+i_r = [k for k,c in enumerate(C) if c["id"]=="focus_recap"][0]
+C.insert(i_r+1, cc); by = {c["id"]: c for c in C}
 # previews: textImage loses the body paragraph (Learn More)
 for cid in ("singles_preview","sleep_library_preview","sleep_preview_b","mood_preview","focus_preview"):
     setnotes(cid, why=by[cid]["notes"]["why"]+" textImage takes a headline and an image asset; the paragraph goes in the Learn More panel.", loss="Body paragraph on screen (behind Learn More).")
@@ -322,8 +791,8 @@ review_card = {"id":"proof","type":"userReview","phase":5,"title":["Members like
   "notes":N("userReview (one quote + image per card)","unused","One testimonial card. userReview shows a single quote and an asset, so the carousel is one card here (or several cards).", calmer="#33", loss="The combined age-stat headline and the 3-review carousel; badges depend on the asset.")}
 C = C[:i] + [age_card, review_card] + C[i+1:]; by = {c["id"]: c for c in C}
 # loading: static labels
-by["loading"].update({"title":["Building your Plan."],"bars":["Your goals","Sleep habits","Routine and schedule","Meditation experience","Choosing your first session"]})
-setnotes("loading", template="meditationLoading (upperText/lowerText pairs)", tag="unused", why="Named bars with static labels on the existing personalization-reveal card.", loss="Goal name and first name in the labels (meditationLoading does not replace the name placeholder).")
+replace("loading", {"id":"loading","type":"legacyLoading","phase":5,"title":["Creating program"],"texts":["your goals…","your experience…","your preferences…","your age…"],
+  "notes":N("Swift Creating Program screen (Lottie)","existing","Today's Creating Program animation and copy, unchanged (Alex, Sep 4).", loss="The Option 3 assembly reveal: coach faces, answer chips and the first session card.")})
 # profile -> static primer per goal
 replace("profile", {"id":"profile","type":"quizResult","phase":5,"kicker":"Your Balance profile","title":["Your starting point."],"scoreLabel":"Starting point","cta":"Continue",
   "profiles":{"stress":{"name":"The Overdrive Mind","body":"Stress that runs in the background all day, with a mind that rarely gets to idle.","insight":"Week 1 is short sessions that teach your mind how to settle."},
@@ -346,7 +815,12 @@ sign = by["signup"]; sign.pop("branch", None); sign.update({"title":["Create an 
 setnotes("signup", template="Swift auth bookend", tag="existing", why="Sign-up stays before the paywall, as today.", loss="Sign-up after the trial starts (wish list).")
 order = [c["id"] for c in C]; su = C.pop(order.index("signup")); C.insert([c["id"] for c in C].index("paywall"), su); by = {c["id"]: c for c in C}
 by["end"].update({"note":"This is the constrained version: only card templates that exist in the app today, the current goal-1 branching kept intact, new questions allowed. Every screen here is a session.json content change except the paywall (Superwall), program-ready and sign-up (Swift)."})
-CONS = {"id":"constrained","name":"Constrained","description":"The same spine built only from card templates that exist in the app today (in use or built-but-unused), with today's branching kept intact and new questions allowed. Interpolation (except the name on text cards), sliders, the computed profile, the two-column outcomes card and the step counter are cut; what each cut loses is recorded per screen.",
+for c in C:
+    if "principles" not in c:
+        pk, how = PR.get(c["id"], ([], ""))
+        if pk: c["principles"] = pk
+        if how: c["how"] = how
+CONS = {"id":"constrained","name":"Constrained","principles":PRINCIPLES,"description":"The same spine built only from card templates that exist in the app today (in use or built-but-unused), with today's branching kept intact and new questions allowed. Interpolation (except the name on text cards), sliders, the computed profile, the two-column outcomes card and the step counter are cut; what each cut loses is recorded per screen.",
         "cards": C}
 
 # ---------------- lint ----------------
@@ -356,6 +830,7 @@ def lint(deck, constrained=False):
         if c["id"] in ids: errs.append(f"dup id {c['id']}")
         ids.add(c["id"])
         if "notes" not in c: errs.append(f"{c['id']}: no notes")
+        if c["type"]!="end" and not c.get("principles"): errs.append(f"{c['id']}: no principles (why mode)")
         blob=json.dumps({k:v for k,v in c.items() if k not in ("notes","branch")})
         if constrained:
             if c["type"] not in ALLOWED: errs.append(f"{c['id']}: type {c['type']} not allowed in constrained")
