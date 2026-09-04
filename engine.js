@@ -13,7 +13,8 @@ const S = { deckId:null, deck:null, idx:-1, a:{}, L:{}, hist:[], notes:false, sh
 const qs = new URLSearchParams(location.search);
 S.notes = qs.get('notes') === '1';
 S.why = qs.get('why') === '1';
-function modeQ(){ const p=[]; if(S.notes) p.push('notes=1'); if(S.why) p.push('why=1'); return p.length?('?'+p.join('&')):''; }
+S.edit = qs.get('edit') === '1';
+function modeQ(){ const p=[]; if(S.notes) p.push('notes=1'); if(S.why) p.push('why=1'); if(S.edit) p.push('edit=1'); return p.length?('?'+p.join('&')):''; }
 
 const PERSONA = { name:'Sam', age:34, age_count:1034000, age_range:'25-44', gender:'prefer_not', hdyhau:'facebook_or_instagram',
   goals:['stress','sleep'], goal_1:'stress', goal_2:'sleep', goal_stress:'yes', goal_sleep:'yes', goal_mood:'no', goal_focus:'no',
@@ -62,7 +63,7 @@ async function route(){
   const deck = await loadDeck(parts[0]);
   if(S.deckId!==parts[0] || S.idx<0){ S.deckId=parts[0]; S.deck=deck; S.a={}; S.L={}; S.hist=[]; S.idx=-1; }
   if(parts[1]){ const i = deck.cards.findIndex(c=>c.id===parts[1]); if(i>=0){ if(!Object.keys(S.a).length){ Object.assign(S.a, PERSONA); Object.assign(S.L, PERSONA_L); } S.idx=i; S.hist=[]; renderCard(); return; } }
-  if(S.idx<0){ S.idx = deck.cards.findIndex(c=>branchOK(c)); }
+  if(S.idx<0){ if(S.edit && !Object.keys(S.a).length){ Object.assign(S.a, PERSONA); Object.assign(S.L, PERSONA_L); } S.idx = deck.cards.findIndex(c=>branchOK(c)); }
   renderCard();
 }
 function go(delta){
@@ -89,7 +90,8 @@ async function renderLanding(){
     </div>
     <div class="legend" style="margin-bottom:16px"><h3>Two review modes</h3>
       <div class="row" style="margin:8px 0 12px"><a class="btn small ${S.why?'':'secondary'}" href="${location.pathname}${tq(S.notes,!S.why)}#/">${S.why?'✓ ':''}Why mode</a><a class="btn small ${S.notes?'':'secondary'}" href="${location.pathname}${tq(!S.notes,S.why)}#/">${S.notes?'✓ ':''}Build notes</a></div>
-      <b>Why mode</b> (for content design and marketing) shows the principles behind each screen: what it is doing for the user, and the research or competitor evidence it rests on. <b>Build notes</b> (for product and engineering) show each screen's template and what it costs to ship. Either mode adds a small button at the top of the phone; on a desktop the panel sits beside the frame.</div>
+      <a class="btn small ${S.edit?'':'secondary'}" href="${location.pathname}${(()=>{const p=[]; if(S.notes)p.push('notes=1'); if(S.why)p.push('why=1'); if(!S.edit)p.push('edit=1'); return p.length?'?'+p.join('&'):'';})()}#/" style="margin-left:-4px">${S.edit?'✓ ':''}Edit copy</a>
+      <b>Why mode</b> (for content design and marketing) shows the principles behind each screen: what it is doing for the user, and the research or competitor evidence it rests on. <b>Build notes</b> (for product and engineering) show each screen's template and what it costs to ship. Either mode adds a small button at the top of the phone; on a desktop the panel sits beside the frame. <b>Edit copy</b> lets you tap any line of text on a screen and rewrite it in place; taps stop navigating and a small bar moves you through the flow. Your edits stay on this device until you export them, and the export is a file the build applies on the next publish.</div>
     <div class="legend"><h3>Reading the build notes</h3>
       Tags:
       <div class="row" style="margin-top:8px">${Object.keys(TAG_LABEL).map(t=>`<span class="tag tag-${t}">${TAG_LABEL[t]}</span>`).join('')}</div>
@@ -136,6 +138,7 @@ function renderCard(){
   const r = RENDER[card.type] || RENDER.text;
   r(card, body);
   requestAnimationFrame(()=>{ if(body.scrollHeight > body.clientHeight + 4) body.classList.replace('center','top'); });
+  if(S.edit) setupEdit(card, body);
   $('.back')?.addEventListener('click', ()=>go(-1));
   $('.notesbtn:not(.why)')?.addEventListener('click', ()=>toggleSheet(card,false,'notes'));
   $('.notesbtn.why')?.addEventListener('click', ()=>toggleSheet(card,false,'why'));
@@ -371,6 +374,69 @@ RENDER.end = (c, el)=>{
   el.innerHTML = `${head(c,{sm:true})}${c.body?`<p class="body">${tl(c.body)}</p>`:''}${c.items?`<div class="vlist">${c.items.map(it=>`<div class="vitem">${CHECK}<div><div class="t">${tpl(it.title||it)}</div>${it.subtitle?`<div class="s">${tpl(it.subtitle)}</div>`:''}</div></div>`).join('')}</div>`:''}<div class="endnote">${tpl(c.note||'')}</div><div class="spacer"></div><div class="bottom"><button class="cta" id="cta">Start over</button><a class="cta outline" style="display:flex;align-items:center;justify-content:center;text-decoration:none" href="${location.pathname}${modeQ()}#/${other}">Try the ${other==='wishlist'?'wish list':'constrained'} version</a><a class="ghost" style="text-align:center;text-decoration:none" href="${location.pathname}${modeQ()}#/map/${S.deckId}">Flow map</a></div>`;
   $('#cta').onclick=()=>{ S.idx=-1; location.hash = `#/${S.deckId}`; route(); };
 };
+/* ---------- edit-in-place mode ---------- */
+const EDITABLE = [
+  {sel:'h1.title', key:'title', src:c=>Array.isArray(c.title)?c.title.join('\n'):(c.title||'')},
+  {sel:'.kicker', key:'kicker', src:c=>c.kicker||''},
+  {sel:'p.subtitle', key:'subtitle', src:c=>c.subtitle||''},
+  {sel:'p.body', key:'body', src:c=>Array.isArray(c.body)?c.body.join('\n'):(c.body||'')},
+  {sel:'.reassure span', key:'reassure', src:c=>c.reassure||''},
+  {sel:'p.cite', key:'cite', src:c=>c.cite||''},
+  {sel:'.foot', key:'foot', src:c=>c.foot||''},
+  {sel:'.disclaimer', key:'disclaimer', src:c=>Array.isArray(c.disclaimer)?c.disclaimer.join('\n'):(c.disclaimer||'')},
+  {sel:'.insight', key:'insight', src:c=>{ const g=S.a.goal_1||'stress'; return (c.profiles&&c.profiles[g]&&c.profiles[g].insight)||''; }, suffix:()=>':'+(S.a.goal_1||'stress')},
+  {sel:'.opt .txt', key:'opt', indexed:true, src:(c,i)=>(c.options&&c.options[i]&&c.options[i].text)||''},
+  {sel:'.vitem .t', key:'item', indexed:true, src:(c,i)=>{ const it=c.items&&c.items[i]; return it? (typeof it==='string'? it : (it.text||it.title||'')) : ''; }},
+  {sel:'.bio span', key:'bio', indexed:true, src:(c,i)=>(c.bios&&c.bios[i]&&c.bios[i].text)||''},
+  {sel:'.review p', key:'review', indexed:true, src:(c,i)=>(c.reviews&&c.reviews[i]&&c.reviews[i].text)||''},
+  {sel:'.metric span:last-child', key:'metric', indexed:true, src:(c,i)=>''},
+  {sel:'.mock .mrow > span:last-child', key:'mockrow', indexed:true, src:(c,i)=>(c.mock&&c.mock.rows&&c.mock.rows[i])?[c.mock.rows[i].t,c.mock.rows[i].s].filter(Boolean).join(' / '):''},
+  {sel:'.col.with li, .col:not(.with) li', key:'compare', indexed:true, src:()=>''},
+  {sel:'.badge', key:'badge', indexed:true, src:(c,i)=>(c.laurels&&c.laurels[i])?[c.laurels[i].l,c.laurels[i].s].filter(Boolean).join(' / '):''},
+  {sel:'.endnote', key:'note', src:c=>c.note||''},
+];
+function edStore(){ try{ return JSON.parse(localStorage.getItem('balance-proto-edits')||'{}'); }catch(e){ return {}; } }
+function edSave(o){ try{ localStorage.setItem('balance-proto-edits', JSON.stringify(o)); }catch(e){} }
+function edCount(){ const o=edStore(); let n=0; for(const d in o) for(const c in o[d]) n+=Object.keys(o[d][c]).length; return n; }
+function setupEdit(card, body){
+  const store = edStore(); const mine = (store[S.deckId]||{})[card.id]||{};
+  // neutralize navigation taps inside the card; the toolbar moves the flow
+  body.addEventListener('click', e=>{ if(e.target.closest('.opt,.tile,.tap,#cta,.ghost,.time,.cytr-opt,.x,.plan')) { e.stopPropagation(); e.preventDefault(); } }, true);
+  EDITABLE.forEach(def=>{
+    body.querySelectorAll(def.sel).forEach((el,i)=>{
+      const key = def.key + (def.indexed? ':'+i : '') + (def.suffix? def.suffix() : '');
+      const raw = def.src(card, i);
+      el.setAttribute('contenteditable','true'); el.classList.add('ed'); el.dataset.edkey=key; el.spellcheck=false;
+      if(raw && raw.includes('{{')) el.classList.add('ed-dyn');
+      if(mine[key] && mine[key].edited!=null){ el.innerHTML = esc(mine[key].edited).replace(/\n/g,'<br>'); el.classList.add('ed-changed'); }
+      const rendered0 = el.innerText;
+      el.addEventListener('focus', ()=>{ el.dataset.before = el.innerText; });
+      el.addEventListener('blur', ()=>{
+        const now = el.innerText.replace(/ /g,' ').trim(); const before = (el.dataset.before||'').trim();
+        if(now===before) return;
+        const st = edStore(); st[S.deckId]=st[S.deckId]||{}; st[S.deckId][card.id]=st[S.deckId][card.id]||{};
+        st[S.deckId][card.id][key] = {source: raw, rendered: mine[key]?mine[key].rendered:rendered0, edited: now, dynamic: !!(raw && raw.includes('{{'))};
+        edSave(st); el.classList.add('ed-changed'); refreshEditBar();
+      });
+      el.addEventListener('keydown', e=>{ if(e.key==='Enter' && !e.shiftKey && !def.key.match(/title|body|disclaimer/)){ e.preventDefault(); el.blur(); } });
+    });
+  });
+  // paywall lives outside #cardbody
+  const bar = document.createElement('div'); bar.className='editbar'; bar.id='editbar'; $('.screen').appendChild(bar); refreshEditBar();
+}
+function refreshEditBar(){ const bar=$('#editbar'); if(!bar) return; const n=edCount(); bar.innerHTML = `<button id="ed-back">‹</button><span>Edit mode · <b>${n}</b> edit${n===1?'':'s'}</span><button id="ed-export" ${n?'':'disabled'}>Export</button><button id="ed-next">›</button>`;
+  $('#ed-back').onclick=()=>go(-1); $('#ed-next').onclick=()=>go(1); $('#ed-export').onclick=exportEdits; }
+function exportEdits(){
+  const st = edStore(); const out = {exported: new Date().toISOString(), deck: S.deckId, edits: []};
+  for(const d in st) for(const c in st[d]) for(const k in st[d][c]) out.edits.push(Object.assign({deck:d, card:c, field:k}, st[d][c][k]));
+  const json = JSON.stringify(out, null, 1);
+  const m = document.createElement('div'); m.className='sheet'; m.dataset.kind='export';
+  m.innerHTML = `<button class="close" aria-label="Close">×</button><h4>Your edits (${out.edits.length})</h4><p style="margin:0 0 8px">Copy this and send it to Alex, or save it as <code>copy/edits.json</code> in the repo. The build applies it last, so these edits win. Lines marked <i>personalized</i> replace a live expression with fixed text unless the tokens are kept.</p><textarea id="ed-json" readonly>${esc(json)}</textarea><div class="row" style="margin-top:10px"><button class="btn small" id="ed-copy">Copy</button><a class="btn small secondary" id="ed-dl" download="edits.json" href="data:application/json;charset=utf-8,${encodeURIComponent(json)}">Download</a><button class="btn small secondary" id="ed-clear">Clear all edits</button></div>`;
+  $('.screen').appendChild(m);
+  m.querySelector('.close').onclick=()=>m.remove();
+  $('#ed-copy').onclick=async()=>{ try{ await navigator.clipboard.writeText(json); $('#ed-copy').textContent='Copied'; }catch(e){ $('#ed-json').select(); document.execCommand('copy'); $('#ed-copy').textContent='Copied'; } };
+  $('#ed-clear').onclick=()=>{ if(confirm('Remove all saved edits on this device?')){ edSave({}); m.remove(); renderCard(); } };
+}
 function deriveFrom(c,id){
   if(c.derive==='ageBand'){ const mid={'13-17':16,'18-24':21,'25-34':29,'35-44':39,'45-54':49,'55+':60}[id]||34; S.a.age=mid; S.L.age=String(mid); S.a.age_count=ageCount(mid); S.L.age_count=S.a.age_count.toLocaleString(); S.a.age_range = mid<18?'13-17':mid<25?'18-24':mid<45?'25-44':'45+'; }
 }

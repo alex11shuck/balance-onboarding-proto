@@ -855,8 +855,48 @@ def lint(deck, constrained=False):
             if re.search(r"\bAI\b", s): errs.append(f"{c['id']}: 'AI' in {k}")
     return errs
 
+# ---------------- copy/edits.json: Alex's in-place edits, applied last so they win ----------------
+def apply_edits(deck):
+    path=os.path.join(ROOT,"copy","edits.json")
+    if not os.path.exists(path): return 0
+    data=json.load(open(path)); edits=data.get("edits",data if isinstance(data,list) else [])
+    by_id={c["id"]:c for c in deck["cards"]}; applied=0; dyn=[]
+    for e in edits:
+        if e.get("deck") not in (None,"both",deck["id"]): continue
+        c=by_id.get(e.get("card")); 
+        if not c: continue
+        field=e.get("field",""); val=e.get("edited","")
+        key,_,idx=field.partition(":")
+        try:
+            if key=="title": c["title"]=val.split("\n")
+            elif key in ("kicker","subtitle","reassure","cite","foot","note"): c[key]=val
+            elif key=="body": c["body"]=val.split("\n") if "\n" in val else val
+            elif key=="disclaimer": c["disclaimer"]=val.split("\n")
+            elif key=="insight": c["profiles"][idx]["insight"]=val
+            elif key=="opt": c["options"][int(idx)]["text"]=val
+            elif key=="item":
+                it=c["items"][int(idx)]
+                if isinstance(it,str): c["items"][int(idx)]=val
+                elif "text" in it: it["text"]=val
+                else: it["title"]=val
+            elif key=="bio": c["bios"][int(idx)]["text"]=val
+            elif key=="review": c["reviews"][int(idx)]["text"]=val
+            elif key=="badge":
+                t,_,sub=val.partition(" / "); c["laurels"][int(idx)]["l"]=t.strip(); c["laurels"][int(idx)]["s"]=sub.strip()
+            elif key=="mockrow":
+                t,_,sub=val.partition(" / "); c["mock"]["rows"][int(idx)]["t"]=t.strip(); c["mock"]["rows"][int(idx)]["s"]=sub.strip()
+            else: continue
+            applied+=1
+            if e.get("dynamic") and "{{" not in val: dyn.append(f"{c['id']}.{field}")
+        except Exception as ex:
+            print(f"  ! could not apply edit {e.get('card')}.{field}: {ex}")
+    if dyn: print(f"  ! {deck['id']}: {len(dyn)} personalized line(s) replaced with fixed text: {', '.join(dyn[:6])}")
+    return applied
+
 ok=True
 for deck, cons in ((WISH, False), (CONS, True)):
+    n=apply_edits(deck)
+    if n: print(f"{deck['id']}: applied {n} copy edit(s) from copy/edits.json")
     for c in deck["cards"]:
         if "with_" in c: c["with"] = c.pop("with_")
     e = lint(deck, cons)

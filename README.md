@@ -15,4 +15,8 @@ The real Balance onboarding is a JSON card array (`hoth/assets/onboarding/config
 
 Fonts: Work Sans stands in for Graphik (licensed font kept out of a public repo). Colors and layout from the kamino design system. Icons and goal art are frame-crops from the Aug 16 recordings. Coach photos are the in-app thumbnails.
 
+## Editing the copy
+
+Open the site with `?edit=1`. Every line of copy on a screen becomes editable in place (dashed outline; amber outline means the line is personalized and built from an expression). Taps stop navigating; the bar at the bottom moves you back and forward. Edits save on your device as you go. **Export** hands back `edits.json`; save it as `copy/edits.json` in this repo (or send it to Alex) and the next build applies it last, so those edits always win. A personalized line edited without its `{{ }}` tokens becomes fixed text, and the build says so.
+
 Copy in [brackets] is a placeholder to verify before anything ships.
