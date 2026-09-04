@@ -85,8 +85,8 @@ async function renderLanding(){
     <h1>Balance onboarding prototype</h1>
     <p class="sub">Two clickable versions of a Calmer-style flow in Balance's skin, from welcome to today's paywall. Built Sep 4, 2026 for the Balance top-of-funnel bet. Tap through on a phone, or open the flow map for the screen-by-screen spec. Copy in <b>[brackets]</b> is a placeholder to verify.</p>
     <div class="versions">
-      <div class="vcard"><h2>${esc(w.name)}</h2><p>${esc(w.description)}</p>${stat(w)}<div class="row"><a class="btn" href="${location.pathname}${notesQ}#/wishlist">Start</a><a class="btn secondary small" href="${location.pathname}${notesQ}#/map/wishlist">Flow map</a></div></div>
-      <div class="vcard"><h2>${esc(c.name)}</h2><p>${esc(c.description)}</p>${stat(c)}<div class="row"><a class="btn" href="${location.pathname}${notesQ}#/constrained">Start</a><a class="btn secondary small" href="${location.pathname}${notesQ}#/map/constrained">Flow map</a></div></div>
+      <div class="vcard"><h2 ${S.edit?'contenteditable data-deck="wishlist" data-ek="deck:name" class="ed"':''}>${esc(w.name)}</h2><p ${S.edit?'contenteditable data-deck="wishlist" data-ek="deck:description" class="ed"':''}>${esc(w.description)}</p>${stat(w)}<div class="row"><a class="btn" href="${location.pathname}${notesQ}#/wishlist">Start</a><a class="btn secondary small" href="${location.pathname}${notesQ}#/map/wishlist">Flow map</a></div></div>
+      <div class="vcard"><h2 ${S.edit?'contenteditable data-deck="constrained" data-ek="deck:name" class="ed"':''}>${esc(c.name)}</h2><p ${S.edit?'contenteditable data-deck="constrained" data-ek="deck:description" class="ed"':''}>${esc(c.description)}</p>${stat(c)}<div class="row"><a class="btn" href="${location.pathname}${notesQ}#/constrained">Start</a><a class="btn secondary small" href="${location.pathname}${notesQ}#/map/constrained">Flow map</a></div></div>
     </div>
     <div class="legend" style="margin-bottom:16px"><h3>Two review modes</h3>
       <div class="row" style="margin:8px 0 12px"><a class="btn small ${S.why?'':'secondary'}" href="${location.pathname}${tq(S.notes,!S.why)}#/">${S.why?'✓ ':''}Why mode</a><a class="btn small ${S.notes?'':'secondary'}" href="${location.pathname}${tq(!S.notes,S.why)}#/">${S.notes?'✓ ':''}Build notes</a></div>
@@ -98,6 +98,7 @@ async function renderLanding(){
       <p style="margin:12px 0 0">The real onboarding is a JSON card array read by a Lua card engine, so every screen tagged <i>existing</i> or <i>built, unused</i> is a content change in <code>session.json</code>, not engineering. <i>Copy change</i> means new words on a card that already ships. <i>Swift bookend</i> and <i>Superwall dashboard</i> live outside the deck. <i>New template</i> is Lua engine work that ships to Android too.</p>
     </div>
   </div>`;
+  if(S.edit){ app.querySelectorAll('[data-deck]').forEach(el=>{ const dk=el.dataset.deck, key=el.dataset.ek; el.addEventListener('focus',()=>el.dataset.before=el.innerText); el.addEventListener('blur',()=>{ const now=el.innerText.trim(); if(now===(el.dataset.before||'').trim()) return; const st=edStore(); st[dk]=st[dk]||{}; st[dk]['_deck']=st[dk]['_deck']||{}; st[dk]['_deck'][key]={source:key==='deck:name'?(dk==='wishlist'?w.name:c.name):(dk==='wishlist'?w.description:c.description), rendered:el.dataset.before, edited:now, dynamic:false}; edSave(st); el.classList.add('ed-changed'); }); }); }
 }
 
 /* ---------- flow map ---------- */
@@ -138,7 +139,7 @@ function renderCard(){
   const r = RENDER[card.type] || RENDER.text;
   r(card, body);
   requestAnimationFrame(()=>{ if(body.scrollHeight > body.clientHeight + 4) body.classList.replace('center','top'); });
-  if(S.edit) setupEdit(card, body);
+  if(S.edit){ setupEdit(card, body); const side=$('.side'); if(side) makeEditable(side, card); }
   $('.back')?.addEventListener('click', ()=>go(-1));
   $('.notesbtn:not(.why)')?.addEventListener('click', ()=>toggleSheet(card,false,'notes'));
   $('.notesbtn.why')?.addEventListener('click', ()=>toggleSheet(card,false,'why'));
@@ -147,23 +148,23 @@ function renderCard(){
 function notesHTML(card){ const n = card.notes||{}; return `<h4>Build notes · ${esc(card.id)}</h4>
   <span class="tag tag-${n.tag||'existing'}">${TAG_LABEL[n.tag]||n.tag||'Existing template'}</span>
   <div class="kv"><div>Template</div><div><code>${esc(n.template||card.type)}</code></div>
-  ${n.calmer?`<div>Calmer</div><div>${esc(n.calmer)}</div>`:''}
-  ${n.evidence?`<div>Evidence</div><div>${esc(n.evidence)}</div>`:''}
-  ${n.why?`<div>Why</div><div>${esc(n.why)}</div>`:''}
-  ${n.loss?`<div>Lost</div><div>${esc(n.loss)}</div>`:''}
+  ${n.calmer?`<div>Calmer</div><div data-ek="note:calmer">${esc(n.calmer)}</div>`:''}
+  ${n.evidence?`<div>Evidence</div><div data-ek="note:evidence">${esc(n.evidence)}</div>`:''}
+  ${n.why?`<div>Why</div><div data-ek="note:why">${esc(n.why)}</div>`:''}
+  ${n.loss?`<div>Lost</div><div data-ek="note:loss">${esc(n.loss)}</div>`:''}
   ${card.branch?`<div>Shown when</div><div><code>${esc(card.branch)}</code></div>`:''}</div>
-  ${n.fills&&n.fills.length?`<h4 style="margin-top:12px">Verify before shipping</h4><ul class="fills">${n.fills.map(f=>`<li>${esc(f)}</li>`).join('')}</ul>`:''}`; }
-function whyHTML(card){ const g = S.deck.principles||{}; const keys = card.principles||[]; if(!keys.length) return `<h4>Why this screen</h4><span style="color:var(--grey)">No principle recorded for this card.</span>`; return `<h4>Why this screen</h4>${card.how?`<p style="margin:0 0 12px;color:var(--ink)">${tpl(card.how)}</p>`:''}${keys.map(k=>{ const p=g[k]||{name:k,text:''}; return `<div class="princ"><b>${esc(p.name)}</b><div>${esc(p.text)}</div>${p.source?`<div class="src">${esc(p.source)}</div>`:''}</div>`; }).join('')}`; }
+  ${n.fills&&n.fills.length?`<h4 style="margin-top:12px">Verify before shipping</h4><ul class="fills">${n.fills.map((f,i)=>`<li data-ek="note:fill:${i}">${esc(f)}</li>`).join('')}</ul>`:''}`; }
+function whyHTML(card){ const g = S.deck.principles||{}; const keys = card.principles||[]; if(!keys.length) return `<h4>Why this screen</h4><span style="color:var(--grey)">No principle recorded for this card.</span>`; return `<h4>Why this screen</h4><p class="how" data-ek="why:how" style="margin:0 0 12px;color:var(--ink)">${card.how?tpl(card.how):(S.edit?'(add a line about how this screen uses the principles)':'')}</p>${keys.map(k=>{ const p=g[k]||{name:k,text:''}; return `<div class="princ" data-pk="${esc(k)}"><b data-ek="principle:${esc(k)}:name">${esc(p.name)}</b><div class="ptext" data-ek="principle:${esc(k)}:text">${esc(p.text)}</div><div class="src" data-ek="principle:${esc(k)}:source">${esc(p.source||'')}</div></div>`; }).join('')}`; }
 function sidePanel(card){ const vis = visibleCards(); return `<div class="side">${S.why?`<div class="panel why">${whyHTML(card)}</div>`:''}${S.notes?`<div class="panel">${notesHTML(card)}</div>`:''}<div class="panel"><h4>Where you are</h4>${esc(S.deck.name)} · screen ${vis.indexOf(card)+1} of ${vis.length} on this path<br><a href="${location.pathname}${modeQ()}#/map/${S.deckId}">Flow map</a> · <a href="${location.pathname}${modeQ()}#/">All versions</a><br><span style="color:var(--grey)">Answers so far: ${esc(Object.keys(S.L).filter(k=>S.L[k]).map(k=>k+': '+S.L[k]).join(' · ')||'none')}</span></div></div>`; }
-function toggleSheet(card, force, kind){ const ex = $('.sheet'); if(ex && !force && ex.dataset.kind===kind){ ex.remove(); S.sheet=false; return; } if(ex) ex.remove(); S.sheet=true; const d = document.createElement('div'); d.className='sheet'; d.dataset.kind=kind||'notes'; d.innerHTML = `<button class="close" aria-label="Close">×</button>${kind==='why'?whyHTML(card):notesHTML(card)}`; $('.screen').appendChild(d); d.querySelector('.close').onclick=()=>{ d.remove(); S.sheet=false; }; }
+function toggleSheet(card, force, kind){ const ex = $('.sheet'); if(ex && !force && ex.dataset.kind===kind){ ex.remove(); S.sheet=false; return; } if(ex) ex.remove(); S.sheet=true; const d = document.createElement('div'); d.className='sheet'; d.dataset.kind=kind||'notes'; d.innerHTML = `<button class="close" aria-label="Close">×</button>${kind==='why'?whyHTML(card):notesHTML(card)}`; if(S.edit) setTimeout(()=>makeEditable(d, card), 0); $('.screen').appendChild(d); d.querySelector('.close').onclick=()=>{ d.remove(); S.sheet=false; }; }
 
 /* ---------- shared fragments ---------- */
 const CHECK = `<svg class="check" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="10" fill="#30C5CA"/><path d="M6.5 11.5l3 3 6-6.5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 const LOCK = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#878888" stroke-width="2"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg>`;
 function head(card, opts={}){ return `${card.kicker?`<div class="kicker">${tpl(card.kicker)}</div>`:''}<h1 class="title ${opts.sm?'sm':''}">${tl(card.title)}</h1>${card.subtitle?`<p class="subtitle">${tl(card.subtitle)}</p>`:''}`; }
 function reassure(card){ return card.reassure ? `<div class="reassure">${LOCK}<span>${tpl(card.reassure)}</span></div>` : ''; }
-function cta(label, extra=''){ return `<div class="bottom">${extra}<button class="cta" id="cta">${esc(label||'Continue')}</button></div>`; }
-function tapToContinue(){ return `<div class="bottom" style="align-items:center"><button class="ghost tap" id="cta">Tap to continue</button></div>`; }
+function cta(label, extra=''){ return S.edit ? `<div class="bottom">${extra}<div class="cta" id="cta" role="button">${esc(label||'Continue')}</div></div>` : `<div class="bottom">${extra}<button class="cta" id="cta">${esc(label||'Continue')}</button></div>`; }
+function tapToContinue(){ const c=S.deck.cards[S.idx]||{}; const l=c.tapLabel||'Tap to continue'; return S.edit ? `<div class="bottom" style="align-items:center"><div class="ghost tap" id="cta" role="button">${esc(l)}</div></div>` : `<div class="bottom" style="align-items:center"><button class="ghost tap" id="cta">${esc(l)}</button></div>`; }
 function bindNext(sel='#cta'){ const b = $(sel); if(b) b.onclick = ()=>go(1); }
 function laurelsHTML(ls){ if(!ls||!ls.length) return ''; return `<div class="badges">${ls.map(l=>`<span class="badge">${l.stars?'<span class="star">★</span>':''}<b>${tpl(l.l)}</b>${l.s?`<span>${tpl(l.s)}</span>`:''}</span>`).join('')}</div>`; }
 
@@ -330,7 +331,7 @@ RENDER.benefits = (c, el)=>{
 };
 RENDER.cytr = (c, el)=>{
   let days = 2; const fmt = d => { const t=new Date(); t.setDate(t.getDate()+7-d); return t.toLocaleDateString('en-US',{month:'short',day:'numeric'}); };
-  const draw = ()=>{ el.innerHTML = `<svg width="200" height="150" viewBox="0 0 200 150" fill="none" style="margin-bottom:22px"><rect x="62" y="6" width="76" height="138" rx="14" stroke="#B7B1D9" stroke-width="3" fill="#fff"/><rect x="50" y="34" width="100" height="26" rx="6" fill="#D7EDF0"/><circle cx="62" cy="47" r="6" fill="#30C5CA"/><rect x="74" y="41" width="60" height="4" rx="2" fill="#fff"/><rect x="74" y="50" width="44" height="4" rx="2" fill="#fff"/><circle cx="28" cy="76" r="14" stroke="#0A0A0B" stroke-width="1.5"/><circle cx="20" cy="84" r="12" fill="#FDF1EB"/><rect x="146" y="10" width="20" height="20" rx="3" transform="rotate(20 156 20)" stroke="#0A0A0B" stroke-width="1.5" fill="#FDF1EB"/><path d="M158 96c0 14 12 14 12 26" stroke="#0A0A0B" stroke-width="1.5"/><circle cx="170" cy="124" r="4" stroke="#0A0A0B" stroke-width="1.5" fill="#fff"/><line x1="56" y1="144" x2="144" y2="144" stroke="#0A0A0B" stroke-width="1.5"/></svg><h1 class="title sm">We'll remind you ${days} days<br>before your trial ends</h1><div class="opts compact" style="margin-top:34px">${[2,3].map(d=>`<button class="opt cytr-opt ${d===days?'sel':''}" data-d="${d}" style="background:#fff;border:2px solid ${d===days?'var(--deep)':'#E3E6E8'};min-height:64px;justify-content:space-between"><span class="txt" style="color:${d===days?'var(--ink)':'var(--grey)'}">${d} days before</span><span style="font-weight:400;font-size:14px;color:${d===days?'var(--ink)':'var(--grey)'}">${fmt(d)}</span></button>`).join('')}</div><div class="spacer"></div>`;
+  const draw = ()=>{ el.innerHTML = `<svg width="200" height="150" viewBox="0 0 200 150" fill="none" style="margin-bottom:22px"><rect x="62" y="6" width="76" height="138" rx="14" stroke="#B7B1D9" stroke-width="3" fill="#fff"/><rect x="50" y="34" width="100" height="26" rx="6" fill="#D7EDF0"/><circle cx="62" cy="47" r="6" fill="#30C5CA"/><rect x="74" y="41" width="60" height="4" rx="2" fill="#fff"/><rect x="74" y="50" width="44" height="4" rx="2" fill="#fff"/><circle cx="28" cy="76" r="14" stroke="#0A0A0B" stroke-width="1.5"/><circle cx="20" cy="84" r="12" fill="#FDF1EB"/><rect x="146" y="10" width="20" height="20" rx="3" transform="rotate(20 156 20)" stroke="#0A0A0B" stroke-width="1.5" fill="#FDF1EB"/><path d="M158 96c0 14 12 14 12 26" stroke="#0A0A0B" stroke-width="1.5"/><circle cx="170" cy="124" r="4" stroke="#0A0A0B" stroke-width="1.5" fill="#fff"/><line x1="56" y1="144" x2="144" y2="144" stroke="#0A0A0B" stroke-width="1.5"/></svg><h1 class="title sm" data-ek="title">${esc((c.titleTpl||"We'll remind you {days} days\nbefore your trial ends").replace('{days}',days)).replace(/\n/g,'<br>')}</h1><div class="opts compact" style="margin-top:34px">${[2,3].map(d=>`<button class="opt cytr-opt ${d===days?'sel':''}" data-d="${d}" style="background:#fff;border:2px solid ${d===days?'var(--deep)':'#E3E6E8'};min-height:64px;justify-content:space-between"><span class="txt" style="color:${d===days?'var(--ink)':'var(--grey)'}">${d} days before</span><span style="font-weight:400;font-size:14px;color:${d===days?'var(--ink)':'var(--grey)'}">${fmt(d)}</span></button>`).join('')}</div><div class="spacer"></div>`;
     el.insertAdjacentHTML('beforeend', cta('Continue'));
     el.querySelectorAll('.cytr-opt').forEach(b=>b.onclick=()=>{ days=Number(b.dataset.d); draw(); });
     $('#cta').onclick=()=>{ setA('trial_reminder', String(days), days+' days before'); go(1); }; };
@@ -347,12 +348,14 @@ RENDER.paywall = (c, el)=>{
   const headline = (c.headlines && (c.headlines[S.a.goal_1]||c.headlines.default)) || 'Reduce daily stress and anxiety';
   if(c.design==='live'){
     const reviews = c.reviews || [{"t":"I use it daily and I'm finally sleeping better.. Premium is so worth it!","w":"Tracy"},{"t":"It helps me fall asleep, helps me relax when my anxiety is high, and just works SO well as an app.","w":"Maya P."},{"t":"It's helped me calm down during panic attacks or when I'm overwhelmed.","w":"Steffanosaur"}];
+    const K = Object.assign({title:'7 days for free', sub:'then $5.83 / month\n($69.99 billed yearly after trial)', laurel1:'10M+ / happy users', laurel2:'4.9 star rating', nopay:'No payment due now', cta:'Start your FREE week', plans:'View all plans'}, c.copy||{});
+    const [l1a,l1b]=K.laurel1.split(' / ');
     pw.innerHTML = `<button class="x" style="left:14px;right:auto" aria-label="Close">×</button>
-      <div class="pw-live"><h2>7 days for free</h2><div class="pw-sub">then $5.83 / month<br>($69.99 billed yearly after trial)</div>
-      <div class="pw-laurels"><div class="wreath"><svg class="wr" viewBox="0 0 140 64" fill="none" xmlns="http://www.w3.org/2000/svg"><g stroke="#30C5CA" stroke-width="2" stroke-linecap="round"><path d="M28 60 C10 50 6 30 14 8"/><path d="M112 60 C130 50 134 30 126 8"/></g><g fill="#30C5CA">${[[14,12,-40],[11,22,-30],[10,33,-15],[12,44,0],[17,53,15]].map(([x,y,r])=>`<ellipse cx="${x}" cy="${y}" rx="6" ry="3" transform="rotate(${r} ${x} ${y})"/><ellipse cx="${140-x}" cy="${y}" rx="6" ry="3" transform="rotate(${-r} ${140-x} ${y})"/>`).join('')}</g></svg><div class="w-in"><b>10M+</b><span>happy users</span></div></div><div class="pw-stars"><b>4.9 star rating</b><span>★★★★★</span></div></div>
-      <div class="reviews pw-reviews">${reviews.map(r=>`<div class="review pw-review"><div class="stars">★★★★★</div><p>${esc(r.t)}</p><div class="who">${esc(r.w)}</div></div>`).join('')}</div>
-      <div class="spacer"></div><div class="pw-nopay">✓ &nbsp;No payment due now</div>
-      <div class="bottom" style="padding-bottom:0"><button class="cta" id="cta">Start your FREE week</button></div><div class="fine"><span style="text-decoration:underline;color:var(--ink)">View all plans</span></div></div>`;
+      <div class="pw-live"><h2 data-ek="pw:title">${esc(K.title)}</h2><div class="pw-sub" data-ek="pw:sub">${esc(K.sub).replace(/\n/g,'<br>')}</div>
+      <div class="pw-laurels"><div class="wreath"><svg class="wr" viewBox="0 0 140 64" fill="none" xmlns="http://www.w3.org/2000/svg"><g stroke="#30C5CA" stroke-width="2" stroke-linecap="round"><path d="M28 60 C10 50 6 30 14 8"/><path d="M112 60 C130 50 134 30 126 8"/></g><g fill="#30C5CA">${[[14,12,-40],[11,22,-30],[10,33,-15],[12,44,0],[17,53,15]].map(([x,y,r])=>`<ellipse cx="${x}" cy="${y}" rx="6" ry="3" transform="rotate(${r} ${x} ${y})"/><ellipse cx="${140-x}" cy="${y}" rx="6" ry="3" transform="rotate(${-r} ${140-x} ${y})"/>`).join('')}</g></svg><div class="w-in" data-ek="pw:laurel1"><b>${esc(l1a||'')}</b><span>${esc(l1b||'')}</span></div></div><div class="pw-stars"><b data-ek="pw:laurel2">${esc(K.laurel2)}</b><span>★★★★★</span></div></div>
+      <div class="reviews pw-reviews">${reviews.map((r,i)=>`<div class="review pw-review"><div class="stars">★★★★★</div><p data-ek="pw:review:${i}">${esc(r.t)}</p><div class="who" data-ek="pw:who:${i}">${esc(r.w)}</div></div>`).join('')}</div>
+      <div class="spacer"></div><div class="pw-nopay">✓ &nbsp;<span data-ek="pw:nopay">${esc(K.nopay)}</span></div>
+      <div class="bottom" style="padding-bottom:0">${S.edit?`<div class="cta" id="cta" role="button" data-ek="pw:cta">${esc(K.cta)}</div>`:`<button class="cta" id="cta">${esc(K.cta)}</button>`}</div><div class="fine"><span style="text-decoration:underline;color:var(--ink)" data-ek="pw:plans">${esc(K.plans)}</span></div></div>`;
   } else if(c.design==='recime'){
     const items = c.benefits || ['400+ meditations for stress, sleep, focus and mood','Sleep stories, music and soundscapes','A new session built for you every day','Ad-free, on every device'];
     pw.innerHTML = `<button class="x" aria-label="Close">×</button>
@@ -367,7 +370,8 @@ RENDER.paywall = (c, el)=>{
   }
   screen.appendChild(pw);
   pw.querySelector('.x').onclick=()=>{ setA('paywall','declined','Declined'); pw.remove(); go(1); };
-  pw.querySelector('#cta').onclick=()=>{ setA('paywall','trial','Started trial'); pw.remove(); go(1); };
+  pw.querySelector('#cta').onclick=()=>{ if(S.edit) return; setA('paywall','trial','Started trial'); pw.remove(); go(1); };
+  if(S.edit) makeEditable(pw, c);
 };
 RENDER.end = (c, el)=>{
   const other = S.deckId==='wishlist'?'constrained':'wishlist';
@@ -376,7 +380,7 @@ RENDER.end = (c, el)=>{
 };
 /* ---------- edit-in-place mode ---------- */
 const EDITABLE = [
-  {sel:'h1.title', key:'title', src:c=>Array.isArray(c.title)?c.title.join('\n'):(c.title||'')},
+  {sel:'h1.title', key:'title', src:c=>c.type==='cytr'?(c.titleTpl||"We'll remind you {days} days\nbefore your trial ends"):(Array.isArray(c.title)?c.title.join('\n'):(c.title||''))},
   {sel:'.kicker', key:'kicker', src:c=>c.kicker||''},
   {sel:'p.subtitle', key:'subtitle', src:c=>c.subtitle||''},
   {sel:'p.body', key:'body', src:c=>Array.isArray(c.body)?c.body.join('\n'):(c.body||'')},
@@ -385,16 +389,62 @@ const EDITABLE = [
   {sel:'.foot', key:'foot', src:c=>c.foot||''},
   {sel:'.disclaimer', key:'disclaimer', src:c=>Array.isArray(c.disclaimer)?c.disclaimer.join('\n'):(c.disclaimer||'')},
   {sel:'.insight', key:'insight', src:c=>{ const g=S.a.goal_1||'stress'; return (c.profiles&&c.profiles[g]&&c.profiles[g].insight)||''; }, suffix:()=>':'+(S.a.goal_1||'stress')},
+  {sel:'#cardbody .cta', key:'cta', src:c=>c.cta||'Continue'},
+  {sel:'#cardbody .tap', key:'tap', src:c=>c.tapLabel||'Tap to continue'},
   {sel:'.opt .txt', key:'opt', indexed:true, src:(c,i)=>(c.options&&c.options[i]&&c.options[i].text)||''},
   {sel:'.vitem .t', key:'item', indexed:true, src:(c,i)=>{ const it=c.items&&c.items[i]; return it? (typeof it==='string'? it : (it.text||it.title||'')) : ''; }},
   {sel:'.bio span', key:'bio', indexed:true, src:(c,i)=>(c.bios&&c.bios[i]&&c.bios[i].text)||''},
-  {sel:'.review p', key:'review', indexed:true, src:(c,i)=>(c.reviews&&c.reviews[i]&&c.reviews[i].text)||''},
-  {sel:'.metric span:last-child', key:'metric', indexed:true, src:(c,i)=>''},
+  {sel:'#cardbody .review p', key:'review', indexed:true, src:(c,i)=>(c.reviews&&c.reviews[i]&&c.reviews[i].text)||''},
+  {sel:'.metric span:last-child', key:'metric', indexed:true, src:(c,i)=>(c.metrics&&c.metrics[i]&&c.metrics[i].text)||''},
   {sel:'.mock .mrow > span:last-child', key:'mockrow', indexed:true, src:(c,i)=>(c.mock&&c.mock.rows&&c.mock.rows[i])?[c.mock.rows[i].t,c.mock.rows[i].s].filter(Boolean).join(' / '):''},
   {sel:'.col.with li, .col:not(.with) li', key:'compare', indexed:true, src:()=>''},
   {sel:'.badge', key:'badge', indexed:true, src:(c,i)=>(c.laurels&&c.laurels[i])?[c.laurels[i].l,c.laurels[i].s].filter(Boolean).join(' / '):''},
   {sel:'.endnote', key:'note', src:c=>c.note||''},
+  {sel:'.steps', key:'phase', src:c=>(S.deck.phases&&c.phase)?S.deck.phases[c.phase-1]:'', pseudo:'_deck', suffix:c=>':'+((c.phase||1)-1)},
+  {sel:'.sesscard .st', key:'session:title', src:c=>{ const g=S.a.goal_1||'stress'; return (c.sessions&&(c.sessions[g]||c.sessions.default)||{}).title||''; }, suffix:()=>':'+(S.a.goal_1||'stress')},
 ];
+function makeEditable(root, card){
+  const store = edStore();
+  const mineFor = (pseudo)=> (store[S.deckId]||{})[pseudo||card.id]||{};
+  const wire = (el, key, raw, pseudo)=>{
+    if(el.dataset.edwired) return; el.dataset.edwired='1';
+    const mine = mineFor(pseudo);
+    el.setAttribute('contenteditable','true'); el.classList.add('ed'); el.dataset.edkey=key; el.spellcheck=false;
+    if(raw && raw.includes('{{')) el.classList.add('ed-dyn');
+    if(mine[key] && mine[key].edited!=null){ el.innerHTML = esc(mine[key].edited).replace(/\n/g,'<br>'); el.classList.add('ed-changed'); }
+    const rendered0 = el.innerText;
+    el.addEventListener('focus', ()=>{ el.dataset.before = el.innerText; });
+    el.addEventListener('blur', ()=>{
+      const now = el.innerText.replace(/ /g,' ').trim(); const before = (el.dataset.before||'').trim();
+      if(now===before) return;
+      const st = edStore(); const cid = pseudo||card.id; st[S.deckId]=st[S.deckId]||{}; st[S.deckId][cid]=st[S.deckId][cid]||{};
+      st[S.deckId][cid][key] = {source: raw, rendered: (mine[key]?mine[key].rendered:rendered0), edited: now, dynamic: !!(raw && raw.includes('{{'))};
+      edSave(st); el.classList.add('ed-changed'); refreshEditBar();
+    });
+    el.addEventListener('keydown', e=>{ if(e.key==='Enter' && !e.shiftKey && !/title|body|disclaimer|principle|note|why|sub/.test(key)){ e.preventDefault(); el.blur(); } });
+  };
+  EDITABLE.forEach(def=>{
+    root.querySelectorAll(def.sel).forEach((el,i)=>{
+      const key = def.key + (def.indexed? ':'+i : '') + (def.suffix? def.suffix(card) : '');
+      wire(el, key, def.src(card, i), def.pseudo);
+    });
+  });
+  // anything tagged data-ek (why panel, notes, paywall, cytr)
+  root.querySelectorAll('[data-ek]').forEach(el=>{
+    const key = el.dataset.ek; let raw='', pseudo=null;
+    if(key.startsWith('principle:')){ const [,k,f]=key.split(':'); raw=((S.deck.principles||{})[k]||{})[f]||''; pseudo='_principles'; }
+    else if(key==='why:how') raw=card.how||'';
+    else if(key.startsWith('note:')){ const parts=key.split(':'); const n=card.notes||{}; raw = parts[1]==='fill' ? ((n.fills||[])[Number(parts[2])]||'') : (n[parts[1]]||''); }
+    else if(key.startsWith('pw:')){ raw=(card.copy||{})[key.slice(3)]||''; }
+    else if(key==='title'){ raw=EDITABLE[0].src(card); }
+    wire(el, key, raw, pseudo);
+  });
+}
+function setupEdit(card, body){
+  body.addEventListener('click', e=>{ if(e.target.closest('.opt,.tile,.tap,#cta,.ghost,.time,.cytr-opt,.x,.plan')) { e.stopPropagation(); e.preventDefault(); } }, true);
+  makeEditable(body, card);
+  const bar = document.createElement('div'); bar.className='editbar'; bar.id='editbar'; $('.screen').appendChild(bar); refreshEditBar();
+}
 function edStore(){ try{ return JSON.parse(localStorage.getItem('balance-proto-edits')||'{}'); }catch(e){ return {}; } }
 function edSave(o){ try{ localStorage.setItem('balance-proto-edits', JSON.stringify(o)); }catch(e){} }
 function edCount(){ const o=edStore(); let n=0; for(const d in o) for(const c in o[d]) n+=Object.keys(o[d][c]).length; return n; }

@@ -863,12 +863,43 @@ def apply_edits(deck):
     by_id={c["id"]:c for c in deck["cards"]}; applied=0; dyn=[]
     for e in edits:
         if e.get("deck") not in (None,"both",deck["id"]): continue
-        c=by_id.get(e.get("card")); 
-        if not c: continue
         field=e.get("field",""); val=e.get("edited","")
+        cid=e.get("card")
+        # deck-level pseudo cards
+        if cid=="_principles":
+            _,k,f=field.split(":",2)
+            if k in deck.get("principles",{}) and f in ("name","text","source"): deck["principles"][k][f]=val; applied+=1
+            continue
+        if cid=="_deck":
+            if field=="deck:name": deck["name"]=val; applied+=1
+            elif field=="deck:description": deck["description"]=val; applied+=1
+            elif field.startswith("phase:") and deck.get("phases"): deck["phases"][int(field.split(":")[1])]=val; applied+=1
+            continue
+        c=by_id.get(cid)
+        if not c: continue
         key,_,idx=field.partition(":")
         try:
-            if key=="title": c["title"]=val.split("\n")
+            if key=="why": c["how"]=val
+            elif key=="note":
+                sub,_,i=idx.partition(":"); n=c.setdefault("notes",{})
+                if sub=="fill": n.setdefault("fills",[])
+                if sub=="fill" and i!="": 
+                    while len(n["fills"])<=int(i): n["fills"].append("")
+                    n["fills"][int(i)]=val
+                elif sub in ("why","loss","evidence","calmer"): n[sub]=val
+                else: continue
+            elif key=="pw":
+                sub,_,i=idx.partition(":")
+                if sub in ("review","who"):
+                    revs=c.setdefault("reviews",[{"t":"I use it daily and I'm finally sleeping better.. Premium is so worth it!","w":"Tracy"},{"t":"It helps me fall asleep, helps me relax when my anxiety is high, and just works SO well as an app.","w":"Maya P."},{"t":"It's helped me calm down during panic attacks or when I'm overwhelmed.","w":"Steffanosaur"}])
+                    revs[int(i)]["t" if sub=="review" else "w"]=val
+                else: c.setdefault("copy",{})[sub]=val
+            elif key=="cta": c["cta"]=val
+            elif key=="tap": c["tapLabel"]=val
+            elif key=="session": c["sessions"][idx.split(":")[1]]["title"]=val
+            elif key=="title":
+                if c["type"]=="cytr": c["titleTpl"]=val
+                else: c["title"]=val.split("\n")
             elif key in ("kicker","subtitle","reassure","cite","foot","note"): c[key]=val
             elif key=="body": c["body"]=val.split("\n") if "\n" in val else val
             elif key=="disclaimer": c["disclaimer"]=val.split("\n")
