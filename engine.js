@@ -13,12 +13,12 @@ const S = { deckId:null, deck:null, idx:-1, a:{}, L:{}, hist:[], notes:false, sh
 const qs = new URLSearchParams(location.search);
 S.notes = qs.get('notes') === '1';
 
-const PERSONA = { name:'Sam', age:34, age_range:'25-44', gender:'prefer_not', hdyhau:'facebook_or_instagram',
+const PERSONA = { name:'Sam', age:34, age_count:1034000, age_range:'25-44', gender:'prefer_not', hdyhau:'facebook_or_instagram',
   goals:['stress','sleep'], goal_1:'stress', goal_2:'sleep', goal_stress:'yes', goal_sleep:'yes', goal_mood:'no', goal_focus:'no',
   how_often_feel_stress:'sometimes', how_experience_stress:['anxious_thoughts','difficulty_sleeping'], stress_source:'work_or_school',
   ready_to_sleep:'no', sleep_trouble:'sometimes', keep_awake:'stress', exercise:'2', schedule:'busy', future:['calm_nights','clear_head','present'],
   has_meditated_before:'none', commitment:'5', when_to_meditate:'evening', reminder_time:'6:00 pm', bedtime:'10:00 pm' };
-const PERSONA_L = { name:'Sam', goal_1:'Reduce Stress', goal_2:'Improve Sleep', hdyhau:'Facebook or Instagram', how_often_feel_stress:'Sometimes',
+const PERSONA_L = { name:'Sam', age_count:'1,034,000', goal_1:'Reduce Stress', goal_2:'Improve Sleep', hdyhau:'Facebook or Instagram', how_often_feel_stress:'Sometimes',
   how_experience_stress:'Anxious thoughts, Difficulty sleeping', stress_source:'Work or school', sleep_trouble:'Sometimes', keep_awake:'Stress',
   exercise:'A couple of times a week', schedule:'Busy most days', future:'Calm nights, A clearer head, Feeling present', has_meditated_before:'New to meditation', commitment:'5 days a week', when_to_meditate:'Evening' };
 
@@ -35,7 +35,8 @@ const H = { lower:x=>String(x||'').toLowerCase(), first:x=>Array.isArray(x)?x[0]
 function tpl(str){ if(!str) return ''; return String(str).replace(/\{\{([^}]+)\}\}/g, (_,e)=>{ try{ const v = new Function('a','L','H','return ('+e+')')(S.a,S.L,H); return v==null?'':String(v);}catch(err){ return '['+e+']'; } }); }
 function tl(t){ return tpl(lines(t)); }
 function branchOK(card){ if(!card.branch) return true; try{ return !!new Function('a','L','return ('+card.branch+')')(S.a,S.L);}catch(e){ console.warn('branch error',card.id,e); return true; } }
-function setA(q,id,label){ S.a[q]=id; S.L[q]=label; }
+function ageCount(age){ const a=Number(age)||34; return Math.round(1350000 * Math.exp(-Math.pow((a-27)/16,2)) + 180000); }
+function setA(q,id,label){ S.a[q]=id; S.L[q]=label; if(q==='age'){ S.a.age_count=ageCount(id); S.L.age_count=S.a.age_count.toLocaleString(); } }
 function visibleCards(){ return S.deck.cards.filter(c=>branchOK(c)); }
 function colorVar(c){ return c ? `var(--${c})` : 'var(--purple_haze)'; }
 function iconImg(name){ if(!name) return ''; if(name.length<=3) return `<span class="ico" style="font-size:30px;display:flex;align-items:center;justify-content:center">${name}</span>`; return `<img src="assets/icons/${name}.png" alt="" onerror="this.style.visibility='hidden'">`; }
@@ -143,7 +144,7 @@ function reassure(card){ return card.reassure ? `<div class="reassure">${LOCK}<s
 function cta(label, extra=''){ return `<div class="bottom">${extra}<button class="cta" id="cta">${esc(label||'Continue')}</button></div>`; }
 function tapToContinue(){ return `<div class="bottom" style="align-items:center"><button class="ghost tap" id="cta">Tap to continue</button></div>`; }
 function bindNext(sel='#cta'){ const b = $(sel); if(b) b.onclick = ()=>go(1); }
-function laurelsHTML(ls){ if(!ls||!ls.length) return ''; return `<div class="laurels">${ls.map(l=>`<div class="laurel"><img src="assets/laurels/laurels.svg" alt="">${l.stars?`<div class="stars">★★★★★</div>`:''}<div class="l">${tpl(l.l)}</div><div class="s">${tpl(l.s||'')}</div></div>`).join('')}</div>`; }
+function laurelsHTML(ls){ if(!ls||!ls.length) return ''; return `<div class="badges">${ls.map(l=>`<span class="badge">${l.stars?'<span class="star">★</span>':''}<b>${tpl(l.l)}</b>${l.s?`<span>${tpl(l.s)}</span>`:''}</span>`).join('')}</div>`; }
 
 /* ---------- renderers ---------- */
 const RENDER = {};
@@ -200,8 +201,7 @@ RENDER.goalsMetrics = (c, el)=>{
   el.insertAdjacentHTML('beforeend', c.tap===false ? cta('Continue') : tapToContinue()); bindNext();
 };
 RENDER.ageMetrics = (c, el)=>{
-  const age = Number(S.a.age)||34; const n = Math.round(1350000 * Math.exp(-Math.pow((age-27)/16,2)) + 180000);
-  S.a.age_count = n; S.L.age_count = n.toLocaleString();
+  const n = ageCount(S.a.age); S.a.age_count = n; S.L.age_count = n.toLocaleString();
   el.innerHTML = `${head(c)}${c.body?`<p class="body ink">${tl(c.body)}</p>`:''}${c.cite?`<p class="cite">${tpl(c.cite)}</p>`:''}<div class="spacer"></div>${tapToContinue()}`; bindNext();
 };
 RENDER.keyboard = (c, el)=>{
@@ -306,7 +306,7 @@ RENDER.end = (c, el)=>{
   $('#cta').onclick=()=>{ S.idx=-1; location.hash = `#/${S.deckId}`; route(); };
 };
 function deriveFrom(c,id){
-  if(c.derive==='ageBand'){ const mid={'13-17':16,'18-24':21,'25-34':29,'35-44':39,'45-54':49,'55+':60}[id]||34; S.a.age=mid; S.L.age=String(mid); S.a.age_range = mid<18?'13-17':mid<25?'18-24':mid<45?'25-44':'45+'; }
+  if(c.derive==='ageBand'){ const mid={'13-17':16,'18-24':21,'25-34':29,'35-44':39,'45-54':49,'55+':60}[id]||34; S.a.age=mid; S.L.age=String(mid); S.a.age_count=ageCount(mid); S.L.age_count=S.a.age_count.toLocaleString(); S.a.age_range = mid<18?'13-17':mid<25?'18-24':mid<45?'25-44':'45+'; }
 }
 RENDER.coaches = (c, el)=>{
   el.innerHTML = `<div class="coaches"><div class="coach"><img src="assets/coaches/ofosu.png" alt="Ofosu"><div class="n">Ofosu</div></div><div class="coach"><img src="assets/coaches/leah.png" alt="Leah"><div class="n">Leah</div></div></div>${head(c)}<div class="bios">${(c.bios||[]).map(b=>`<div class="bio"><b>${esc(b.name)}</b><span>${tpl(b.text)}</span></div>`).join('')}</div>${c.body?`<p class="body">${tl(c.body)}</p>`:''}<div class="spacer"></div>`;
