@@ -1604,7 +1604,7 @@
     "The habits you already",
     "have count for a lot."
    ],
-   "body": "{{a.schedule==='packed'||a.schedule==='busy'?'Your days are '+H.lower(L.schedule)+', so your first sessions run 10 minutes or less, with 5-minute versions for the days that get away from you.':'You have '+H.lower(L.schedule||'some room to breathe')+', so your first sessions run 10 minutes, with shorter ones for the days that fill up.'}} No pressure, no streak to protect.",
+   "body": "{{({packed:'Your schedule is packed',busy:'You're busy most days',some:'You have some room to breathe',open:'Your schedule is pretty open'})[a.schedule]||'Your days fill up'}}, so your first sessions run 10 minutes or less, with 5-minute versions for the days that get away from you. No pressure, no streak to protect.",
    "notes": {
     "template": "text (with interpolation)",
     "tag": "new",

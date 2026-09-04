@@ -155,7 +155,7 @@ RENDER.welcome = (c, el)=>{
   bindNext();
 };
 RENDER.text = (c, el)=>{
-  el.innerHTML = `${c.image?`<div style="font-size:56px;margin-bottom:22px">${c.image.length<=3?c.image:`<img src="assets/icons/${c.image}.png" style="width:96px;height:96px" alt="">`}</div>`:''}${head(c)}${c.body?`<p class="body ${c.bodyInk?'ink':''}">${tl(c.body)}</p>`:''}${c.items?`<div class="vlist">${c.items.filter(it=>{ if(typeof it==='string'||!it.when) return true; try{ return !!new Function('a','L','return ('+it.when+')')(S.a,S.L);}catch(e){ return true; } }).map(it=>`<div class="vitem">${CHECK}<div><div class="t">${tpl(it.title||it.text||it)}</div>${it.subtitle?`<div class="s">${tpl(it.subtitle)}</div>`:''}</div></div>`).join('')}</div>`:''}${reassure(c)}${c.cite?`<p class="cite">${tpl(c.cite)}</p>`:''}<div class="spacer"></div>`;
+  el.innerHTML = `${c.image?`<div style="font-size:56px;margin-bottom:22px">${c.image.length<=3?c.image:`<img src="assets/icons/${c.image}.png" style="width:96px;height:96px" alt="">`}</div>`:''}${head(c)}${(c.body && !c.items)?`<p class="body ${c.bodyInk?'ink':''}">${tl(c.body)}</p>`:''}${c.items?`<div class="vlist">${c.items.filter(it=>{ if(typeof it==='string'||!it.when) return true; try{ return !!new Function('a','L','return ('+it.when+')')(S.a,S.L);}catch(e){ return true; } }).map(it=>`<div class="vitem">${CHECK}<div><div class="t">${tpl(it.title||it.text||it)}</div>${it.subtitle?`<div class="s">${tpl(it.subtitle)}</div>`:''}</div></div>`).join('')}</div>`:''}${(c.body && c.items)?`<p class="body">${tl(c.body)}</p>`:''}${reassure(c)}${c.cite?`<p class="cite">${tpl(c.cite)}</p>`:''}<div class="spacer"></div>`;
   el.insertAdjacentHTML('beforeend', c.tap ? tapToContinue() : cta(c.cta)); bindNext();
 };
 RENDER.textImage = (c, el)=>{
