@@ -13,21 +13,19 @@
    ],
    "authority": {
     "avatars": true,
-    "text": "Guided by meditation teachers Ofosu and Leah. [Built with clinical advisors.]"
+    "text": "Guided by Co-Heads of Meditation Ofosu and Leah. Developed by experts in neuroscience, meditation instruction and behavioral coaching."
    },
    "laurels": [
     {
-     "l": "App of the Day",
-     "s": "App Store, [N] countries"
+     "l": "Google Play's Best App of 2021"
     },
     {
-     "l": "Best of [2021]",
-     "s": "Google Play"
+     "l": "Apple's App of the Day"
     },
     {
      "stars": true,
-     "l": "4.8",
-     "s": "[180k+] ratings"
+     "l": "4.9",
+     "s": "120,000+ App Store ratings"
     }
    ],
    "cta": "Continue",
@@ -37,12 +35,10 @@
     "tag": "copy",
     "why": "Proof on screen 1: coach faces, an authority line, three plain badges. Headline is the variant winning the live welcome-card test (b_benefit). The welcome card is payload-configurable (title, CTA, image, laurels), so this is config, not a release.",
     "calmer": "#1 (welcome: 'built in collaboration with clinical psychologists')",
-    "evidence": "Alex 1:40; ABCD test b_benefit; March A3 (store listing is the strongest pre-app trust signal)",
+    "evidence": "Alex 1:40; ABCD test b_benefit; March A3; no clinical advisory claim exists, so the whitepaper's 'developed by experts in neuroscience, meditation instruction, and behavioral coaching' is the honest ceiling",
     "fills": [
-     "Authority line: confirm the clinical-advisor claim with Anna or Cindy",
-     "App of the Day country count",
-     "Google Play award and year",
-     "Rating and ratings count from the App Store listing"
+     "Badges are text-only on purpose (Apple rejected a laurel with its logo in 2022); confirm wording with marketing",
+     "Rating and count pulled Sep 4, 2026 (4.88, 120,363 US ratings); refresh before shipping"
     ]
    }
   },
@@ -243,30 +239,30 @@
    "metrics": [
     {
      "goal": "stress",
-     "text": "95% report less stress"
+     "text": "77% respond to stress better"
     },
     {
      "goal": "mood",
-     "text": "92% report improved mood"
+     "text": "82% feel more emotionally steady"
     },
     {
      "goal": "sleep",
-     "text": "82% report better sleep"
+     "text": "69% report better sleep"
     },
     {
      "goal": "focus",
-     "text": "75% report increased focus"
+     "text": "78% feel more present and focused"
     }
    ],
    "disclaimer": [
-    "Based on a study of members who use",
-    "Balance 5 times per week. [Study, year.]"
+    "From a 2025 survey of more than",
+    "3,700 Balance members."
    ],
    "notes": {
     "template": "goalsMetrics",
     "tag": "copy",
-    "why": "Existing card with a dated source line. Sourced stats were March's strongest confidence builder; ours are unsourced.",
-    "evidence": "March B4/B5"
+    "why": "Existing card with sourced, dated numbers from the Balance whitepaper (survey of 3,700+ members, 2025). Today's 95/92/82/75 line has no locatable source, and two different sleep numbers coexist in the codebase.",
+    "evidence": "March B4/B5; whitepaper Personalization Pays Off (2025); Anna's Aug 11 DM"
    }
   },
   {
@@ -364,16 +360,13 @@
     "Most people come to",
     "Balance for exactly this."
    ],
-   "body": "Anxious thoughts, tension and restless nights are how stress shows up for most members. [61%] of members who start with stress describe it that way. Your first sessions are built for that.",
+   "body": "Anxious thoughts, tension and restless nights are how stress shows up for most members. In a survey of 3,700+ members, 77% said they respond to stress better. Your first sessions are built for that.",
    "notes": {
     "template": "goalMeditationPrimer (title, text, subtext)",
     "tag": "unused",
     "why": "Static validation beat on the stress branch: kicker, headline, small line.",
     "calmer": "#8 (validation interstitial)",
     "evidence": "Synthesis #1; Alex 5:00",
-    "fills": [
-     "61%: pull the real share from onboarding answers"
-    ],
     "loss": "The user's own words read back."
    }
   },
@@ -387,7 +380,7 @@
     "measurably lowers",
     "stress and anxiety."
    ],
-   "body": "A review of 47 clinical trials found that meditation programs reduce anxiety, depression and pain over 8 weeks of practice.",
+   "body": "The most widely cited meta-analysis of meditation, 47 randomized trials and 3,500+ participants, found measurable improvements in anxiety, depression and pain.",
    "cite": "Goyal et al., JAMA Internal Medicine, 2014. Results vary from person to person. Balance is not a substitute for professional care.",
    "notes": {
     "template": "goalMeditationPrimer",
@@ -396,7 +389,6 @@
     "calmer": "#9 to #11 (agitation), #36 (hope stat with disclaimer)",
     "evidence": "Anna's citation set; March B5",
     "fills": [
-     "Confirm the Goyal 2014 summary wording with Anna",
      "Disclaimer wording with content"
     ]
    }
@@ -645,7 +637,7 @@
     "Most members who come",
     "for sleep say the same."
    ],
-   "body": "Stress, discomfort and a mind that won't switch off are the usual reasons. [82%] of members report better sleep, and the first thing your program works on is the wind-down that gets you there.",
+   "body": "Stress, discomfort and a mind that won't switch off are the usual reasons. 69% of members in our survey reported better sleep, and the first thing your program works on is the wind-down that gets you there.",
    "notes": {
     "template": "goalMeditationPrimer (title, text, subtext)",
     "tag": "unused",
@@ -888,7 +880,7 @@
     "Most members start",
     "Balance on a hard week."
    ],
-   "body": "Whether you recharge alone or with the people you love, your sessions will help you protect that time. [92%] of members report improved mood.",
+   "body": "Whether you recharge alone or with the people you love, your sessions will help you protect that time. 82% of members in our survey feel more emotionally steady.",
    "notes": {
     "template": "goalMeditationPrimer (title, text, subtext)",
     "tag": "unused",
@@ -908,16 +900,13 @@
     "lifts mood over",
     "a few weeks."
    ],
-   "body": "A 2023 review of mindfulness programs in adults found consistent improvements in mood and psychological distress after 8 weeks.",
-   "cite": "Galante et al., Nature Mental Health, 2023. [Confirm with Anna.] Results vary from person to person. Balance is not a substitute for professional care.",
+   "body": "An analysis of randomized trials found mindfulness programs reduce psychological distress in everyday adults, not only in clinical groups.",
+   "cite": "Galante et al., Nature Mental Health, 2023. Results vary from person to person. Balance is not a substitute for professional care.",
    "notes": {
     "template": "goalMeditationPrimer",
     "tag": "unused",
     "why": "Cited education beat for the mood path.",
-    "calmer": "#9 to #11",
-    "fills": [
-     "Confirm the Galante 2023 summary wording with Anna"
-    ]
+    "calmer": "#9 to #11"
    }
   },
   {
@@ -1133,7 +1122,7 @@
     "Attention wanders.",
     "That's what it does."
    ],
-   "body": "Thoughts, screens, noise, other people: whatever pulls you away, meditation is practice at noticing it and coming back. [75%] of members report better focus.",
+   "body": "Thoughts, screens, noise, other people: whatever pulls you away, meditation is practice at noticing it and coming back. 78% of members in our survey feel more present and focused.",
    "notes": {
     "template": "goalMeditationPrimer (title, text, subtext)",
     "tag": "unused",
@@ -1333,11 +1322,11 @@
    "bios": [
     {
      "name": "Ofosu",
-     "text": "[One credential line, e.g. has taught meditation for 20 years]"
+     "text": "Over 20 years teaching meditation, including at the Insight Meditation Society and Spirit Rock."
     },
     {
      "name": "Leah",
-     "text": "[One credential line]"
+     "text": "Blends neuroscience, psychology and lived experience. Has taught in 16+ countries."
     }
    ],
    "body": "Every session in Balance is written and recorded by the 2 of them.",
@@ -1348,7 +1337,7 @@
     "why": "The decided 'made by humans' screen (angle 1, Sep 4). Showcase, not chooser; no 'AI' in the copy. Headline register to be matched in review.",
     "evidence": "handcrafted-coaches-screen-angles.md; 3 competitors lean on teacher credibility",
     "fills": [
-     "Cindy's approved bios for the credential lines",
+     "Bios trimmed from the approved website bios; Cindy to confirm the one-liners",
      "Headline: question-and-statement register"
     ]
    }
@@ -1638,12 +1627,15 @@
     "<b>{{L.age_count}}</b> people your age",
     "improve mental wellness."
    ],
-   "cite": "As of [January 2026]. [Source.]",
+   "cite": "As of January 2026.",
    "notes": {
     "template": "ageMetrics",
     "tag": "copy",
-    "why": "The age-specific stat, kept as its own card (the template computes the count). Needs a current date and a source.",
-    "evidence": "March B4/B5"
+    "why": "The age-specific stat, kept as its own card (the template computes the count).",
+    "evidence": "March B4/B5",
+    "fills": [
+     "Confirm the January 2026 refresh of the age buckets with Yana"
+    ]
    }
   },
   {
@@ -1656,35 +1648,30 @@
    ],
    "laurels": [
     {
-     "l": "App of the Day",
-     "s": "App Store, [N] countries"
+     "l": "Google Play's Best App of 2021"
     },
     {
-     "l": "Best of [2021]",
-     "s": "Google Play"
+     "l": "Apple's App of the Day"
     },
     {
      "stars": true,
-     "l": "4.8",
-     "s": "[180k+] ratings"
+     "l": "4.9",
+     "s": "120,000+ App Store ratings"
     }
    ],
    "reviews": [
     {
-     "text": "[Verified review 1: a stress user, 2 to 3 sentences, verbatim from the App Store]",
-     "who": "[Name], App Store review, [2026]"
+     "text": "My therapist recommended this for me to work on during off session. I was skeptical at first but I had this for over a year now and it's helped me calm down during panic attacks or when I'm overwhelmed.",
+     "who": "Steffanosaur, App Store review"
     }
    ],
-   "cite": "Verbatim from the App Store.",
+   "cite": "Verbatim from the App Store, Sep 2026.",
    "cta": "Continue",
    "notes": {
     "template": "userReview (one quote + image per card)",
     "tag": "unused",
     "why": "One testimonial card. userReview shows a single quote and an asset, so the carousel is one card here (or several cards).",
     "calmer": "#33",
-    "fills": [
-     "1 verified App Store review, verbatim"
-    ],
     "loss": "The combined age-stat headline and the 3-review carousel; badges depend on the asset."
    }
   },
@@ -1774,8 +1761,8 @@
    ],
    "withLabel": "With Balance",
    "aloneLabel": "On your own",
-   "body": "Members who practice [5] days a week report less stress within [2 weeks] and better sleep within [a month]. On your own, most people report little change.",
-   "cite": "[Illustrative curve. Replace with the member-survey figures the web funnel uses.]",
+   "body": "In a 2025 survey of 3,700+ members, 77% said they respond to stress better and 69% reported better sleep. On your own, most people report little change.",
+   "cite": "Illustrative curve. Survey figures from the Balance whitepaper, 2025.",
    "cta": "Continue",
    "notes": {
     "template": "textImage (static chart image per goal)",
@@ -1784,7 +1771,6 @@
     "calmer": "#38 (projection graph)",
     "evidence": "Alex 8:35 to 9:00",
     "fills": [
-     "Survey figures behind the curve",
      "Copy pass against the web funnel's Before/Day 2/Day 30 timeline"
     ],
     "loss": "Nothing visible; the curve is illustrative either way."
@@ -1873,16 +1859,12 @@
      "color": "purple_haze"
     }
    ],
-   "foot": "[Members who set a goal here practice N times more often in week 1.]",
    "notes": {
     "template": "question",
     "tag": "existing",
     "why": "Plain single-select; the praise ladder needs per-answer copy the template does not do.",
     "calmer": "#41 (commitment pledge)",
     "evidence": "Synthesis #4; Alex 9:57",
-    "fills": [
-     "The real number for the footer, or drop the line"
-    ],
     "loss": "The praise line after selection."
    }
   },
@@ -1949,16 +1931,12 @@
     "meet your goals"
    ],
    "body": "Reminders help you build better habits.",
-   "foot": "[Members who turn on reminders are N times more likely to keep going in week 1.]",
    "cta": "Continue",
    "notes": {
     "template": "pushOptIn",
     "tag": "copy",
     "why": "Existing OS permission wrapper with a real number in the subtext. One shared copy instead of a per-track echo.",
-    "evidence": "Benchmark rule 8",
-    "fills": [
-     "The real reminder number, or drop the line"
-    ]
+    "evidence": "Benchmark rule 8"
    }
   },
   {
