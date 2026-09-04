@@ -939,4 +939,9 @@ if ok:
     import subprocess
     r = subprocess.run(["node", os.path.join(ROOT,"tools","check_exprs.js")], capture_output=True, text=True); print(r.stdout.strip())
     if r.returncode: print(r.stderr); ok=False
+# stamp index.html so browsers pick up new engine/styles immediately (GitHub Pages caches aggressively)
+if ok:
+    ip=os.path.join(ROOT,"index.html"); html=open(ip).read(); stamp=str(int(__import__("time").time()))
+    html=re.sub(r'styles\.css(\?v=\d+)?', f'styles.css?v={stamp}', html); html=re.sub(r'engine\.js(\?v=\d+)?', f'engine.js?v={stamp}', html)
+    open(ip,"w").write(html)
 sys.exit(0 if ok else 1)
