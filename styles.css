@@ -56,7 +56,7 @@ b{font-weight:500}
 .card{flex:1 1 auto;display:flex;flex-direction:column;align-items:center;text-align:center;overflow-y:auto;overflow-x:hidden;padding:8px 0 12px;scrollbar-width:none}
 .card::-webkit-scrollbar{display:none}
 .card.center{justify-content:center}
-.card.top{justify-content:flex-start;padding-top:28px}
+.card.top{justify-content:flex-start;padding-top:22px}
 .kicker{font-size:13px;line-height:18px;letter-spacing:.6px;text-transform:uppercase;color:var(--deep);font-weight:500;margin:0 0 14px}
 h1.title{font-weight:300;font-size:28px;line-height:36px;letter-spacing:.1px;margin:0;color:var(--ink);text-wrap:pretty}
 h1.title.sm{font-size:26px;line-height:33px}
@@ -250,7 +250,7 @@ h1.title.sm{font-size:26px;line-height:33px}
 .pw-sub{margin-top:10px;font-size:15px;line-height:21px;color:var(--dark)}
 .pw-laurels{display:flex;gap:26px;align-items:center;justify-content:center;margin-top:34px}
 .wreath{position:relative;width:132px;height:64px;display:flex;align-items:center;justify-content:center}
-.wreath img{position:absolute;inset:0;width:132px;height:64px;opacity:.9}
+.wreath .wr{position:absolute;inset:0;width:132px;height:64px}
 .w-in{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;line-height:1}
 .w-in b{font-size:22px;font-weight:600}.w-in span{font-size:12px;font-weight:600;margin-top:2px}
 .pw-stars{display:flex;flex-direction:column;align-items:center;gap:4px}

@@ -128,6 +128,7 @@ function renderCard(){
   const body = $('#cardbody');
   const r = RENDER[card.type] || RENDER.text;
   r(card, body);
+  requestAnimationFrame(()=>{ if(body.scrollHeight > body.clientHeight + 4) body.classList.replace('center','top'); });
   $('.back')?.addEventListener('click', ()=>go(-1));
   $('.notesbtn')?.addEventListener('click', ()=>toggleSheet(card));
   if(window.innerWidth<=820 && S.notes && S.sheet) toggleSheet(card, true);
@@ -314,7 +315,7 @@ RENDER.paywall = (c, el)=>{
     const reviews = c.reviews || [{"t":"I use it daily and I'm finally sleeping better.. Premium is so worth it!","w":"Tracy"},{"t":"It helps me fall asleep, helps me relax when my anxiety is high, and just works SO well as an app.","w":"Maya P."},{"t":"It's helped me calm down during panic attacks or when I'm overwhelmed.","w":"Steffanosaur"}];
     pw.innerHTML = `<button class="x" style="left:14px;right:auto" aria-label="Close">×</button>
       <div class="pw-live"><h2>7 days for free</h2><div class="pw-sub">then $5.83 / month<br>($69.99 billed yearly after trial)</div>
-      <div class="pw-laurels"><div class="wreath"><img src="assets/laurels/laurels.svg" alt=""><div class="w-in"><b>10M+</b><span>happy users</span></div></div><div class="pw-stars"><b>4.9 star rating</b><span>★★★★★</span></div></div>
+      <div class="pw-laurels"><div class="wreath"><svg class="wr" viewBox="0 0 140 64" fill="none" xmlns="http://www.w3.org/2000/svg"><g stroke="#30C5CA" stroke-width="2" stroke-linecap="round"><path d="M28 60 C10 50 6 30 14 8"/><path d="M112 60 C130 50 134 30 126 8"/></g><g fill="#30C5CA">${[[14,12,-40],[11,22,-30],[10,33,-15],[12,44,0],[17,53,15]].map(([x,y,r])=>`<ellipse cx="${x}" cy="${y}" rx="6" ry="3" transform="rotate(${r} ${x} ${y})"/><ellipse cx="${140-x}" cy="${y}" rx="6" ry="3" transform="rotate(${-r} ${140-x} ${y})"/>`).join('')}</g></svg><div class="w-in"><b>10M+</b><span>happy users</span></div></div><div class="pw-stars"><b>4.9 star rating</b><span>★★★★★</span></div></div>
       <div class="reviews pw-reviews">${reviews.map(r=>`<div class="review pw-review"><div class="stars">★★★★★</div><p>${esc(r.t)}</p><div class="who">${esc(r.w)}</div></div>`).join('')}</div>
       <div class="spacer"></div><div class="pw-nopay">✓ &nbsp;No payment due now</div>
       <div class="bottom" style="padding-bottom:0"><button class="cta" id="cta">Start your FREE week</button></div><div class="fine"><span style="text-decoration:underline;color:var(--ink)">View all plans</span></div></div>`;
