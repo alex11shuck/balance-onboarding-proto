@@ -306,3 +306,28 @@ h1.title.sm{font-size:26px;line-height:33px}
 .sheet[data-kind="export"]{padding-bottom:76px}
 .sheet[data-kind="export"] .row{flex-wrap:wrap}
 @media (min-width:821px){.notesbtn{display:none}}
+
+/* Insight Timer package */
+.landing .base{margin-bottom:28px}
+.landing .base h2{font-weight:400;font-size:24px;margin:0 0 4px}
+.landing .basedesc{margin:0 0 14px;color:var(--dark);font-size:15px;line-height:22px;max-width:760px}
+.donut{margin-top:18px;display:flex;flex-direction:column;align-items:center}
+.donut svg{width:172px;height:172px}
+.libchips{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:26px}
+.libchip{display:inline-flex;flex-direction:column;align-items:flex-start;gap:2px;padding:10px 14px;border-radius:8px;font-size:14px;color:var(--ink);text-align:left;opacity:0;transform:translateY(8px) scale(.96);transition:all .4s}
+.libchip b{font-size:20px;font-weight:400;line-height:22px}
+.libchip.in{opacity:1;transform:none}
+.benefit .bv{opacity:0;transform:translateY(6px);transition:all .5s}
+.benefit.in .bv,.benefit.static .bv{opacity:1;transform:none}
+.benefit .bl{stroke-dasharray:640;stroke-dashoffset:640;transition:stroke-dashoffset 1.4s ease}
+.benefit.in .bl,.benefit.static .bl{stroke-dashoffset:0}
+.goalset{display:flex;flex-direction:column;align-items:center;gap:18px;padding-top:40px}
+.goalset svg{width:120px;height:120px}
+.goalset .gs{stroke-dasharray:80;stroke-dashoffset:80;animation:gsdraw .6s .2s ease forwards}
+@keyframes gsdraw{to{stroke-dashoffset:0}}
+.sumchips{display:flex;flex-direction:column;gap:10px;width:100%;margin-top:24px;text-align:left}
+.sumchip{display:flex;gap:10px;align-items:center;padding:12px 14px;border-radius:8px;background:var(--bg2);font-size:16px;font-weight:500;color:var(--ink);opacity:0;transform:translateX(-8px);transition:all .4s}
+.sumchip.in{opacity:1;transform:none}
+.sumchip .check{margin:0}
+.lm{font-size:14px;color:var(--teal);font-weight:500;margin-top:8px;text-decoration:underline;padding:6px}
+.lmbody{font-size:14px;line-height:21px;color:var(--dark)}

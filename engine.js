@@ -20,10 +20,12 @@ const PERSONA = { name:'Sam', age:34, age_count:1034000, age_range:'25-44', gend
   goals:['stress','sleep'], goal_1:'stress', goal_2:'sleep', goal_stress:'yes', goal_sleep:'yes', goal_mood:'no', goal_focus:'no',
   how_often_feel_stress:'sometimes', how_experience_stress:['anxious_thoughts','difficulty_sleeping'], stress_source:'work_or_school',
   ready_to_sleep:'no', sleep_trouble:'sometimes', keep_awake:'stress', exercise:'2', schedule:'busy', future:['calm_nights','clear_head','present'],
-  has_meditated_before:'none', commitment:'5', when_to_meditate:'evening', reminder_time:'6:00 pm', bedtime:'10:00 pm' };
+  has_meditated_before:'none', commitment:'5', when_to_meditate:'evening', reminder_time:'6:00 pm', bedtime:'10:00 pm',
+  who_for:['myself'], content:['guided','sleep_content'], commitment_days:'7', daily_minutes:'10' };
 const PERSONA_L = { name:'Sam', age_count:'1,034,000', goal_1:'Reduce Stress', goal_2:'Improve Sleep', hdyhau:'Facebook or Instagram', how_often_feel_stress:'Sometimes',
   how_experience_stress:'Anxious thoughts, Difficulty sleeping', stress_source:'Work or school', sleep_trouble:'Sometimes', keep_awake:'Stress',
-  exercise:'A couple of times a week', schedule:'Busy most days', future:'Calm nights, A clearer head, Feeling present', has_meditated_before:'New to meditation', commitment:'5 days a week', when_to_meditate:'Evening' };
+  exercise:'A couple of times a week', schedule:'Busy most days', future:'Calm nights, A clearer head, Feeling present', has_meditated_before:'New to meditation', commitment:'5 days a week', when_to_meditate:'Evening',
+  who_for:'Myself', content:'Guided meditations, Sleep meditations and stories', commitment_days:'7 days', daily_minutes:'10 minutes', reminder_time:'6:00 pm', goals:'Reduce Stress, Improve Sleep' };
 
 const GOAL_LABEL = { stress:'Reduce Stress', sleep:'Improve Sleep', focus:'Increase Focus', mood:'Improve Mood' };
 const GOAL_COLOR = { stress:'purple_haze', sleep:'polar_blue', focus:'apricot', mood:'misty_peach' };
@@ -42,7 +44,12 @@ const H = { lower:x=>String(x||'').toLowerCase(), first:x=>Array.isArray(x)?x[0]
   happy:(a)=>({myself:"You recharge on your own, so your sessions will protect that time.", family:"You feel happiest around family, so your sessions will help you show up for them.", friends:"You feel happiest around friends, so your sessions will help you show up for them."})[a.happiest_around]||"Your sessions start with what already lifts you.",
   pulls:(a)=>({thoughts:"your thoughts pull you away most", surroundings:"your surroundings pull you away most", technology:"technology pulls you away most", people:"other people pull you away most"})[a.most_distracting]||"attention slips more than you'd like",
   goalsPhrase:(a)=>{ const m={stress:"less stress", sleep:"better sleep", focus:"sharper focus", mood:"a steadier mood"}; const g=(a.goals||[a.goal_1||'stress']).map(x=>m[x]).filter(Boolean); return H.list(g); },
-  firstFuture:(a,L)=>{ const f=String(L.future||'').split(', ').filter(Boolean)[0]; return f? f.charAt(0).toLowerCase()+f.slice(1) : ''; } };
+  firstFuture:(a,L)=>{ const f=String(L.future||'').split(', ').filter(Boolean)[0]; return f? f.charAt(0).toLowerCase()+f.slice(1) : ''; },
+  dateIn:(weeks)=>{ const t=new Date(); t.setDate(t.getDate()+7*(weeks||6)); return t.toLocaleDateString('en-US',{month:'short',day:'numeric'}); },
+  outcome:(a)=>({stress:"In a 2025 survey of 3,700+ members, 77% said they respond to stress better.", sleep:"In a 2025 survey of 3,700+ members, 69% reported better sleep.", mood:"In a 2025 survey of 3,700+ members, 82% said they feel more emotionally steady.", focus:"In a 2025 survey of 3,700+ members, 78% said they feel more present and focused."})[a.goal_1]||"In a 2025 survey of 3,700+ members, 85% reported improved mental and emotional well-being.",
+  outcomeShort:(a)=>({stress:"respond to stress better", sleep:"sleep better", mood:"feel more emotionally steady", focus:"feel more present and focused"})[a.goal_1]||"feel better",
+  outcomePct:(a)=>({stress:"77%", sleep:"69%", mood:"82%", focus:"78%"})[a.goal_1]||"85%",
+  whenPhrase:(a)=>({morning:"in the morning", afternoon:"in the afternoon", evening:"in the evening"})[a.when_to_meditate]||"each day" };
 function tpl(str){ if(!str) return ''; return String(str).replace(/\{\{([^}]+)\}\}/g, (_,e)=>{ try{ const v = new Function('a','L','H','return ('+e+')')(S.a,S.L,H); return v==null?'':String(v);}catch(err){ return '['+e+']'; } }); }
 function tl(t){ return tpl(lines(t)); }
 function branchOK(card){ if(!card.branch) return true; try{ return !!new Function('a','L','return ('+card.branch+')')(S.a,S.L);}catch(e){ console.warn('branch error',card.id,e); return true; } }
@@ -76,18 +83,18 @@ function go(delta){
 function setHash(){ const id = S.deck.cards[S.idx]?.id; history.replaceState(null,'',`${location.pathname}${location.search}#/${S.deckId}/${id}`); }
 
 /* ---------- landing ---------- */
+async function loadManifest(){ if(DECKS.__index) return DECKS.__index; const r = await fetch(`decks/index.json?v=${Date.now()%100000}`); DECKS.__index = await r.json(); return DECKS.__index; }
 async function renderLanding(){
-  const w = await loadDeck('wishlist'); const c = await loadDeck('constrained');
+  const man = await loadManifest();
+  const loaded = {}; for(const base of man.bases) for(const id of base.decks) loaded[id] = await loadDeck(id);
   const stat = d => { const q = d.cards.filter(x=>['question','scrollableQuestion','multiselect','keyboard','slider','commitment','goalRanking'].includes(x.type)).length; return `<div class="stats"><span><b>${d.cards.length}</b> screens</span><span><b>${q}</b> asks</span><span><b>${d.cards.filter(x=>x.notes&&x.notes.tag==='new').length}</b> new templates</span></div>`; };
   const notesQ = modeQ();
   const tq=(n,w)=>{ const p=[]; if(n) p.push('notes=1'); if(w) p.push('why=1'); return p.length?('?'+p.join('&')):''; };
+  const vcard = id => { const d=loaded[id]; return `<div class="vcard"><h2 ${S.edit?`contenteditable data-deck="${id}" data-ek="deck:name" class="ed"`:''}>${esc(d.name)}</h2><p ${S.edit?`contenteditable data-deck="${id}" data-ek="deck:description" class="ed"`:''}>${esc(d.description)}</p>${stat(d)}<div class="row"><a class="btn" href="${location.pathname}${notesQ}#/${id}">Start</a><a class="btn secondary small" href="${location.pathname}${notesQ}#/map/${id}">Flow map</a></div></div>`; };
   app.innerHTML = `<div class="landing">
-    <h1>Balance onboarding prototype</h1>
-    <p class="sub">Two clickable versions of a Calmer-style flow in Balance's skin, from welcome to today's paywall. Built Sep 4, 2026 for the Balance top-of-funnel bet. Tap through on a phone, or open the flow map for the screen-by-screen spec. Copy in <b>[brackets]</b> is a placeholder to verify.</p>
-    <div class="versions">
-      <div class="vcard"><h2 ${S.edit?'contenteditable data-deck="wishlist" data-ek="deck:name" class="ed"':''}>${esc(w.name)}</h2><p ${S.edit?'contenteditable data-deck="wishlist" data-ek="deck:description" class="ed"':''}>${esc(w.description)}</p>${stat(w)}<div class="row"><a class="btn" href="${location.pathname}${notesQ}#/wishlist">Start</a><a class="btn secondary small" href="${location.pathname}${notesQ}#/map/wishlist">Flow map</a></div></div>
-      <div class="vcard"><h2 ${S.edit?'contenteditable data-deck="constrained" data-ek="deck:name" class="ed"':''}>${esc(c.name)}</h2><p ${S.edit?'contenteditable data-deck="constrained" data-ek="deck:description" class="ed"':''}>${esc(c.description)}</p>${stat(c)}<div class="row"><a class="btn" href="${location.pathname}${notesQ}#/constrained">Start</a><a class="btn secondary small" href="${location.pathname}${notesQ}#/map/constrained">Flow map</a></div></div>
-    </div>
+    <h1>Balance onboarding prototypes</h1>
+    <p class="sub">${esc(man.intro||'')} Tap through on a phone, or open the flow map for the screen-by-screen spec. Copy in <b>[brackets]</b> is a placeholder to verify.</p>
+    ${man.bases.map(base=>`<div class="base"><h2>${esc(base.name)}</h2><p class="basedesc">${esc(base.description||'')}</p><div class="versions">${base.decks.map(vcard).join('')}</div></div>`).join('')}
     <div class="legend" style="margin-bottom:16px"><h3>Two review modes</h3>
       <div class="row" style="margin:8px 0 12px"><a class="btn small ${S.why?'':'secondary'}" href="${location.pathname}${tq(S.notes,!S.why)}#/">${S.why?'✓ ':''}Why mode</a><a class="btn small ${S.notes?'':'secondary'}" href="${location.pathname}${tq(!S.notes,S.why)}#/">${S.notes?'✓ ':''}Build notes</a></div>
       <a class="btn small ${S.edit?'':'secondary'}" href="${location.pathname}${(()=>{const p=[]; if(S.notes)p.push('notes=1'); if(S.why)p.push('why=1'); if(!S.edit)p.push('edit=1'); return p.length?'?'+p.join('&'):'';})()}#/" style="margin-left:-4px">${S.edit?'✓ ':''}Edit copy</a>
@@ -98,7 +105,7 @@ async function renderLanding(){
       <p style="margin:12px 0 0">The real onboarding is a JSON card array read by a Lua card engine, so every screen tagged <i>existing</i> or <i>built, unused</i> is a content change in <code>session.json</code>, not engineering. <i>Copy change</i> means new words on a card that already ships. <i>Swift bookend</i> and <i>Superwall dashboard</i> live outside the deck. <i>New template</i> is Lua engine work that ships to Android too.</p>
     </div>
   </div>`;
-  if(S.edit){ app.querySelectorAll('[data-deck]').forEach(el=>{ const dk=el.dataset.deck, key=el.dataset.ek; el.addEventListener('focus',()=>el.dataset.before=el.innerText); el.addEventListener('blur',()=>{ const now=el.innerText.trim(); if(now===(el.dataset.before||'').trim()) return; const st=edStore(); st[dk]=st[dk]||{}; st[dk]['_deck']=st[dk]['_deck']||{}; st[dk]['_deck'][key]={source:key==='deck:name'?(dk==='wishlist'?w.name:c.name):(dk==='wishlist'?w.description:c.description), rendered:el.dataset.before, edited:now, dynamic:false}; edSave(st); el.classList.add('ed-changed'); }); }); }
+  if(S.edit){ app.querySelectorAll('[data-deck]').forEach(el=>{ const dk=el.dataset.deck, key=el.dataset.ek; const d=loaded[dk]; el.addEventListener('focus',()=>el.dataset.before=el.innerText); el.addEventListener('blur',()=>{ const now=el.innerText.trim(); if(now===(el.dataset.before||'').trim()) return; const st=edStore(); st[dk]=st[dk]||{}; st[dk]['_deck']=st[dk]['_deck']||{}; st[dk]['_deck'][key]={source:key==='deck:name'?d.name:d.description, rendered:el.dataset.before, edited:now, dynamic:false}; edSave(st); el.classList.add('ed-changed'); }); }); }
 }
 
 /* ---------- flow map ---------- */
@@ -113,7 +120,7 @@ function renderMap(d){
     <p style="color:var(--dark);max-width:760px">${esc(d.description)} Core questions are counted the way the 23-app Health &amp; Fitness benchmark counts them (field median 6, ceiling 12; Balance today 8 on the stress + sleep path).</p>
     <div class="summary"><div class="stat"><b>${d.cards.length}</b>screens in the deck</div><div class="stat"><b>${asks.length}</b>asks (questions, pickers, entries)</div>${Object.keys(tags).map(t=>`<div class="stat"><b>${tags[t]}</b><span class="tag tag-${t}">${TAG_LABEL[t]||t}</span></div>`).join('')}</div>
     <div style="overflow-x:auto"><table><thead><tr><th>#</th><th>Screen</th><th>Type / template</th><th>Shown when</th><th>Tag</th><th>Source</th><th>Notes</th>${S.why?'<th>Principles</th>':''}</tr></thead><tbody>
-    ${d.cards.map((c,i)=>{ const n=c.notes||{}; return `<tr><td class="n">${i+1}</td><td><a href="${location.pathname}${notesQ}#/${d.id}/${c.id}"><b>${esc((Array.isArray(c.title)?c.title.join(' '):(c.title||c.id)).replace(/<[^>]+>/g,''))}</b></a><br><code>${esc(c.id)}</code></td><td>${esc(c.type)}${n.template&&n.template!==c.type?`<br><code>${esc(n.template)}</code>`:''}</td><td>${c.branch?`<code>${esc(c.branch)}</code>`:'everyone'}</td><td><span class="tag tag-${n.tag||'existing'}">${TAG_LABEL[n.tag]||n.tag||'Existing template'}</span></td><td>${n.calmer?`Calmer ${esc(n.calmer)}<br>`:''}${esc(n.evidence||'')}</td><td>${esc(n.why||'')}${n.loss?`<br><b>Lost vs wish list:</b> ${esc(n.loss)}`:''}${n.fills&&n.fills.length?`<br><b>Verify:</b> ${n.fills.map(esc).join('; ')}`:''}</td>${S.why?`<td>${(c.principles||[]).map(k=>`<span class="tag tag-why">${esc((g[k]||{}).name||k)}</span>`).join(' ')}${c.how?`<br><span style="color:var(--dark)">${esc(c.how)}</span>`:''}</td>`:''}</tr>`; }).join('')}
+    ${d.cards.map((c,i)=>{ const n=c.notes||{}; return `<tr><td class="n">${i+1}</td><td><a href="${location.pathname}${notesQ}#/${d.id}/${c.id}"><b>${esc((Array.isArray(c.title)?c.title.join(' '):(c.title||c.id)).replace(/<[^>]+>/g,''))}</b></a><br><code>${esc(c.id)}</code></td><td>${esc(c.type)}${n.template&&n.template!==c.type?`<br><code>${esc(n.template)}</code>`:''}</td><td>${c.branch?`<code>${esc(c.branch)}</code>`:'everyone'}</td><td><span class="tag tag-${n.tag||'existing'}">${TAG_LABEL[n.tag]||n.tag||'Existing template'}</span></td><td>${n.ref?`${esc(n.ref)}<br>`:''}${n.calmer?`Calmer ${esc(n.calmer)}<br>`:''}${esc(n.evidence||'')}</td><td>${esc(n.why||'')}${n.loss?`<br><b>Lost vs wish list:</b> ${esc(n.loss)}`:''}${n.fills&&n.fills.length?`<br><b>Verify:</b> ${n.fills.map(esc).join('; ')}`:''}</td>${S.why?`<td>${(c.principles||[]).map(k=>`<span class="tag tag-why">${esc((g[k]||{}).name||k)}</span>`).join(' ')}${c.how?`<br><span style="color:var(--dark)">${esc(c.how)}</span>`:''}</td>`:''}</tr>`; }).join('')}
     </tbody></table></div>${S.why?`<h2 style="font-weight:300;margin:36px 0 10px">The principles</h2><div class="gloss">${Object.keys(g).map(k=>`<div class="princ"><b>${esc(g[k].name)}</b><div>${esc(g[k].text)}</div>${g[k].source?`<div class="src">${esc(g[k].source)}</div>`:''}</div>`).join('')}</div>`:''}</div>`;
 }
 
@@ -148,6 +155,7 @@ function renderCard(){
 function notesHTML(card){ const n = card.notes||{}; return `<h4>Build notes · ${esc(card.id)}</h4>
   <span class="tag tag-${n.tag||'existing'}">${TAG_LABEL[n.tag]||n.tag||'Existing template'}</span>
   <div class="kv"><div>Template</div><div><code>${esc(n.template||card.type)}</code></div>
+  ${n.ref?`<div>Reference</div><div data-ek="note:ref">${esc(n.ref)}</div>`:''}
   ${n.calmer?`<div>Calmer</div><div data-ek="note:calmer">${esc(n.calmer)}</div>`:''}
   ${n.evidence?`<div>Evidence</div><div data-ek="note:evidence">${esc(n.evidence)}</div>`:''}
   ${n.why?`<div>Why</div><div data-ek="note:why">${esc(n.why)}</div>`:''}
@@ -166,6 +174,8 @@ function reassure(card){ return card.reassure ? `<div class="reassure">${LOCK}<s
 function cta(label, extra=''){ return S.edit ? `<div class="bottom">${extra}<div class="cta" id="cta" role="button">${esc(label||'Continue')}</div></div>` : `<div class="bottom">${extra}<button class="cta" id="cta">${esc(label||'Continue')}</button></div>`; }
 function tapToContinue(){ const c=S.deck.cards[S.idx]||{}; const l=c.tapLabel||'Tap to continue'; return S.edit ? `<div class="bottom" style="align-items:center"><div class="ghost tap" id="cta" role="button">${esc(l)}</div></div>` : `<div class="bottom" style="align-items:center"><button class="ghost tap" id="cta">${esc(l)}</button></div>`; }
 function bindNext(sel='#cta'){ const b = $(sel); if(b) b.onclick = ()=>go(1); }
+function learnMore(c){ return c.learnMore ? `<button class="ghost lm" id="lm">${esc(c.learnMoreLabel||'Where these numbers come from')}</button>` : ''; }
+function bindLearnMore(c){ const b=$('#lm'); if(!b) return; b.onclick=(e)=>{ e.stopPropagation(); const ex=$('.sheet'); if(ex) ex.remove(); const d=document.createElement('div'); d.className='sheet'; d.dataset.kind='lm'; d.innerHTML=`<button class="close" aria-label="Close">×</button><h4>${esc(c.learnMoreTitle||'Sources')}</h4><div class="lmbody">${tl(c.learnMore)}</div>`; $('.screen').appendChild(d); d.querySelector('.close').onclick=()=>d.remove(); }; }
 function laurelsHTML(ls){ if(!ls||!ls.length) return ''; return `<div class="badges">${ls.map(l=>`<span class="badge">${l.stars?'<span class="star">★</span>':''}<b>${tpl(l.l)}</b>${l.s?`<span>${tpl(l.s)}</span>`:''}</span>`).join('')}</div>`; }
 
 /* ---------- renderers ---------- */
@@ -201,8 +211,10 @@ RENDER.multiselect = (c, el)=>{
   el.innerHTML = `${head(c,{sm:c.options.length>5})}<div class="opts compact">${c.options.map(o=>`<button class="opt" data-id="${esc(o.id)}" style="background:${colorVar(o.color)}"><span class="txt">${tpl(o.text)}</span><span class="chk">${'<svg width="14" height="14" viewBox="0 0 22 22" fill="none"><path d="M6.5 11.5l3 3 6-6.5" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>'}</span></button>`).join('')}</div>${reassure(c)}<div class="spacer"></div>`;
   el.insertAdjacentHTML('beforeend', cta(c.cta||'Continue', c.skip?`<button class="ghost" id="skip">Skip</button>`:''));
   const btn = $('#cta'); btn.disabled = true;
-  const wrap=el.querySelector('.opts'); el.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{ const id=b.dataset.id; if(sel.has(id)){ sel.delete(id); b.classList.remove('sel'); } else { if(c.max && sel.size>=c.max){ wrap.classList.add('shake'); setTimeout(()=>wrap.classList.remove('shake'),350); return; } sel.add(id); b.classList.add('sel'); } wrap.classList.toggle('maxed', !!c.max && sel.size>=c.max); btn.disabled = sel.size===0; });
-  btn.onclick = ()=>{ const ids=[...sel]; setA(c.questionId, ids, ids.map(i=>c.options.find(o=>o.id===i).text.replace(/<[^>]+>/g,'')).join(', ')); go(1); };
+  const wrap=el.querySelector('.opts'); el.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{ const id=b.dataset.id;
+    if(c.allId && id===c.allId){ if(sel.has(id)){ sel.clear(); el.querySelectorAll('.opt').forEach(y=>y.classList.remove('sel')); } else { c.options.forEach(o=>sel.add(o.id)); el.querySelectorAll('.opt').forEach(y=>y.classList.add('sel')); } btn.disabled = sel.size===0; return; }
+    if(sel.has(id)){ sel.delete(id); b.classList.remove('sel'); if(c.allId && sel.has(c.allId)){ sel.delete(c.allId); el.querySelector(`.opt[data-id="${c.allId}"]`)?.classList.remove('sel'); } } else { if(c.max && sel.size>=c.max){ wrap.classList.add('shake'); setTimeout(()=>wrap.classList.remove('shake'),350); return; } sel.add(id); b.classList.add('sel'); } wrap.classList.toggle('maxed', !!c.max && sel.size>=c.max); btn.disabled = sel.size===0; });
+  btn.onclick = ()=>{ const ids=[...sel]; const labelIds = (c.allId && ids.includes(c.allId) && ids.length>1) ? ids.filter(i=>i!==c.allId) : ids; setA(c.questionId, ids, labelIds.map(i=>c.options.find(o=>o.id===i).text.replace(/<[^>]+>/g,'')).join(', ')); go(1); };
   $('#skip')?.addEventListener('click', ()=>{ setA(c.questionId, [], ''); go(1); });
 };
 RENDER.goalRanking = (c, el)=>{
@@ -317,8 +329,8 @@ RENDER.chart = (c, el)=>{
   const w=320,h=170; const px = i=>28+i*(w-48)/3; const withY=[132,96,62,38], aloneY=[132,124,118,114];
   const path = ys => ys.map((y,i)=>`${i?'L':'M'}${px(i)} ${y}`).join(' ');
   const labels = c.weeks||['Today','Week 1','Week 3','Week 6'];
-  el.innerHTML = `${head(c,{sm:true})}<div class="chart"><svg viewBox="0 0 ${w} ${h}"><line x1="22" y1="140" x2="${w-8}" y2="140" stroke="#E3E6E8"/><path d="${path(aloneY)}" stroke="#C6CBCE" stroke-width="3" fill="none" stroke-dasharray="6 6" stroke-linecap="round"/><path d="${path(withY)}" stroke="#30C5CA" stroke-width="4" fill="none" stroke-linecap="round"/>${withY.map((y,i)=>`<circle cx="${px(i)}" cy="${y}" r="5" fill="#fff" stroke="#30C5CA" stroke-width="3"/>`).join('')}${labels.map((l,i)=>`<text x="${px(i)}" y="160" font-size="11" text-anchor="middle" fill="#878888" font-family="Work Sans, sans-serif">${esc(l)}</text>`).join('')}</svg><div class="leg"><span><i style="background:#30C5CA"></i>${tpl(c.withLabel||'With Balance')}</span><span><i style="background:#C6CBCE"></i>${tpl(c.aloneLabel||'On your own')}</span></div></div>${c.body?`<p class="body">${tl(c.body)}</p>`:''}${c.cite?`<p class="cite">${tpl(c.cite)}</p>`:''}<div class="spacer"></div>`;
-  el.insertAdjacentHTML('beforeend', cta(c.cta)); bindNext();
+  el.innerHTML = `${head(c,{sm:true})}<div class="chart"><svg viewBox="0 0 ${w} ${h}"><line x1="22" y1="140" x2="${w-8}" y2="140" stroke="#E3E6E8"/><path d="${path(aloneY)}" stroke="#C6CBCE" stroke-width="3" fill="none" stroke-dasharray="6 6" stroke-linecap="round"/><path d="${path(withY)}" stroke="#30C5CA" stroke-width="4" fill="none" stroke-linecap="round"/>${withY.map((y,i)=>`<circle cx="${px(i)}" cy="${y}" r="5" fill="#fff" stroke="#30C5CA" stroke-width="3"/>`).join('')}${labels.map((l,i)=>`<text x="${px(i)}" y="160" font-size="11" text-anchor="middle" fill="#878888" font-family="Work Sans, sans-serif">${esc(l)}</text>`).join('')}</svg><div class="leg"><span><i style="background:#30C5CA"></i>${tpl(c.withLabel||'With Balance')}</span><span><i style="background:#C6CBCE"></i>${tpl(c.aloneLabel||'On your own')}</span></div></div>${c.body?`<p class="body">${tl(c.body)}</p>`:''}${c.cite?`<p class="cite">${tpl(c.cite)}</p>`:''}${learnMore(c)}<div class="spacer"></div>`;
+  el.insertAdjacentHTML('beforeend', cta(c.cta)); bindNext(); bindLearnMore(c);
 };
 RENDER.comparison = (c, el)=>{
   const pick = (arr)=> arr.flatMap(x=>{ if(typeof x==='string') return [tpl(x)]; if(x.from){ return String(S.L[x.from]||'').split(', ').filter(Boolean).map(t=>x.prefix?tpl(x.prefix)+t.charAt(0).toLowerCase()+t.slice(1):t); } if(x.when){ try{ if(!new Function('a','L','return ('+x.when+')')(S.a,S.L)) return []; }catch(e){} } return [tpl(x.text)]; }).filter(Boolean).slice(0,5);
@@ -374,9 +386,44 @@ RENDER.paywall = (c, el)=>{
   if(S.edit) makeEditable(pw, c);
 };
 RENDER.end = (c, el)=>{
-  const other = S.deckId==='wishlist'?'constrained':'wishlist';
-  el.innerHTML = `${head(c,{sm:true})}${c.body?`<p class="body">${tl(c.body)}</p>`:''}${c.items?`<div class="vlist">${c.items.map(it=>`<div class="vitem">${CHECK}<div><div class="t">${tpl(it.title||it)}</div>${it.subtitle?`<div class="s">${tpl(it.subtitle)}</div>`:''}</div></div>`).join('')}</div>`:''}<div class="endnote">${tpl(c.note||'')}</div><div class="spacer"></div><div class="bottom"><button class="cta" id="cta">Start over</button><a class="cta outline" style="display:flex;align-items:center;justify-content:center;text-decoration:none" href="${location.pathname}${modeQ()}#/${other}">Try the ${other==='wishlist'?'wish list':'constrained'} version</a><a class="ghost" style="text-align:center;text-decoration:none" href="${location.pathname}${modeQ()}#/map/${S.deckId}">Flow map</a></div>`;
+  const other = S.deck.pair || (S.deckId==='wishlist'?'constrained':'wishlist'); const otherName = S.deck.pairName || (other==='wishlist'?'wish list':'constrained');
+  el.innerHTML = `${head(c,{sm:true})}${c.body?`<p class="body">${tl(c.body)}</p>`:''}${c.items?`<div class="vlist">${c.items.map(it=>`<div class="vitem">${CHECK}<div><div class="t">${tpl(it.title||it)}</div>${it.subtitle?`<div class="s">${tpl(it.subtitle)}</div>`:''}</div></div>`).join('')}</div>`:''}<div class="endnote">${tpl(c.note||'')}</div><div class="spacer"></div><div class="bottom"><button class="cta" id="cta">Start over</button><a class="cta outline" style="display:flex;align-items:center;justify-content:center;text-decoration:none" href="${location.pathname}${modeQ()}#/${other}">Try the ${esc(otherName)} version</a><a class="ghost" style="text-align:center;text-decoration:none" href="${location.pathname}${modeQ()}#/map/${S.deckId}">Flow map</a></div>`;
   $('#cta').onclick=()=>{ S.idx=-1; location.hash = `#/${S.deckId}`; route(); };
+};
+
+/* ---------- Insight Timer package renderers ---------- */
+RENDER.donut = (c, el)=>{
+  const pct = Number(c.pct||85); const r=64, C=2*Math.PI*r; const off = C*(1-pct/100);
+  el.innerHTML = `${head(c,{sm:true})}<div class="donut"><svg viewBox="0 0 160 160"><circle cx="80" cy="80" r="${r}" stroke="#E3E6E8" stroke-width="18" fill="none"/><circle id="dn" cx="80" cy="80" r="${r}" stroke="#30C5CA" stroke-width="18" fill="none" stroke-linecap="round" stroke-dasharray="${C.toFixed(1)}" stroke-dashoffset="${(c.static?off:C).toFixed(1)}" transform="rotate(-90 80 80)"/><text x="80" y="90" text-anchor="middle" font-size="36" font-weight="300" fill="#0A0A0B" font-family="Work Sans, sans-serif">${esc(c.label||pct+'%')}</text></svg>${c.legend?`<div class="leg">${c.legend.map(l=>`<span><i style="background:${l.color||'#30C5CA'}"></i>${tpl(l.text)}</span>`).join('')}</div>`:''}</div>${c.body?`<p class="body">${tl(c.body)}</p>`:''}${c.cite?`<p class="cite">${tpl(c.cite)}</p>`:''}${learnMore(c)}<div class="spacer"></div>`;
+  el.insertAdjacentHTML('beforeend', c.tap ? tapToContinue() : cta(c.cta)); bindNext(); bindLearnMore(c);
+  if(!c.static) setTimeout(()=>{ const d=$('#dn'); if(d){ d.style.transition='stroke-dashoffset 1.2s ease'; d.style.strokeDashoffset=off.toFixed(1); } }, 200);
+};
+RENDER.chips = (c, el)=>{
+  const cols=['purple_haze','polar_blue','mint_green','papaya_whip','misty_peach','apricot','off_yellow'];
+  el.innerHTML = `${head(c,{sm:true})}<div class="libchips">${c.chips.map((ch,i)=>`<span class="libchip ${c.static?'in':''}" style="background:var(--${ch.color||cols[i%cols.length]})">${ch.n?`<b>${tpl(ch.n)}</b>`:''}<span>${tpl(ch.text)}</span></span>`).join('')}</div>${c.body?`<p class="body">${tl(c.body)}</p>`:''}${c.cite?`<p class="cite">${tpl(c.cite)}</p>`:''}<div class="spacer"></div>`;
+  el.insertAdjacentHTML('beforeend', c.tap ? tapToContinue() : cta(c.cta)); bindNext();
+  if(!c.static){ const b=$('#cta'); if(b) b.style.visibility='hidden'; el.querySelectorAll('.libchip').forEach((ch,i)=>setTimeout(()=>ch.classList.add('in'), 250+i*200)); setTimeout(()=>{ if(b) b.style.visibility='visible'; }, 500+c.chips.length*200); }
+};
+RENDER.benefit = (c, el)=>{
+  const w=320,h=150; let svg=''; const F='font-family="Work Sans, sans-serif" fill="#878888" font-size="10"';
+  if(c.viz==='circles'){ const labels=c.labels||['Terrible','Bad','Okay','Good','Great']; const rs=[10,15,20,26,32]; const cols=['#C6CBCE','#D9DEE1','#BFE9EB','#7ED8DB','#30C5CA']; svg = labels.map((l,i)=>{ const x=32+i*64; return `<g class="bv" style="transition-delay:${i*180}ms"><circle cx="${x}" cy="70" r="${rs[i]}" fill="${cols[i]}"/><text x="${x}" y="128" text-anchor="middle" ${F}>${esc(l)}</text></g>`; }).join(''); }
+  else if(c.viz==='line'){ const ys=[118,104,86,72,60,50,44]; const px=i=>24+i*(w-48)/6; const d=ys.map((y,i)=>`${i?'L':'M'}${px(i)} ${y}`).join(' '); const ax=c.axis||['Session 1','Session 30']; svg=`<line x1="20" y1="126" x2="${w-8}" y2="126" stroke="#E3E6E8"/><path class="bl" d="${d}" stroke="#30C5CA" stroke-width="4" fill="none" stroke-linecap="round"/><text x="24" y="142" ${F}>${esc(ax[0])}</text><text x="${w-8}" y="142" text-anchor="end" ${F}>${esc(ax[1])}</text>`; }
+  else if(c.viz==='week'){ const days=['Mon','Tue','Wed','Thu','Fri','Sat','Sun']; svg = days.map((d,i)=>{ const x=22+i*42; return `<g class="bv" style="transition-delay:${i*140}ms"><rect x="${x}" y="40" width="30" height="60" rx="8" fill="#30C5CA"/><text x="${x+15}" y="122" text-anchor="middle" ${F}>${d}</text></g>`; }).join(''); }
+  else { const px=i=>24+i*(w-48)/5; const ys=[120,60,48,44,42,41]; const d=ys.map((y,i)=>`${i?'L':'M'}${px(i)} ${y}`).join(' '); const ax=c.axis||['5 min','10','15','20','25','30+']; svg=`<path class="bv" d="${d} L${px(5)} 126 L${px(0)} 126 Z" fill="#D7EDF0"/><path class="bl" d="${d}" stroke="#30C5CA" stroke-width="4" fill="none" stroke-linecap="round"/><line x1="20" y1="126" x2="${w-8}" y2="126" stroke="#E3E6E8"/>${ax.map((l,i)=>`<text x="${px(i)}" y="142" text-anchor="middle" ${F}>${esc(l)}</text>`).join('')}`; }
+  el.innerHTML = `${head(c,{sm:true})}<div class="chart benefit ${c.static?'static':''}" id="bz"><svg viewBox="0 0 ${w} ${h}">${svg}</svg>${c.axisLabel?`<div class="leg"><span>${tpl(c.axisLabel)}</span></div>`:''}</div>${c.body?`<p class="body">${tl(c.body)}</p>`:''}${c.cite?`<p class="cite">${tpl(c.cite)}</p>`:''}${learnMore(c)}<div class="spacer"></div>`;
+  el.insertAdjacentHTML('beforeend', c.tap ? tapToContinue() : cta(c.cta)); bindNext(); bindLearnMore(c);
+  if(!c.static) setTimeout(()=>{ $('#bz')?.classList.add('in'); }, 150);
+};
+RENDER.goalSet = (c, el)=>{
+  el.innerHTML = `<div class="goalset"><svg viewBox="0 0 96 96"><circle cx="48" cy="48" r="44" fill="#30C5CA"/><path class="gs" d="M28 50l13 13 27-30" stroke="#fff" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><h1 class="title">${tl(c.title)}</h1>${c.body?`<p class="body">${tl(c.body)}</p>`:''}</div><div class="spacer"></div>`;
+  if(S.edit){ el.insertAdjacentHTML('beforeend', cta('Continue')); bindNext(); return; }
+  setTimeout(()=>{ if(S.deck.cards[S.idx]===c) go(1); }, c.ms||1500);
+};
+RENDER.summary = (c, el)=>{
+  const chips = (c.chips||[]).flatMap(x=>{ if(x.from){ return String(S.L[x.from]||'').split(', ').filter(Boolean).slice(0,x.max||9).map(t=>x.prefix?tpl(x.prefix)+t:t); } if(x.when){ try{ if(!new Function('a','L','return ('+x.when+')')(S.a,S.L)) return []; }catch(e){ return []; } } const t=tpl(x.text); return (t && !/undefined|\[/.test(t)) ? [t] : []; }).slice(0,c.max||7);
+  el.innerHTML = `${c.emoji?`<div style="font-size:52px;margin-bottom:12px">${c.emoji}</div>`:''}${head(c,{sm:true})}<div class="sumchips">${chips.map((t,i)=>`<span class="sumchip ${c.static?'in':''}" style="transition-delay:${i*240}ms">${CHECK}<span>${esc(t)}</span></span>`).join('')}</div>${c.body?`<p class="body">${tl(c.body)}</p>`:''}${c.cite?`<p class="cite">${tpl(c.cite)}</p>`:''}<div class="spacer"></div>`;
+  el.insertAdjacentHTML('beforeend', cta(c.cta)); bindNext();
+  if(!c.static) setTimeout(()=>el.querySelectorAll('.sumchip').forEach(x=>x.classList.add('in')), 120);
 };
 /* ---------- edit-in-place mode ---------- */
 const EDITABLE = [
