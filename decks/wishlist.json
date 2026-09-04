@@ -14,14 +14,11 @@
    "id": "welcome",
    "type": "welcome",
    "phase": 1,
+   "longTitleOK": true,
    "title": [
     "Less stress. Better sleep.",
     "Adapted to <b>you</b>."
    ],
-   "authority": {
-    "avatars": true,
-    "text": "Guided by Co-Heads of Meditation Ofosu and Leah. Developed by experts in neuroscience, meditation instruction and behavioral coaching."
-   },
    "laurels": [
     {
      "l": "Google Play's Best App of 2021"
@@ -40,7 +37,7 @@
    "notes": {
     "template": "welcome (remote config)",
     "tag": "copy",
-    "why": "Proof on screen 1: coach faces, an authority line, three plain badges. Headline is the variant winning the live welcome-card test (b_benefit). The welcome card is payload-configurable (title, CTA, image, laurels), so this is config, not a release.",
+    "why": "Proof on screen 1 kept to the 3 badges (Alex: coaches plus awards was too much). Version B for the team to react to: the coach faces with 'Developed by neuroscientists, meditation teachers and behavioral coaches' instead of the badges. Headline is the variant winning the live welcome-card test (b_benefit). The welcome card is payload-configurable, so this is config, not a release.",
     "calmer": "#1 (welcome: 'built in collaboration with clinical psychologists')",
     "evidence": "Alex 1:40; ABCD test b_benefit; March A3; no clinical advisory claim exists, so the whitepaper's 'developed by experts in neuroscience, meditation instruction, and behavioral coaching' is the honest ceiling",
     "fills": [
@@ -58,7 +55,7 @@
     "Let's start with a",
     "few questions."
    ],
-   "body": "Your answers shape your program: what your first session works on, how long it runs, and how Balance adapts from there. About 3 minutes.",
+   "body": "Your answers shape your Plan: what your first session works on, how long it runs, and how it adapts from there. It takes about 3 minutes.",
    "notes": {
     "template": "text",
     "tag": "copy",
@@ -76,9 +73,8 @@
     "What should we",
     "call you?"
    ],
-   "subtitle": "Your first name, so your program can speak to you.",
    "placeholder": "first name",
-   "reassure": "Just a first name. No account yet, and nothing is shared.",
+   "noReason": true,
    "notes": {
     "template": "keyboard",
     "tag": "existing",
@@ -187,7 +183,7 @@
     "How did you hear",
     "about us?"
    ],
-   "subtitle": "So we know where to say thanks.",
+   "noReason": true,
    "options": [
     {
      "id": "app_or_play_store",
@@ -233,7 +229,7 @@
    "notes": {
     "template": "scrollableQuestion",
     "tag": "copy",
-    "why": "Moved early (it sits next to the paywall today), given a reason line, and gains a one-line health-professional option so referrals become a proof signal.",
+    "why": "Moved early (it sits next to the paywall today) and gains a one-line health-professional option so referrals become a proof signal. Reason line cut (Alex).",
     "calmer": "#1 (Alex's referral idea at 1:52)",
     "evidence": "Matheus: HDYHAU sits too close to the paywall; benchmark rule 2; Insight Timer offers 'Health Professional'",
     "fills": [
@@ -247,10 +243,10 @@
    "phase": 2,
    "tap": true,
    "title": [
-    "You're in the",
-    "right place."
+    "{{a.name}}, you're in",
+    "the right place."
    ],
-   "body": "{{a.hdyhau==='family_and_friends'?'Someone you know already uses Balance. ':''}}Balance builds a meditation program around you: a 10-minute session each day, made from your answers and guided by 2 real coaches. Plus a sleep library and single sessions for the moments you need one.",
+   "body": "Balance has helped {{L.age_count}} people your age.{{H.pick(a.hdyhau==='family_and_friends',' Someone you know is one of them.','')}} Here's how it works: a 10-minute session each day, built from your answers and guided by 2 real coaches, plus a sleep library and Singles for the moments you need one.",
    "mock": {
     "header": "Your program",
     "pill": "Day 1",
@@ -276,7 +272,7 @@
    "notes": {
     "template": "textImage",
     "tag": "unused",
-    "why": "Show the product before asking anything personal. Newcomers in round 2 reached a paywall without knowing what the app would do for them. Speaks back to the HDYHAU answer when a friend sent them.",
+    "why": "Show the product before asking anything personal, and reflect back what the user just gave: their name, the age-specific member count (March's strongest confidence builder) and the friend referral when there was one. Newcomers in round 2 reached a paywall without knowing what the app would do for them.",
     "calmer": "#5 (section preview right after age)",
     "evidence": "Alex 2:51; round 2 A2 (newcomer gap); synthesis #10",
     "fills": [
@@ -433,10 +429,10 @@
    "tap": true,
    "kicker": "You're not alone",
    "title": [
-    "Most people come to",
-    "Balance for exactly this."
+    "Stress like this is why",
+    "most people start."
    ],
-   "body": "You said stress shows up as {{H.lower(H.list(L.how_experience_stress))}}. In a survey of 3,700+ members, 77% said they respond to stress better. Your first sessions are built for that.",
+   "body": "You said stress shows up as {{H.lower(H.list(L.how_experience_stress))}}. That's the pattern members describe most. In a survey of 3,700+ members, 77% said they respond to stress better. Your first sessions are built for it.",
    "notes": {
     "template": "text (with interpolation)",
     "tag": "new",
@@ -451,8 +447,7 @@
    "phase": 3,
    "branch": "a.goal_1==='stress'",
    "title": [
-    "Regular meditation",
-    "measurably lowers",
+    "Meditation lowers",
     "stress and anxiety."
    ],
    "body": "The most widely cited meta-analysis of meditation, 47 randomized trials and 3,500+ participants, found measurable improvements in anxiety, depression and pain.",
@@ -475,10 +470,10 @@
    "branch": "a.goal_1==='stress'",
    "tap": true,
    "title": [
-    "For the moments",
-    "stress hits first."
+    "Singles, for the",
+    "moment stress hits."
    ],
-   "body": "Singles are short sessions for right now: a rising panic, a hard conversation, a night you can't switch off. Look for them on your Today screen from day 1.",
+   "body": "Singles are short sessions for right now: a rising panic, a hard conversation, a night you can't switch off. You'll find them on your Today screen from day 1.",
    "mock": {
     "header": "Singles",
     "rows": [
@@ -521,7 +516,7 @@
     "What's the biggest",
     "source of your stress?"
    ],
-   "subtitle": "We'll match your sessions to it.",
+   "subtitle": "Your sessions are matched to it.",
    "options": [
     {
      "id": "money",
@@ -566,8 +561,8 @@
    "branch": "a.goal_1==='stress'",
    "kicker": "Got it",
    "title": [
-    "Here's what",
-    "we heard, {{a.name}}."
+    "Here's what we",
+    "heard, {{a.name}}."
    ],
    "items": [
     {
@@ -582,7 +577,7 @@
      "when": "a.goal_sleep==='yes'"
     }
    ],
-   "body": "Your first sessions start right there.",
+   "body": "Your first sessions start there.",
    "cta": "Continue",
    "notes": {
     "template": "text (with interpolation)",
@@ -708,10 +703,10 @@
    "tap": true,
    "kicker": "You're not alone",
    "title": [
-    "Most members who come",
+    "Most people who come",
     "for sleep say the same."
    ],
-   "body": "You said {{H.lower(H.list(L.keep_awake))}} keeps you up. 69% of members in our survey reported better sleep, and the first thing your program works on is the wind-down that gets you there.",
+   "body": "You said {{H.lower(H.list(L.keep_awake))}} keep{{H.pick((a.keep_awake||[]).length===1,'s','')}} you up. 69% of members in our survey reported better sleep, and your Plan starts with the wind-down that gets you there.",
    "notes": {
     "template": "text (with interpolation)",
     "tag": "new",
@@ -726,9 +721,8 @@
    "phase": 3,
    "branch": "a.goal_1==='sleep'",
    "title": [
-    "A regular wind-down",
-    "practice shortens the time",
-    "it takes to fall asleep."
+    "A wind-down routine",
+    "helps you fall asleep."
    ],
    "body": "In a randomized trial of adults with sleep trouble, a mindfulness program improved sleep quality more than sleep-hygiene education alone.",
    "cite": "Black et al., JAMA Internal Medicine, 2015. [Confirm with Anna.] Results vary from person to person.",
@@ -793,8 +787,8 @@
    "branch": "a.goal_1==='sleep'",
    "questionId": "chronotype",
    "title": [
-    "Are you a morning",
-    "person or a night person?"
+    "Morning person or",
+    "night person?"
    ],
    "subtitle": "It sets when Balance suggests your sessions.",
    "options": [
@@ -834,12 +828,12 @@
    "branch": "a.goal_1==='sleep'",
    "kicker": "Got it",
    "title": [
-    "Here's what",
-    "we heard, {{a.name}}."
+    "Here's what we",
+    "heard, {{a.name}}."
    ],
    "items": [
     {
-     "text": "{{H.list(L.keep_awake)}} keep{{(a.keep_awake||[]).length===1?'s':''}} you up"
+     "text": "{{H.list(L.keep_awake)}} keep{{H.pick((a.keep_awake||[]).length===1,'s','')}} you up"
     },
     {
      "text": "It takes you {{H.lower(L.fall_asleep_time)}} to fall asleep",
@@ -854,7 +848,7 @@
      "when": "a.goal_stress==='yes'"
     }
    ],
-   "body": "Your program starts with the wind-down.",
+   "body": "Your Plan starts with the wind-down.",
    "cta": "Continue",
    "notes": {
     "template": "text (with interpolation)",
@@ -870,8 +864,8 @@
    "branch": "a.goal_1==='mood'",
    "questionId": "low_mood_freq",
    "title": [
-    "How often does a low mood",
-    "get in the way of your day?"
+    "How often does a low",
+    "mood get in the way?"
    ],
    "subtitle": "Over the last 2 weeks. It sets the pace of your first week.",
    "options": [
@@ -953,10 +947,10 @@
    "tap": true,
    "kicker": "You're not alone",
    "title": [
-    "Most members start",
-    "Balance on a hard week."
+    "Hard weeks are why",
+    "most people start."
    ],
-   "body": "{{a.happiest_around==='myself'?'Time to yourself is where you recharge, so your sessions will protect it.':'You feel happiest around '+H.lower(L.happiest_around||'people you love')+', so your sessions will help you show up for them.'}} 82% of members in our survey feel more emotionally steady.",
+   "body": "{{H.happy(a)}} 82% of members in our survey feel more emotionally steady.",
    "notes": {
     "template": "text (with interpolation)",
     "tag": "new",
@@ -971,11 +965,10 @@
    "phase": 3,
    "branch": "a.goal_1==='mood'",
    "title": [
-    "A short daily practice",
-    "lifts mood over",
-    "a few weeks."
+    "A daily practice lifts",
+    "mood over a few weeks."
    ],
-   "body": "An analysis of randomized trials found mindfulness programs reduce psychological distress in everyday adults, not only in clinical groups.",
+   "body": "Across randomized trials, meditation programs reduced distress and lifted mood in everyday adults, not only in clinical groups.",
    "cite": "Galante et al., Nature Mental Health, 2023. Results vary from person to person. Balance is not a substitute for professional care.",
    "notes": {
     "template": "goalMeditationPrimer",
@@ -994,7 +987,7 @@
     "Check in, then",
     "meet the day."
    ],
-   "body": "Each day starts with a 10-second mood check-in, and Balance picks a session for how you actually feel. Singles are there for the harder moments.",
+   "body": "Each day starts with a 10-second mood check-in. Balance picks a session for how you feel, and Singles are there for the harder moments.",
    "mock": {
     "header": "Today",
     "pill": "Mood check-in",
@@ -1078,8 +1071,8 @@
    "branch": "a.goal_1==='mood'",
    "kicker": "Got it",
    "title": [
-    "Here's what",
-    "we heard, {{a.name}}."
+    "Here's what we",
+    "heard, {{a.name}}."
    ],
    "items": [
     {
@@ -1087,7 +1080,7 @@
      "when": "a.low_mood_freq && a.low_mood_freq!=='unsure'"
     },
     {
-     "text": "You're happiest {{a.happiest_around==='myself'?'on your own':'around '+H.lower(L.happiest_around)}}",
+     "text": "You're happiest {{H.pick(a.happiest_around==='myself','on your own','around '+H.lower(L.happiest_around))}}",
      "when": "a.happiest_around && a.happiest_around!=='unsure'"
     },
     {
@@ -1198,7 +1191,7 @@
     "Attention wanders.",
     "That's what it does."
    ],
-   "body": "You said {{H.lower(L.most_distracting)}} pull{{a.most_distracting==='thoughts'||a.most_distracting==='people'?'':'s'}} you away most. Meditation is practice at noticing that and coming back, and 78% of members in our survey feel more present and focused.",
+   "body": "You said {{H.pulls(a)}}. Meditation is practice at noticing that and coming back. 78% of members in our survey feel more present and focused.",
    "notes": {
     "template": "text (with interpolation)",
     "tag": "new",
@@ -1257,9 +1250,8 @@
    "phase": 3,
    "branch": "a.goal_1==='focus'",
    "title": [
-    "Meditation can help",
-    "with symptoms of",
-    "ADHD and ADD."
+    "Meditation can help with",
+    "ADHD and ADD symptoms."
    ],
    "body": "[One line on the study Anna recommends.]",
    "cite": "[Citation]",
@@ -1361,12 +1353,12 @@
    "branch": "a.goal_1==='focus'",
    "kicker": "Got it",
    "title": [
-    "Here's what",
-    "we heard, {{a.name}}."
+    "Here's what we",
+    "heard, {{a.name}}."
    ],
    "items": [
     {
-     "text": "{{L.most_distracting}} pull{{a.most_distracting==='thoughts'||a.most_distracting==='people'?'':'s'}} you away most",
+     "text": "{{H.pulls(a).charAt(0).toUpperCase()+H.pulls(a).slice(1)}}",
      "when": "a.most_distracting && a.most_distracting!=='unsure'"
     },
     {
@@ -1392,25 +1384,26 @@
    "type": "coaches",
    "phase": 3,
    "title": [
-    "Your coaches are",
-    "Ofosu and Leah."
+    "Meet Ofosu and Leah,",
+    "your coaches."
    ],
+   "subtitle": "They'll guide you toward {{H.goalsPhrase(a)}}.",
    "bios": [
     {
      "name": "Ofosu",
-     "text": "Over 20 years teaching meditation, including at the Insight Meditation Society and Spirit Rock."
+     "text": "Has taught meditation for over 20 years, including at the Insight Meditation Society and Spirit Rock."
     },
     {
      "name": "Leah",
-     "text": "Blends neuroscience, psychology and lived experience. Has taught in 16+ countries."
+     "text": "Brings neuroscience, psychology and her own practice to every session. Has taught in 16+ countries."
     }
    ],
-   "body": "Every session in Balance is written and recorded by the 2 of them.",
+   "body": "Every session is written and recorded by the 2 of them, then pieced together for you from your answers. Your first session is with Ofosu. Switch anytime.",
    "cta": "Continue",
    "notes": {
     "template": "list (2 items with image, title, subtitle)",
     "tag": "unused",
-    "why": "The decided 'made by humans' screen (angle 1, Sep 4). Showcase, not chooser; no 'AI' in the copy. Headline register to be matched in review.",
+    "why": "The decided 'made by humans' screen (angle 1), warmed up on Alex's note: it names the user's goals, gives a quick background on each coach, carries the handcrafted line from angle 2, and says the first session is with Ofosu and you can switch anytime (coach switching exists in the app). Showcase, not chooser; no 'AI' in the copy.",
     "evidence": "handcrafted-coaches-screen-angles.md; 3 competitors lean on teacher credibility",
     "fills": [
      "Bios trimmed from the approved website bios; Cindy to confirm the one-liners",
@@ -1468,7 +1461,7 @@
    "tap": true,
    "title": [
     "Sleep is part of",
-    "your program too."
+    "your Plan too."
    ],
    "body": "Sleep meditations, stories, music and soundscapes are ready on the nights you need them, alongside your daily session.",
    "mock": {
@@ -1590,10 +1583,10 @@
    "phase": 4,
    "tap": true,
    "title": [
-    "The habits you already",
-    "have count for a lot."
+    "What you already do",
+    "counts for a lot."
    ],
-   "body": "{{({packed:'Your schedule is packed',busy:'You're busy most days',some:'You have some room to breathe',open:'Your schedule is pretty open'})[a.schedule]||'Your days fill up'}}, so your first sessions run 10 minutes or less, with 5-minute versions for the days that get away from you. No pressure, no streak to protect.",
+   "body": "{{H.Days(a)}}, so your first sessions run 10 minutes or less, with 5-minute versions for the days that get away from you. No pressure, and no streak to protect.",
    "notes": {
     "template": "text (with interpolation)",
     "tag": "new",
@@ -1608,9 +1601,9 @@
    "phase": 4,
    "questionId": "future",
    "max": 3,
+   "kicker": "When you feel better",
    "title": [
-    "When you feel better,",
-    "what do you look",
+    "What do you look",
     "forward to?"
    ],
    "subtitle": "Pick up to 3.",
@@ -1700,11 +1693,9 @@
    "id": "proof",
    "type": "userReview",
    "phase": 5,
-   "kicker": "Did you know?",
    "title": [
-    "Balance has helped",
-    "<b>{{L.age_count}}</b> people",
-    "your age."
+    "Members like you",
+    "say it works."
    ],
    "laurels": [
     {
@@ -1733,17 +1724,17 @@
      "who": "Sgomz, App Store review"
     }
    ],
-   "cite": "Member count as of January 2026. Reviews verbatim from the App Store.",
+   "cite": "Reviews verbatim from the App Store.",
    "cta": "Continue",
    "notes": {
-    "template": "ageMetrics + userReview",
-    "tag": "new",
-    "why": "One proof screen instead of two: the age-specific stat (March's strongest confidence builder) as the headline, badges, and real reviews. In the deck these are two templates (ageMetrics; userReview shows one quote per card).",
+    "template": "userReview",
+    "tag": "unused",
+    "why": "One proof screen: badges and 3 verbatim reviews. The age-specific member count moved up to the 'right place' screen so it reflects the age answer the moment it is given. userReview shows one quote per card in the deck.",
     "calmer": "#33 (social proof carousel)",
-    "evidence": "Alex: combine the reviews screen with the age stat; March B4 (12 of 18); Alex 7:28",
+    "evidence": "Alex 7:28; Alex: combine reviews and the age stat, then reflect answers back earlier",
     "fills": [
-     "Age counts on record date from Jan 2022; confirm the January 2026 refresh with Yana",
-     "Reviews are verbatim public App Store reviews (Sep 4, 2026); the 'real voices and not AI' line is in on Alex's call"
+     "Reviews are verbatim public App Store reviews (Sep 4, 2026); the 'real voices and not AI' line is in on Alex's call",
+     "Age counts on record date from Jan 2022; confirm the January 2026 refresh with Yana"
     ]
    }
   },
@@ -1752,8 +1743,8 @@
    "type": "loading",
    "phase": 5,
    "title": [
-    "Building your",
-    "program, {{a.name}}."
+    "Building your Plan,",
+    "{{a.name}}."
    ],
    "bars": [
     "{{H.goal(a.goal_1)}} patterns",
@@ -1776,8 +1767,7 @@
    "phase": 5,
    "kicker": "Your Balance profile",
    "title": [
-    "Here's your",
-    "starting point."
+    "Your starting point."
    ],
    "scoreLabel": "Starting point",
    "cta": "Continue",
@@ -1906,19 +1896,19 @@
    "profiles": {
     "stress": {
      "name": "The Overdrive Mind",
-     "insight": "Your mind rarely gets to idle. {{a.has_meditated_before==='none'?'You're new to this':'You've meditated before'}} and your days are {{H.lower(L.schedule||'busy')}}, so week 1 is short sessions that teach your mind how to settle."
+     "insight": "Your mind rarely gets to idle. {{H.exp(a)}} and {{H.days(a)}}, so week 1 is short sessions that teach your mind how to settle."
     },
     "sleep": {
      "name": "The Wired and Tired",
-     "insight": "Your body is ready for rest before your mind is. {{a.has_meditated_before==='none'?'You're new to this':'You've meditated before'}}, so week 1 starts with the wind-down, then works on the stress underneath it."
+     "insight": "Your body is ready for rest before your mind is. {{H.exp(a)}}, so week 1 starts with the wind-down, then works on the stress underneath it."
     },
     "mood": {
      "name": "The Weather Watcher",
-     "insight": "Your mood moves with the day. {{a.has_meditated_before==='none'?'You're new to this':'You've meditated before'}} and your days are {{H.lower(L.schedule||'busy')}}, so week 1 is short check-ins that notice what you feel before it takes over."
+     "insight": "Your mood moves with the day. {{H.exp(a)}} and {{H.days(a)}}, so week 1 is short check-ins that notice what you feel before it takes over."
     },
     "focus": {
      "name": "The Open Browser",
-     "insight": "Attention keeps opening new tabs. {{a.has_meditated_before==='none'?'You're new to this':'You've meditated before'}}, so week 1 trains it to come back in sessions short enough to finish."
+     "insight": "Attention keeps opening new tabs. {{H.exp(a)}}, so week 1 trains it to come back in sessions short enough to finish."
     }
    },
    "cite": "Based only on your answers. Not a clinical assessment.",
@@ -1976,7 +1966,7 @@
    "withTitle": "With Balance",
    "without": [
     {
-     "text": "{{H.first(L.how_experience_stress.split(', '))}} keep coming back",
+     "text": "{{H.first(String(L.how_experience_stress||'').split(', '))||'Anxious thoughts'}} keep coming back",
      "when": "a.goal_1==='stress'"
     },
     {
@@ -1993,12 +1983,11 @@
     },
     "Not sure where to start"
    ],
-   "cite": "Same framing as the paywall intro screen going live next week; keep the two consistent.",
    "cta": "Continue",
    "notes": {
     "template": "list (static per goal)",
     "tag": "new",
-    "why": "Outcomes screen built from the user's own 'look forward to' picks. Distinct from the earlier recap (what we heard) and replaces the benefits checklist. Matches Michal's option-3 paywall intro screen.",
+    "why": "Outcomes screen built from the user's own 'look forward to' picks. Distinct from the earlier recap (what we heard) and replaces the benefits checklist. Matches Michal's option-3 paywall intro screen going live next week; keep the two consistent.",
     "calmer": "#39 (comparison card)",
     "evidence": "Alex 8:46; Tangent paywall intro screen; Alex: differentiate the list screens"
    },
@@ -2136,23 +2125,41 @@
    "type": "text",
    "phase": 5,
    "title": [
-    "Your program is",
-    "ready, {{a.name}}."
+    "Your Plan is ready,",
+    "{{a.name}}."
    ],
-   "body": "Your first session is 10 minutes with Ofosu, built for {{H.lower(H.goal(a.goal_1))}}{{a.goal_sleep==='yes' && a.goal_1!=='sleep' ? ' and better sleep' : ''}}.{{(a.future||[]).length?' Week 1 works toward '+H.lower(H.first(L.future.split(', ')))+'.':''}} It's waiting on your Today screen.",
-   "cta": "See my program",
+   "body": "Your first session is 10 minutes with Ofosu, built for {{H.goalsPhrase(a)}}.{{H.pick(!!H.firstFuture(a,L),' Week 1 works toward '+H.firstFuture(a,L)+'.','')}} You'll find it on your Today screen.",
+   "cta": "See my Plan",
    "notes": {
     "template": "Swift program-ready card (copy) / text",
     "tag": "swift",
     "why": "Program-ready card that names the first session, echoes the goals and the first 'look forward to' pick. No 'free'-led framing at the commit moment (March H3).",
-    "evidence": "March H3; angle 2's 'your first session' reveal parked"
+    "evidence": "March H3; angle 2's 'your first session' reveal parked",
+    "fills": [
+     "Confirm with Matheus whether the Swift program-ready card can take the first name (the Lua text cards can)"
+    ]
+   }
+  },
+  {
+   "id": "cytr",
+   "type": "cytr",
+   "phase": 5,
+   "title": [
+    "We'll remind you 2 days",
+    "before your trial ends"
+   ],
+   "notes": {
+    "template": "Superwall post_sign_up (trial reminder step)",
+    "tag": "superwall",
+    "why": "Today's Choose-Your-Trial-Reminder screen, kept as is, right before the paywall (Alex).",
+    "evidence": "CYTR +24.7% trial starts (prior art)"
    }
   },
   {
    "id": "paywall",
    "type": "paywall",
    "phase": 5,
-   "design": "recime",
+   "design": "live",
    "headlines": {
     "stress": "Reduce daily stress and anxiety",
     "sleep": "Fall asleep faster, wake up rested",
@@ -2161,13 +2168,13 @@
     "default": "Reduce daily stress and anxiety"
    },
    "notes": {
-    "template": "Superwall post_sign_up (ReciMe layout)",
+    "template": "Superwall post_sign_up (live design)",
     "tag": "superwall",
-    "why": "Terminal screen: the live ReciMe-style paywall ('Try Balance for free', trial badge, benefit list, annual vs monthly, 'Try for $0.00', Restore Purchase), rebuilt from the Aug 12 recording's layout with today's $69.99 / $9.99 / 7-day set. Research ideas live here as notes: reminder-promise headline with a Day 0/5/7 timeline, an on-paywall 'how do I cancel' answer, echo bullets built from the picks.",
+    "why": "Terminal screen: the live paywall from Alex's screenshot ('7 days for free', $5.83 a month, 10M+ happy users and 4.9-star laurels, review carousel, no payment due now, 'Start your FREE week', 'View all plans'). Research ideas live here as notes: reminder-promise headline with a Day 0/5/7 timeline, an on-paywall 'how do I cancel' answer, echo bullets built from the picks.",
     "calmer": "#43 (trial timeline paywall, not copied)",
     "evidence": "Alex 10:05 to 10:18; round 2 A3; megan-balance-path-diff-2026-08-12.md screen 18",
     "fills": [
-     "Check the benefit bullets and badge copy against the live Superwall paywall"
+     "Paywall reviews: Tracy's is the live paywall's own; the other 2 are from our verified set"
     ]
    }
   },

@@ -58,7 +58,7 @@ b{font-weight:500}
 .card.center{justify-content:center}
 .card.top{justify-content:flex-start;padding-top:28px}
 .kicker{font-size:13px;line-height:18px;letter-spacing:.6px;text-transform:uppercase;color:var(--deep);font-weight:500;margin:0 0 14px}
-h1.title{font-weight:300;font-size:30px;line-height:38px;letter-spacing:.1px;margin:0;color:var(--ink);text-wrap:pretty}
+h1.title{font-weight:300;font-size:28px;line-height:36px;letter-spacing:.1px;margin:0;color:var(--ink);text-wrap:pretty}
 h1.title.sm{font-size:26px;line-height:33px}
 .subtitle{font-size:17px;line-height:25px;color:var(--dark);margin:14px 0 0;max-width:330px;text-wrap:pretty}
 .body{font-size:17px;line-height:26px;color:var(--dark);margin:18px 0 0;max-width:330px;text-wrap:pretty}
@@ -154,7 +154,10 @@ h1.title.sm{font-size:26px;line-height:33px}
 .bar .trk{height:6px;background:var(--track);border-radius:3px;overflow:hidden}
 .bar .trk i{display:block;height:6px;width:0;background:var(--teal);border-radius:3px;transition:width 1.1s ease}
 /* profile / gauge */
-.gauge{margin-top:18px;position:relative;width:240px;height:168px}
+.gauge{margin-top:14px;position:relative;width:240px;height:112px}
+.gauge svg{width:240px;height:110px;display:block}
+.profname{margin-top:10px;font-size:24px;font-weight:400;line-height:28px;text-align:center}
+.profname small{display:block;font-size:12px;color:var(--grey);letter-spacing:.4px;text-transform:uppercase;font-weight:500;margin-top:2px}
 .gauge svg{width:240px;height:130px;display:block}
 .gauge .val{position:absolute;left:0;right:0;bottom:0;font-size:24px;font-weight:400;line-height:28px}
 .gauge .val small{display:block;font-size:12px;color:var(--grey);letter-spacing:.4px;text-transform:uppercase;font-weight:500}
@@ -240,3 +243,25 @@ h1.title.sm{font-size:26px;line-height:33px}
 .pw-list{display:flex;flex-direction:column;gap:10px;margin:18px 0 20px;text-align:left}
 .pw-item{display:flex;gap:10px;align-items:flex-start;font-size:15px;line-height:20px;color:var(--ink)}
 .pw-item .check{width:20px;height:20px;margin-top:0}
+
+/* live paywall (7 days for free) */
+.pw-live{display:flex;flex-direction:column;align-items:center;text-align:center;flex:1;padding-top:70px}
+.pw-live h2{font-size:30px;font-weight:400;margin:0}
+.pw-sub{margin-top:10px;font-size:15px;line-height:21px;color:var(--dark)}
+.pw-laurels{display:flex;gap:26px;align-items:center;justify-content:center;margin-top:34px}
+.wreath{position:relative;width:132px;height:64px;display:flex;align-items:center;justify-content:center}
+.wreath img{position:absolute;inset:0;width:132px;height:64px;opacity:.9}
+.w-in{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;line-height:1}
+.w-in b{font-size:22px;font-weight:600}.w-in span{font-size:12px;font-weight:600;margin-top:2px}
+.pw-stars{display:flex;flex-direction:column;align-items:center;gap:4px}
+.pw-stars b{font-size:14px;font-weight:600;letter-spacing:.4px;text-transform:uppercase}.pw-stars span{color:var(--teal);font-size:18px;letter-spacing:3px}
+.pw-reviews{margin-top:40px;width:calc(100% + 40px);margin-left:-20px;margin-right:-20px}
+.pw-review{background:var(--polar_blue);text-align:center;width:250px}
+.pw-review .stars{color:var(--teal);font-size:16px;letter-spacing:3px}
+.pw-review p{font-size:15px;line-height:21px}
+.pw-review .who{color:var(--dark)}
+.pw-nopay{font-size:14px;color:var(--grey);margin-bottom:14px}
+.opts.maxed .opt:not(.sel){opacity:.45}
+.opts.shake{animation:shake .3s}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+.compare.single{grid-template-columns:1fr}

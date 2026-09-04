@@ -31,7 +31,15 @@ const esc = s => String(s==null?'':s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':
 const lines = t => Array.isArray(t) ? t.join('<br>') : (t||'');
 const H = { lower:x=>String(x||'').toLowerCase(), first:x=>Array.isArray(x)?x[0]:x,
   list:(x)=>{ const arr = Array.isArray(x)? x : String(x||'').split(', ').filter(Boolean); if(arr.length<=1) return arr[0]||''; return arr.slice(0,-1).join(', ')+' and '+arr[arr.length-1]; },
-  goal:(g)=>GOAL_LABEL[g]||g, n:(x)=>Number(x||0).toLocaleString() };
+  goal:(g)=>GOAL_LABEL[g]||g, n:(x)=>Number(x||0).toLocaleString(),
+  pick:(c,a,b)=>c?a:b,
+  exp:(a)=>({none:"You're new to this", once_or_twice:"You've tried meditation before", a_little:"You already meditate now and then", a_lot:"You already meditate often"})[a.has_meditated_before]||"You're new to this",
+  days:(a)=>({packed:"your days are packed", busy:"you're busy most days", some:"you have some room to breathe", open:"your schedule is pretty open"})[a.schedule]||"your days are busy",
+  Days:(a)=>{ const d=H.days(a); return d.charAt(0).toUpperCase()+d.slice(1); },
+  happy:(a)=>({myself:"You recharge on your own, so your sessions will protect that time.", family:"You feel happiest around family, so your sessions will help you show up for them.", friends:"You feel happiest around friends, so your sessions will help you show up for them."})[a.happiest_around]||"Your sessions start with what already lifts you.",
+  pulls:(a)=>({thoughts:"your thoughts pull you away most", surroundings:"your surroundings pull you away most", technology:"technology pulls you away most", people:"other people pull you away most"})[a.most_distracting]||"attention slips more than you'd like",
+  goalsPhrase:(a)=>{ const m={stress:"less stress", sleep:"better sleep", focus:"sharper focus", mood:"a steadier mood"}; const g=(a.goals||[a.goal_1||'stress']).map(x=>m[x]).filter(Boolean); return H.list(g); },
+  firstFuture:(a,L)=>{ const f=String(L.future||'').split(', ').filter(Boolean)[0]; return f? f.charAt(0).toLowerCase()+f.slice(1) : ''; } };
 function tpl(str){ if(!str) return ''; return String(str).replace(/\{\{([^}]+)\}\}/g, (_,e)=>{ try{ const v = new Function('a','L','H','return ('+e+')')(S.a,S.L,H); return v==null?'':String(v);}catch(err){ return '['+e+']'; } }); }
 function tl(t){ return tpl(lines(t)); }
 function branchOK(card){ if(!card.branch) return true; try{ return !!new Function('a','L','return ('+card.branch+')')(S.a,S.L);}catch(e){ console.warn('branch error',card.id,e); return true; } }
@@ -179,7 +187,7 @@ RENDER.multiselect = (c, el)=>{
   el.innerHTML = `${head(c,{sm:c.options.length>5})}<div class="opts compact">${c.options.map(o=>`<button class="opt" data-id="${esc(o.id)}" style="background:${colorVar(o.color)}"><span class="txt">${tpl(o.text)}</span><span class="chk">${'<svg width="14" height="14" viewBox="0 0 22 22" fill="none"><path d="M6.5 11.5l3 3 6-6.5" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>'}</span></button>`).join('')}</div>${reassure(c)}<div class="spacer"></div>`;
   el.insertAdjacentHTML('beforeend', cta(c.cta||'Continue', c.skip?`<button class="ghost" id="skip">Skip</button>`:''));
   const btn = $('#cta'); btn.disabled = true;
-  el.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{ const id=b.dataset.id; if(sel.has(id)){ sel.delete(id); b.classList.remove('sel'); } else { if(c.max && sel.size>=c.max) return; sel.add(id); b.classList.add('sel'); } btn.disabled = sel.size===0; });
+  const wrap=el.querySelector('.opts'); el.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{ const id=b.dataset.id; if(sel.has(id)){ sel.delete(id); b.classList.remove('sel'); } else { if(c.max && sel.size>=c.max){ wrap.classList.add('shake'); setTimeout(()=>wrap.classList.remove('shake'),350); return; } sel.add(id); b.classList.add('sel'); } wrap.classList.toggle('maxed', !!c.max && sel.size>=c.max); btn.disabled = sel.size===0; });
   btn.onclick = ()=>{ const ids=[...sel]; setA(c.questionId, ids, ids.map(i=>c.options.find(o=>o.id===i).text.replace(/<[^>]+>/g,'')).join(', ')); go(1); };
   $('#skip')?.addEventListener('click', ()=>{ setA(c.questionId, [], ''); go(1); });
 };
@@ -258,14 +266,15 @@ RENDER.profile = (c, el)=>{
   const g1 = S.a.goal_1||'stress'; const prof = (c.profiles&&(c.profiles[g1]||c.profiles.default))||{name:'The Steady Starter',insight:''};
   S.L.profile_name = prof.name; S.a.profile_score = score;
   const arc = (p)=>{ const a = Math.PI*(1-Math.max(0.02,p)); return {x:120+90*Math.cos(a), y:100-90*Math.sin(a)}; }; const e = arc(score/100);
-  el.innerHTML = `${head(c,{sm:true})}<div class="gauge"><svg viewBox="0 0 240 130"><path d="M30 100 A90 90 0 0 1 210 100" stroke="#E3E6E8" stroke-width="14" fill="none" stroke-linecap="round"/><path d="M30 100 A90 90 0 0 1 ${e.x.toFixed(1)} ${e.y.toFixed(1)}" stroke="#30C5CA" stroke-width="14" fill="none" stroke-linecap="round"/><text x="120" y="92" text-anchor="middle" font-size="30" font-weight="300" fill="#0A0A0B" font-family="Work Sans, sans-serif">${score}</text></svg><div class="val">${prof.name}<small>${tpl(c.scoreLabel||'Your starting point')} · out of 100</small></div></div>
+  el.innerHTML = `${head(c,{sm:true})}<div class="gauge"><svg viewBox="0 0 240 110"><path d="M30 100 A90 90 0 0 1 210 100" stroke="#E3E6E8" stroke-width="14" fill="none" stroke-linecap="round"/><path d="M30 100 A90 90 0 0 1 ${e.x.toFixed(1)} ${e.y.toFixed(1)}" stroke="#30C5CA" stroke-width="14" fill="none" stroke-linecap="round"/><text x="120" y="88" text-anchor="middle" font-size="34" font-weight="300" fill="#0A0A0B" font-family="Work Sans, sans-serif">${score}</text><text x="120" y="104" text-anchor="middle" font-size="10" letter-spacing="1" fill="#878888" font-family="Work Sans, sans-serif">OUT OF 100</text></svg></div>
+    <div class="profname">${esc(prof.name)}<small>${tpl(c.scoreLabel||'Your starting point')}</small></div>
     <div class="scores">${rows.map(r=>`<div class="score ${r.lvl}">${esc(r.label)}<b>${esc(r.text)}</b></div>`).join('')}</div>
     ${prof.insight?`<div class="insight">${tpl(prof.insight)}</div>`:''}${c.cite?`<p class="cite">${tpl(c.cite)}</p>`:''}<div class="spacer"></div>`;
   el.insertAdjacentHTML('beforeend', cta(c.cta)); bindNext();
 };
 RENDER.quizResult = (c, el)=>{
   const g1 = S.a.goal_1||'stress'; const prof = (c.profiles&&(c.profiles[g1]||c.profiles.default))||{}; S.L.profile_name = prof.name||'';
-  el.innerHTML = `${head(c,{sm:true})}<div class="gauge"><svg viewBox="0 0 240 130"><path d="M30 100 A90 90 0 0 1 210 100" stroke="#E3E6E8" stroke-width="14" fill="none" stroke-linecap="round"/><path d="M30 100 A90 90 0 0 1 183 37" stroke="#30C5CA" stroke-width="14" fill="none" stroke-linecap="round"/></svg><div class="val">${esc(prof.name||'')}<small>${tpl(c.scoreLabel||'Your starting point')}</small></div></div>${prof.body?`<p class="body">${tpl(prof.body)}</p>`:''}${prof.insight?`<div class="insight">${tpl(prof.insight)}</div>`:''}${c.cite?`<p class="cite">${tpl(c.cite)}</p>`:''}<div class="spacer"></div>`;
+  el.innerHTML = `${head(c,{sm:true})}<div class="profname" style="margin-top:22px">${esc(prof.name||'')}<small>${tpl(c.scoreLabel||'Your starting point')}</small></div>${prof.body?`<p class="body">${tpl(prof.body)}</p>`:''}${prof.insight?`<div class="insight">${tpl(prof.insight)}</div>`:''}${c.cite?`<p class="cite">${tpl(c.cite)}</p>`:''}<div class="spacer"></div>`;
   el.insertAdjacentHTML('beforeend', cta(c.cta)); bindNext();
 };
 RENDER.chart = (c, el)=>{
@@ -277,12 +286,20 @@ RENDER.chart = (c, el)=>{
 };
 RENDER.comparison = (c, el)=>{
   const pick = (arr)=> arr.flatMap(x=>{ if(typeof x==='string') return [tpl(x)]; if(x.from){ return String(S.L[x.from]||'').split(', ').filter(Boolean).map(t=>x.prefix?tpl(x.prefix)+t.charAt(0).toLowerCase()+t.slice(1):t); } if(x.when){ try{ if(!new Function('a','L','return ('+x.when+')')(S.a,S.L)) return []; }catch(e){} } return [tpl(x.text)]; }).filter(Boolean).slice(0,5);
-  el.innerHTML = `${head(c,{sm:true})}<div class="compare"><div class="col"><h5>${tpl(c.withoutTitle||'On your own')}</h5><ul>${pick(c.without).map(t=>`<li>${t}</li>`).join('')}</ul></div><div class="col with"><h5>${tpl(c.withTitle||'With Balance')}</h5><ul>${pick(c.with).map(t=>`<li>${t}</li>`).join('')}</ul></div></div>${c.body?`<p class="body">${tl(c.body)}</p>`:''}${c.cite?`<p class="cite">${tpl(c.cite)}</p>`:''}<div class="spacer"></div>`;
+  const wo = pick(c.without||[]); el.innerHTML = `${head(c,{sm:true})}<div class="compare ${wo.length?'':'single'}">${wo.length?`<div class="col"><h5>${tpl(c.withoutTitle||'On your own')}</h5><ul>${wo.map(t=>`<li>${t}</li>`).join('')}</ul></div>`:''}<div class="col with"><h5>${tpl(c.withTitle||'With Balance')}</h5><ul>${pick(c.with).map(t=>`<li>${t}</li>`).join('')}</ul></div></div>${c.body?`<p class="body">${tl(c.body)}</p>`:''}${c.cite?`<p class="cite">${tpl(c.cite)}</p>`:''}<div class="spacer"></div>`;
   el.insertAdjacentHTML('beforeend', cta(c.cta)); bindNext();
 };
 RENDER.benefits = (c, el)=>{
   el.innerHTML = `${head(c,{sm:true})}${laurelsHTML(c.laurels)}<div class="vlist">${c.items.map(it=>`<div class="vitem">${CHECK}<div><div class="t">${tpl(it.title||it)}</div>${it.subtitle?`<div class="s">${tpl(it.subtitle)}</div>`:''}</div></div>`).join('')}</div>${c.cite?`<p class="cite">${tpl(c.cite)}</p>`:''}<div class="spacer"></div>`;
   el.insertAdjacentHTML('beforeend', cta(c.cta)); bindNext();
+};
+RENDER.cytr = (c, el)=>{
+  let days = 2; const fmt = d => { const t=new Date(); t.setDate(t.getDate()+7-d); return t.toLocaleDateString('en-US',{month:'short',day:'numeric'}); };
+  const draw = ()=>{ el.innerHTML = `<svg width="200" height="150" viewBox="0 0 200 150" fill="none" style="margin-bottom:22px"><rect x="62" y="6" width="76" height="138" rx="14" stroke="#B7B1D9" stroke-width="3" fill="#fff"/><rect x="50" y="34" width="100" height="26" rx="6" fill="#D7EDF0"/><circle cx="62" cy="47" r="6" fill="#30C5CA"/><rect x="74" y="41" width="60" height="4" rx="2" fill="#fff"/><rect x="74" y="50" width="44" height="4" rx="2" fill="#fff"/><circle cx="28" cy="76" r="14" stroke="#0A0A0B" stroke-width="1.5"/><circle cx="20" cy="84" r="12" fill="#FDF1EB"/><rect x="146" y="10" width="20" height="20" rx="3" transform="rotate(20 156 20)" stroke="#0A0A0B" stroke-width="1.5" fill="#FDF1EB"/><path d="M158 96c0 14 12 14 12 26" stroke="#0A0A0B" stroke-width="1.5"/><circle cx="170" cy="124" r="4" stroke="#0A0A0B" stroke-width="1.5" fill="#fff"/><line x1="56" y1="144" x2="144" y2="144" stroke="#0A0A0B" stroke-width="1.5"/></svg><h1 class="title sm">We'll remind you ${days} days<br>before your trial ends</h1><div class="opts compact" style="margin-top:34px">${[2,3].map(d=>`<button class="opt cytr-opt ${d===days?'sel':''}" data-d="${d}" style="background:#fff;border:2px solid ${d===days?'var(--deep)':'#E3E6E8'};min-height:64px;justify-content:space-between"><span class="txt" style="color:${d===days?'var(--ink)':'var(--grey)'}">${d} days before</span><span style="font-weight:400;font-size:14px;color:${d===days?'var(--ink)':'var(--grey)'}">${fmt(d)}</span></button>`).join('')}</div><div class="spacer"></div>`;
+    el.insertAdjacentHTML('beforeend', cta('Continue'));
+    el.querySelectorAll('.cytr-opt').forEach(b=>b.onclick=()=>{ days=Number(b.dataset.d); draw(); });
+    $('#cta').onclick=()=>{ setA('trial_reminder', String(days), days+' days before'); go(1); }; };
+  draw();
 };
 RENDER.signup = (c, el)=>{
   el.innerHTML = `${head(c)}${c.body?`<p class="body">${tl(c.body)}</p>`:''}<div class="spacer"></div><div class="bottom"><button class="cta" style="background:#000" id="cta"> Continue with Apple</button><button class="cta outline" id="g">Continue with Google</button><button class="cta outline" id="e">Continue with email</button>${c.sub?`<div style="text-align:center;color:var(--grey);font-size:14px">${tpl(c.sub)}</div>`:''}</div>`;
@@ -293,7 +310,15 @@ RENDER.paywall = (c, el)=>{
   el.innerHTML = '';
   const pw = document.createElement('div'); pw.className='pw';
   const headline = (c.headlines && (c.headlines[S.a.goal_1]||c.headlines.default)) || 'Reduce daily stress and anxiety';
-  if(c.design==='recime'){
+  if(c.design==='live'){
+    const reviews = c.reviews || [{"t":"I use it daily and I'm finally sleeping better.. Premium is so worth it!","w":"Tracy"},{"t":"It helps me fall asleep, helps me relax when my anxiety is high, and just works SO well as an app.","w":"Maya P."},{"t":"It's helped me calm down during panic attacks or when I'm overwhelmed.","w":"Steffanosaur"}];
+    pw.innerHTML = `<button class="x" style="left:14px;right:auto" aria-label="Close">×</button>
+      <div class="pw-live"><h2>7 days for free</h2><div class="pw-sub">then $5.83 / month<br>($69.99 billed yearly after trial)</div>
+      <div class="pw-laurels"><div class="wreath"><img src="assets/laurels/laurels.svg" alt=""><div class="w-in"><b>10M+</b><span>happy users</span></div></div><div class="pw-stars"><b>4.9 star rating</b><span>★★★★★</span></div></div>
+      <div class="reviews pw-reviews">${reviews.map(r=>`<div class="review pw-review"><div class="stars">★★★★★</div><p>${esc(r.t)}</p><div class="who">${esc(r.w)}</div></div>`).join('')}</div>
+      <div class="spacer"></div><div class="pw-nopay">✓ &nbsp;No payment due now</div>
+      <div class="bottom" style="padding-bottom:0"><button class="cta" id="cta">Start your FREE week</button></div><div class="fine"><span style="text-decoration:underline;color:var(--ink)">View all plans</span></div></div>`;
+  } else if(c.design==='recime'){
     const items = c.benefits || ['400+ meditations for stress, sleep, focus and mood','Sleep stories, music and soundscapes','A new session built for you every day','Ad-free, on every device'];
     pw.innerHTML = `<button class="x" aria-label="Close">×</button>
       <div class="pw-top"><img src="assets/paywall-art.png" alt=""><div class="pw-badge">7-day free trial</div><h2>Try Balance for free</h2></div>
