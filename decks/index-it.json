@@ -1,0 +1,9 @@
+{
+ "title": "Balance onboarding prototype: Insight Timer's flow",
+ "intro": "Insight Timer's onboarding flow, rebuilt in Balance's skin, from welcome to today's paywall. Built from the Insight Timer teardown without a talk-over, and not yet reviewed. Two versions: the wish list as we'd build it with no template limits, and a constrained version that uses only card templates already in the app.",
+ "note": "The flows and their cost estimates were drafted with Claude and have not had an engineering review. Copy in [brackets] is a placeholder to verify.",
+ "primary": {"deck": "it_wishlist"},
+ "bases": [
+  {"id":"insighttimer","name":"Insight Timer's flow","description":"","decks":["it_wishlist","it_constrained"]}
+ ]
+}

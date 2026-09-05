@@ -1,7 +1,9 @@
 {
- "intro": "Competitor onboarding packages rebuilt in Balance's skin, from welcome to today's paywall, two versions each: the wish list as we'd build it with no template limits, and a constrained version that uses only card templates that exist in the app today. Built Sep 4, 2026 for the Balance top-of-funnel bet.",
+ "title": "Balance onboarding prototype",
+ "intro": "Calmer's onboarding flow, rebuilt in Balance's skin, from welcome to today's paywall. Two versions: the wish list as we'd build it with no template limits, and a constrained version that uses only card templates already in the app.",
+ "note": "The flows and their cost estimates were drafted with Claude and have not had an engineering review. Copy in [brackets] is a placeholder to verify.",
+ "primary": {"deck": "wishlist"},
  "bases": [
-  {"id":"calmer","name":"Calmer's package","description":"The quiz-funnel genre reference: proof up front, questions in an ask, echo, teach, preview rhythm on every goal path, a named result profile and a progress graph. Built from Alex's talk-over of the Calmer recording.","decks":["wishlist","constrained"]},
-  {"id":"insighttimer","name":"Insight Timer's package","description":"The proof-density reference: proof stacked before the first question, interests instead of diagnoses, chart-backed benefit beats, a consecutive-days commitment, a dosage-lowering chart before the minutes ask, a plan built from the answers and a dated outlook. Built from the Insight Timer teardown without a talk-over; unreviewed.","decks":["it_wishlist","it_constrained"]}
+  {"id":"calmer","name":"Calmer's flow","description":"","decks":["wishlist","constrained"]}
  ]
 }

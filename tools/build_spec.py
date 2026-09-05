@@ -48,9 +48,9 @@ def tags(d):
     for c in d['cards']: k=c.get('notes',{}).get('tag','existing'); t[k]=t.get(k,0)+1
     return ', '.join(f"{v} {TAG[k]}" for k,v in sorted(t.items()))
 wa=sum(1 for c in W['cards'] if c['type'] in asks); ca=sum(1 for c in C['cards'] if c['type'] in asks)
-doc=f"""# Balance onboarding prototype v1: Calmer's package, two versions
+doc=f"""# Balance onboarding prototype: Calmer's flow, two versions
 
-_Built Sep 4, 2026; revised through the afternoon on Alex's critiques. Live at **https://alex11shuck.github.io/balance-onboarding-proto/** (`?notes=1` for build notes, `?why=1` for the principles behind each screen, both combine; flow maps at `#/map/wishlist` and `#/map/constrained`). Source: [alex11shuck/balance-onboarding-proto](https://github.com/alex11shuck/balance-onboarding-proto). Inputs: Alex's talk-over ([calmer-alex-walkthrough-2026-09-04.md](competitors/calmer-alex-walkthrough-2026-09-04.md)), the [Calmer teardown](competitors/calmer-2026-08-21.md), the [deck map](baseline/deck-map.md), the [cross-app synthesis](competitors/synthesis-2026-08-20.md), the Sep 3 dry-run report (A3, A4, A5; Calmer lowest objection load), the [web funnel walkthrough](web-onboarding-2026-08-20.md), the [Meet-the-coaches decision](handcrafted-coaches-screen-angles.md) and the [23-app vertical benchmark](vertical-benchmarks-23-apps.md)._
+_Built Sep 4, 2026; revised through the afternoon on Alex's critiques, then again Sep 5 on his two screen-by-screen Looms ([feedback log](prototype-feedback-alex-2026-09-05.md)). The flows and their cost estimates were drafted with Claude and have not had an engineering review. Live at **https://alex11shuck.github.io/balance-onboarding-proto/** (`?notes=1` for build notes, `?why=1` for the idea behind each screen, both combine; flow maps at `#/map/wishlist` and `#/map/constrained`; the landing page's Start the review button opens the wish list in Why mode). The Insight Timer flow now lives on its own page, `insight-timer.html`. Source: [alex11shuck/balance-onboarding-proto](https://github.com/alex11shuck/balance-onboarding-proto). Inputs: Alex's talk-over ([calmer-alex-walkthrough-2026-09-04.md](competitors/calmer-alex-walkthrough-2026-09-04.md)), the [Calmer teardown](competitors/calmer-2026-08-21.md), the [deck map](baseline/deck-map.md), the [cross-app synthesis](competitors/synthesis-2026-08-20.md), the Sep 3 dry-run report (A3, A4, A5; Calmer lowest objection load), the [web funnel walkthrough](web-onboarding-2026-08-20.md), the [Meet-the-coaches decision](handcrafted-coaches-screen-angles.md) and the [23-app vertical benchmark](vertical-benchmarks-23-apps.md)._
 
 ## What it is
 
@@ -65,15 +65,15 @@ Two clickable flows, one URL, mobile-first (a BetaTesting tester can run it on a
 | Branching | all four goal paths carry the ask, echo, teach, preview rhythm; sleep block fires on sleep *selection* | today's goal-1 branching kept intact; new cards only inserted |
 | Result profile | computed sub-scores from answers actually given, insight echoes experience and schedule | named profile per goal on the primer card, no scores |
 | Coaches | appear where the Plan gets made: faces, the user's answer chips, and the first session that comes out of them (Option 3) | static coaches card (faces, backgrounds, handcrafted line); today's Creating Program animation stays |
-| Interpolation | name, symptoms, sources, schedule and 'look forward to' picks echoed | none, except the name on text cards (the engine already replaces a name placeholder there) |
+| Answers written into the copy | name, symptoms, sources, schedule, panic answer and 'look forward to' picks | only the name on text cards (the engine already replaces a name placeholder there); recaps read answers back through one fixed line per answer instead |
 
 ## The slimming, in one view
 
-Of the {len(W['cards'])} wish-list screens: **{kept} carry over unchanged**, **{adapted} are adapted** (same slot, existing template, usually static copy per goal branch instead of the user's own words), **{cut} is cut** (gender), and the proof screen splits back into 2 cards because the age stat and a testimonial are different templates. What the constrained version gives up, in order of how much it hurts:
+Of the {len(W['cards'])} wish-list screens: **{kept} carry over unchanged**, **{adapted} are adapted** (same slot, existing template, usually static copy per goal branch instead of the user's own words), **{cut} cut**, and the proof screen splits back into 2 cards because the age stat and a testimonial are different templates. What the constrained version gives up, in order of how much it hurts:
 
-1. **The user's own words read back.** Every echo beat and recap becomes static copy per goal branch. The engine replaces a name placeholder on text and textImage cards, so first-name echo survives; answer echo does not.
+1. **The user's own words read back.** Every echo beat becomes static copy per goal branch. The recaps keep the echo through one fixed line per answer (shown by an answer rule), which in production means one list card per answer combination. The engine replaces a name placeholder on text and textImage cards, so first-name echo survives.
 2. **The computed profile.** The named profile per goal survives on the primer card (kicker, name, insight); the sub-scores and the score number need a template.
-3. **The two-column outcomes card built from the user's picks.** Becomes a one-column list per goal. Michal's paywall intro screen carries the two-column framing next week.
+3. **The outcomes card built from the user's picks.** Keeps both columns as one static image per goal; the user's own 'look forward to' picks are gone. Michal's paywall intro screen carries the same framing next week.
 4. **Previews lose their paragraph.** textImage takes a headline and an image; the sentence of explanation goes behind Learn More.
 5. **Small things:** the slider becomes a 4-option select, the praise line after the commitment pick is gone, HDYHAU's reason line rides as a second headline line (scrollableQuestion has no subtitle), the reviews carousel is one quote per card, and the step counter is out (hard limit).
 
@@ -83,7 +83,7 @@ Checked against what the Lua cards read (hoth, Aug 7 pin): `question` has `subTi
 
 ## The principles (why mode)
 
-Turn on with `?why=1`. A separate layer from the build notes, written for content design and marketing: what each screen is doing for the user and the evidence it rests on.
+Turn on with `?why=1`, or tap an idea on the landing page. A separate layer from the build notes, written for content design and marketing: what each screen is doing for the user and the evidence it rests on. Names were rewritten in plain language Sep 5.
 
 {chr(10).join(f"- **{v['name']}.** {v['text']} _{v.get('source','')}_" for v in W['principles'].values())}
 
@@ -106,17 +106,25 @@ Turn on with `?why=1`. A separate layer from the build notes, written for conten
 ## Research and directives carried
 
 - **Alex's talk-over:** proof up front, tell people what the questions do, who-you-are early, keep the goal screens as they are, the answer-echo recap, education and section previews of Balance content, whole-health questions, the positive-future question, mid-flow social proof, a longer named loading screen, the profile framed as on web, the progress graph, the commitment question, stop at the paywall.
+- **Alex's Looms (Sep 5):** see [prototype-feedback-alex-2026-09-05.md](prototype-feedback-alex-2026-09-05.md) for every note with its timestamp, the screen it was on, and what changed.
 - **Alex's critique (Sep 4 afternoon):** laurels replaced with plain badges · welcome headline is the live winning variant · health-professional option shortened to one line · mood and focus paths built out · more speak-back moments (friend referral, schedule, experience, 'look forward to' picks) · the three list screens differentiated: recap = what we heard, outcomes = what changes, benefits cut · reviews and the age stat combined into one proof screen · paywall note: the live paywall is the ReciMe version.
 - **Round 2 dry run:** the named result profile is where 'it understood me' landed (A4). Calmer's explanations were named by 3 of 4 testers. Trial-reminder paywall praise (A3) and decline into content (A5) live in the paywall card's notes, not built.
 - **Manufactured-headroom lesson (P18):** sub-scores derive only from answers given; unanswered dimensions are omitted.
 - **March study:** B2 → multi-answer symptom questions; B4/B5 → sourced, age-specific stats; H3 → no 'free'-led framing at the commit moment; D1/F1 → previews and profile before the paywall.
 - **23-app benchmark:** first name early; reason line on every question; reassurance beside age, ADHD, name; a number on the reminder ask; step counter wish-list only; deferred account gate and terminal paywall are the archetype's norm.
 
+## Sep 5 revisions (Alex's two Looms)
+
+Hub: "package" is "flow" everywhere, the landing page is shorter, the review modes sit button-beside-description, the ideas behind the flow are chips you tap on the front page, the Insight Timer flow moved to its own page, and the Claude-drafted note is on the page. Screens: intro copy keeps today's "personalize your Plan"; gender subtitle cut; right-place screen carries the broad library and the stats card carries the goals; every echo and recap closes in active voice (Balance tailors, builds, opens); journal badges on the cited findings; a panic question feeds the SOS Singles preview for anyone with a stress goal; the schedule answer changes the no-judgment line and the profile's week 1; the proof screen loses its "verbatim" line; the assembly screen says "recorded themselves, in the studio" and "Balance chooses"; the profile gets a bridging subtitle; the chart draws in and leads with the 85% figure; the program-ready card echoes what the user said instead of naming the Today screen; Ofosu is always the first coach; constrained recaps read answers back by rule, the comparison keeps both columns, and sign-up returns to its place after program-ready.
+
 ## Open for review
 
-1. Gender question: keep in the wish list or drop, given the round-2 read on Calmer's gendered copy.
-2. Headline register on the coaches card, and the profile names (content pass).
-3. Whether the study rerun uses the wish list, the constrained flow, or both as arms.
-4. The paywall mock is the Aug 16 carousel; swap for the ReciMe design if this is used for testing.
+1. Right-place screen: stays early (Alex's call), but would a version right after the goal screens tell a more cohesive story without proofing too late?
+2. The sleep routing question drew complaints in the March study; it is kept verbatim because it routes the handoff.
+3. Stress stat: 81% "cope better with anxious feelings" stands in for 77% "respond to stress better" on the goals card and the stress echo, per the 80%+ preference. Content to confirm.
+4. "Built by hand, for you" as the assembly headline, or one of the alternatives in its notes.
+5. Journal badges use a styled citation, not the JAMA or Nature wordmark; permission needed before shipping logos. No press citations are on file for a press-logo row.
+6. Headline register on the coaches card, and the profile names (content pass).
+7. Whether the study rerun uses the wish list, the constrained flow, or both as arms.
 """
 open(OUT,'w').write(doc); print('spec written:', len(doc), 'chars;', 'kept',kept,'adapted',adapted,'cut',cut)

@@ -3,69 +3,69 @@
  "name": "Wish list",
  "principles": {
   "arrival": {
-   "name": "Meet the arrival",
-   "text": "Most new users come from a Meta ad about stress or anxiety and have never used a meditation app. Orient them before asking anything personal, and speak to the reason they tapped.",
+   "name": "Match the ad they tapped",
+   "text": "Most new users arrive from a Meta ad about stress or anxiety and have never used a meditation app. Speak to the reason they tapped before asking anything personal.",
    "source": "HDYHAU Sep 4: Meta is 40% of respondents at 6.6% trial start vs 13.9% overall; round 2 A2 (newcomers reached a paywall not knowing what the app does)"
   },
   "proof-early": {
-   "name": "Proof before the ask",
-   "text": "Trust is built before the commitment moment, not at it. Awards, ratings and member counts go where the user is still deciding whether to invest 3 minutes.",
+   "name": "Lots of proof before the trial ask",
+   "text": "Awards, ratings, member counts and reviews appear while the user is still deciding whether to give us 3 minutes, not only at the paywall.",
    "source": "March A3 (the store listing was the strongest pre-app trust signal); Calmer #1; Insight Timer's 5 proof placements"
   },
   "payoff": {
-   "name": "Every ask has a payoff",
-   "text": "A question earns its place by changing something the user can see: a reason line for why we ask, and the answer used within 2 screens.",
+   "name": "Every question pays off",
+   "text": "Each question says why we ask, and the answer visibly changes something within 2 screens.",
    "source": "Growth Gems principle 2; 23-app benchmark rule 2 (reason in the header); rule 3 (result points back to what you said)"
   },
   "echo": {
-   "name": "Say it back",
-   "text": "Read the user's own words back to them. Personalization the user cannot see is not personalization to them.",
+   "name": "Say their answers back",
+   "text": "Read the user's own answers back to them. Personalization the user cannot see is not personalization to them.",
    "source": "Synthesis #1 (answer echo, the biggest gap vs the field); round 2 A4 (a named result is where 'it understood me' landed); Alex 5:00 ('a major need')"
   },
   "rhythm": {
-   "name": "Ask, echo, teach, preview",
-   "text": "Never run 2 question blocks back to back. After 1 or 2 questions, pay the user back with a validation, a piece of evidence or a look at the product.",
+   "name": "Ask, then give back",
+   "text": "The question rhythm: never 2 question blocks in a row. After 1 or 2 questions, pay the user back with a validation, a fact or a look at the product.",
    "source": "Calmer's spine (15 questions, ~20 interstitials); synthesis #2; round 2: 3 of 4 Calmer testers named the explanations unprompted"
   },
   "sourced": {
-   "name": "Sourced, dated evidence",
-   "text": "Every number carries a source and a date. Claims are stated plainly with a disclaimer where results vary. No 'clinically proven', no unsourced stats.",
+   "name": "Real numbers with a source",
+   "text": "Every number carries a source and a date, and results-vary language where it applies. No 'clinically proven', no unsourced stats.",
    "source": "March B4/B5 (age-specific stats were the strongest confidence builder; ours were dated and unsourced); Anna's citation set; Balance whitepaper 2025"
   },
   "felt-value": {
    "name": "Show the product before the paywall",
    "text": "The paywall arriving before any sense of the product was the abandonment trigger in March. Previews of real sections and a named first session stand in for felt value.",
-   "source": "March D1 (12 of 18) and F1 (5 of 6 newcomers); round 2 A5 (content access resolved the try-first objection); synthesis #10"
+   "source": "March D1 (12 of 18) and F1 (5 of 6 newcomers); round 2 A5 (content access resolved the try-first objection); synthesis #10; paid-UA field read Sep 5 (ReciMe has the user import a real recipe before its paywall)"
   },
   "humans": {
-   "name": "Made by humans, shown not said",
-   "text": "Faces, voices and the handcrafted mechanism answer the 'is this AI' worry without using the word, which plants the thought.",
+   "name": "Real coaches, shown not claimed",
+   "text": "Faces, voices and how the sessions get made answer the 'is this AI' worry without using the word, which plants the thought.",
    "source": "Cindy (Sep 2024); coaches prior art; App Store review 'Love that they use real voices and not AI'; 3 competitors sell teacher credibility"
   },
   "reassure": {
-   "name": "Specific reassurance beside sensitive asks",
+   "name": "A privacy line beside personal questions",
    "text": "A concrete, checkable line next to the field it protects ('never shown to anyone') builds more trust than any general promise.",
    "source": "23-app benchmark rule 4 (Strava, Gentler Streak: highest trust ratings in the set); the deck had zero reassurance copy"
   },
   "no-deficit": {
-   "name": "Compassion, never agitation",
-   "text": "No scare copy, no presupposed diagnosis, always a 'Not sure'. Validate what the user said, then teach. The structure of Calmer's agitate-then-absolve arc is used; its claims are not.",
-   "source": "Balance voice (compassionate, grounded); synthesis #9; Calmer's dark patterns documented-not-copied"
+   "name": "No scare copy",
+   "text": "Validate what the user said, then teach. No presupposed diagnosis, always a 'Not sure'. Calmer's agitate-then-absolve structure is used; its claims are not.",
+   "source": "Balance voice (compassionate, grounded); synthesis #9; Calmer's dark patterns documented, not copied"
   },
   "commit": {
-   "name": "A small commitment before the big one",
-   "text": "A realistic practice goal and a reminder time right before the paywall turn intent into a plan, and make the trial feel like a decision already half made.",
+   "name": "A small commitment before the trial",
+   "text": "A realistic practice goal and a reminder time right before the paywall turn intent into a plan, so the trial feels like a decision already half made.",
    "source": "Synthesis #4 (Insight Timer's praise ladder, cheapest high-leverage steal); Calmer #41; CYTR +24.7% trial starts"
   },
   "honest-result": {
-   "name": "A result built only from real answers",
+   "name": "A profile built only from real answers",
    "text": "The profile reflects what the user actually said. No invented sub-scores, no manufactured headroom, no clinical framing.",
    "source": "Round 2 P18 (Calmer scored his healthy diet as Fair and he thanked it); A4; 'not a clinical assessment' line"
   },
   "keep-what-works": {
    "name": "Keep what already tests well",
-   "text": "The goal screens, the reminder flow, the trial-reminder chooser and the live paywall stay as they are. The redesign is the connective tissue around them.",
-   "source": "Alex 4:35 ('keep our goal screens as they exist'); prior-art census (wins came from reordering and framing, not new content); CYTR and ReciMe are baseline wins"
+   "text": "The goal screens, the reminder flow, the trial-reminder chooser and the live paywall stay as they are. This is a constraint as much as a principle: no first test would remove the goal screens or change the reminder flow, so both versions keep them.",
+   "source": "Alex 4:35 ('keep our goal screens as they exist') and Sep 5 ('constraint-driven more than we know this is good'); prior-art census (wins came from reordering and framing, not new content); CYTR and ReciMe are baseline wins"
   },
   "voice": {
    "name": "Balance voice",
@@ -73,12 +73,12 @@
    "source": "Balance content style guide"
   },
   "trial-anxiety": {
-   "name": "Name the trial mechanics",
+   "name": "Say when the trial reminder comes",
    "text": "Forgetting to cancel is the objection behind the objection. Say when the reminder comes and what happens on day 7 before asking for the trial.",
    "source": "Round 2 A3 (the trial-reminder paywall was the only element praised unprompted for the objection it targets); Insight Timer and Calmer timelines"
   }
  },
- "description": "Calmer's package in Balance's skin: proof up front, questions in an ask, echo, teach, preview rhythm on every goal path, a named result profile and a progress graph, then today's paywall. Built as if templates were free.",
+ "description": "Calmer's flow in Balance's skin, built as if templates were free. Proof up front, a question rhythm that gives something back after every ask or two, a named profile and a progress graph, then today's paywall.",
  "phases": [
   "Welcome",
   "About you",
@@ -138,11 +138,11 @@
     "Let's start with a",
     "few questions."
    ],
-   "body": "Your answers shape your Plan: what your first session works on, how long it runs, and how it adapts from there. It takes about 3 minutes.",
+   "body": "Answer a few questions to personalize your Plan. They shape what your first session focuses on, which Singles are ready for hard moments, and how your meditations adapt as you go. About 3 minutes.",
    "notes": {
     "template": "text",
     "tag": "copy",
-    "why": "Tell people what the questions do before asking them. Replaces the current 'Answer a few questions to personalize your experience' card.",
+    "why": "Tell people what the questions do before asking them, keeping 'personalize your Plan' from today's card (Alex, Sep 5). 'Focuses on' replaced 'works on'; the two clauses now name Balance things (Singles, adapting meditations) instead of generic quiz copy.",
     "calmer": "#2 (assessment intro)",
     "evidence": "Alex 2:12; benchmark rule 2 (reason in the header)"
    },
@@ -150,7 +150,7 @@
     "payoff",
     "arrival"
    ],
-   "how": "Tell people what the questions do before the first one. 3 minutes is a promise about their time."
+   "how": "Tell people what the questions do before the first one, in the words today's card already uses ('personalize your Plan'). 3 minutes is a promise about their time."
   },
   {
    "id": "first_name",
@@ -240,7 +240,7 @@
    "title": [
     "How do you identify?"
    ],
-   "subtitle": "Optional. Some members prefer sessions that speak to their experience.",
+   "noReason": true,
    "reassure": "Optional, and never shown anywhere.",
    "options": [
     {
@@ -267,7 +267,7 @@
    "notes": {
     "template": "question",
     "tag": "existing",
-    "why": "Calmer opens on gender and echoes it later. Kept (Alex, Sep 4); the echo stays light because a round-2 tester read Calmer's gendered copy as 'given to every woman'.",
+    "why": "Calmer opens on gender and echoes it later. Kept (Alex, Sep 4); the echo stays light because a round-2 tester read Calmer's gendered copy as 'given to every woman'. Subtitle cut Sep 5: the 'Prefer not to say' tile and the privacy line already say it is optional.",
     "calmer": "#3 (gender)",
     "evidence": "Alex 2:34; round 2 P6"
    },
@@ -354,7 +354,7 @@
     "{{a.name}}, you're in",
     "the right place."
    ],
-   "body": "Balance has helped {{L.age_count}} people your age.{{H.pick(a.hdyhau==='family_and_friends',' Someone you know is one of them.','')}} Here's how it works: a 10-minute session each day, built from your answers and guided by 2 real coaches, plus a sleep library and Singles for the moments you need one.",
+   "body": "Balance has helped {{L.age_count}} people your age.{{H.pick(a.hdyhau==='family_and_friends',' Someone you know is one of them.','')}} Inside: a 10-minute session each day, assembled from your answers by 2 real coaches, 400+ meditations, a sleep library, and Singles for the moment you need one.",
    "mock": {
     "header": "Your program",
     "pill": "Day 1",
@@ -364,6 +364,11 @@
       "s": "10 min · with Ofosu",
       "color": "polar_blue",
       "hl": true
+     },
+     {
+      "t": "Ofosu and Leah",
+      "s": "Your 2 coaches, every word theirs",
+      "color": "papaya_whip"
      },
      {
       "t": "Sleep library",
@@ -380,11 +385,12 @@
    "notes": {
     "template": "textImage",
     "tag": "unused",
-    "why": "Show the product before asking anything personal, and reflect back what the user just gave: their name, the age-specific member count (March's strongest confidence builder) and the friend referral when there was one. Newcomers in round 2 reached a paywall without knowing what the app would do for them.",
+    "why": "Show the product before asking anything personal, and reflect back what the user just gave: their name, the age-specific member count (March's strongest confidence builder) and the friend referral when there was one. Kept early on Alex's call (Sep 5): the apps we studied say 'you're in the right place' up front, so this screen carries the broad library (coaches, catalog, sleep, Singles) and the stats card after the goal pick carries 'how Balance helps your goals'.",
     "calmer": "#5 (section preview right after age)",
-    "evidence": "Alex 2:51; round 2 A2 (newcomer gap); synthesis #10",
+    "evidence": "Alex 2:51; Alex Sep 5 2:16 to 3:46; round 2 A2 (newcomer gap); synthesis #10",
     "fills": [
-     "Session length and 'made from your answers' mechanism: confirm with Anna"
+     "Session length and the 'assembled from your answers' mechanism: confirm with Anna",
+     "Open (Alex, Sep 5): would a version right after the goal screens tell a more cohesive story, or proof too late?"
     ]
    },
    "principles": [
@@ -424,13 +430,16 @@
    "type": "goalsMetrics",
    "phase": 3,
    "title": [
-    "Here's what our",
-    "members are saying:"
+    "Members with your goals",
+    "say Balance works:"
    ],
+   "lead": {
+    "text": "85% feel better overall"
+   },
    "metrics": [
     {
      "goal": "stress",
-     "text": "77% respond to stress better"
+     "text": "81% cope better with anxious feelings"
     },
     {
      "goal": "mood",
@@ -452,14 +461,19 @@
    "notes": {
     "template": "goalsMetrics",
     "tag": "copy",
-    "why": "Existing card with sourced, dated numbers from the Balance whitepaper (survey of 3,700+ members, 2025). Today's 95/92/82/75 line has no locatable source, and two different sleep numbers coexist in the codebase.",
-    "evidence": "March B4/B5; whitepaper Personalization Pays Off (2025); Anna's Aug 11 DM"
+    "why": "Existing card, reframed as 'how Balance helps your goals' now that the right-place screen carries the broad library (Alex, Sep 5). Numbers are the whitepaper's (3,700+ members, 2025); a general 85% well-being row leads because Alex wants 80%+ where the survey has it, and the stress row uses the 81% anxious-feelings stat over the 77% stress stat for the same reason. Today's 95/92/82/75 line has no locatable source.",
+    "evidence": "March B4/B5; whitepaper Personalization Pays Off (2025); Anna's Aug 11 DM; Alex Sep 5 12:30 to 12:55",
+    "fills": [
+     "Stress row: 81% 'cope better with anxious feelings' stands in for 77% 'respond to stress better'; content to confirm the swap reads honestly",
+     "Sleep has no 80%+ stat in the survey; 69% stays"
+    ]
    },
    "principles": [
     "sourced",
-    "proof-early"
+    "proof-early",
+    "payoff"
    ],
-   "how": "Same card as today, with numbers that have a source and a date."
+   "how": "Same card as today, reframed as how Balance helps the goals just picked, with numbers that have a source and a date."
   },
   {
    "id": "stress_1",
@@ -566,13 +580,13 @@
     "Stress like this is why",
     "most people start."
    ],
-   "body": "You said stress shows up as {{H.lower(H.list(L.how_experience_stress))}}. That's the pattern members describe most. In a survey of 3,700+ members, 77% said they respond to stress better. Your first sessions are built for it.",
+   "body": "You said stress shows up as {{H.lower(H.list(L.how_experience_stress))}}. That's the pattern members describe most, and Balance tailors your first sessions to exactly that. In a 2025 survey of 3,700+ members, 81% said they cope better with anxious feelings.",
    "notes": {
-    "template": "text (with interpolation)",
+    "template": "text (answers written in)",
     "tag": "new",
-    "why": "Validation beat that reads the answer back within seconds. Today the flow asks 8 to 10 questions and reflects none of them until the loading screen.",
+    "why": "Validation beat that reads the answer back within seconds, then says what Balance does with it in active voice (Alex, Sep 5: 'we'll tailor your first sessions to your specific symptoms', not 'built for it'). Today the flow asks 8 to 10 questions and reflects none of them until the loading screen.",
     "calmer": "#8 (validation interstitial)",
-    "evidence": "Synthesis #1; Alex 5:00"
+    "evidence": "Synthesis #1; Alex 5:00; Alex Sep 5 4:10 to 4:42"
    },
    "principles": [
     "echo",
@@ -592,15 +606,19 @@
     "stress and anxiety."
    ],
    "body": "The most widely cited meta-analysis of meditation, 47 randomized trials and 3,500+ participants, found measurable improvements in anxiety, depression and pain.",
-   "cite": "Goyal et al., JAMA Internal Medicine, 2014. Results vary from person to person. Balance is not a substitute for professional care.",
+   "sourceBadge": "JAMA Internal Medicine",
+   "sourceBadgeLabel": "Published in",
+   "cite": "Goyal et al., 2014. Results vary from person to person. Balance is not a substitute for professional care.",
    "notes": {
-    "template": "goalMeditationPrimer",
+    "template": "goalMeditationPrimer + journal badge",
     "tag": "unused",
-    "why": "Honest replacement for Calmer's agitation arc: one cited finding plus a disclaimer. The DID-YOU-KNOW-with-citation template (title, text, subtext) exists and is unused.",
+    "why": "Honest replacement for Calmer's agitation arc: one cited finding plus a disclaimer. The journal name now sits in a badge so the source reads as proof, not a footnote (Alex, Sep 5: 'logos proofing'). The DID-YOU-KNOW-with-citation template (title, text, subtext) exists and is unused; the badge is an asset on it.",
     "calmer": "#9 to #11 (agitation), #36 (hope stat with disclaimer)",
-    "evidence": "Anna's citation set; March B5",
+    "evidence": "Anna's citation set; March B5; Alex Sep 5 4:54 to 5:18",
     "fills": [
-     "Disclaimer wording with content"
+     "Disclaimer wording with content",
+     "The JAMA wordmark needs the publisher's permission; the prototype shows a styled citation badge, not the logo",
+     "Press that has cited Balance: none on file, marketing to supply if we add press logos elsewhere in the flow"
     ]
    },
    "principles": [
@@ -611,16 +629,61 @@
    "how": "One cited finding with a disclaimer, placed where Calmer puts the scare."
   },
   {
+   "id": "stress_panic",
+   "type": "question",
+   "phase": 3,
+   "branch": "a.goal_1==='stress'",
+   "questionId": "panic_spikes",
+   "title": [
+    "Do you get sudden spikes",
+    "of stress or panic?"
+   ],
+   "subtitle": "Singles are made for those moments.",
+   "options": [
+    {
+     "id": "often",
+     "text": "Often",
+     "color": "misty_peach"
+    },
+    {
+     "id": "sometimes",
+     "text": "Sometimes",
+     "color": "papaya_whip"
+    },
+    {
+     "id": "rarely",
+     "text": "Rarely",
+     "color": "mint_green"
+    }
+   ],
+   "subAnswer": {
+    "id": "unsure",
+    "text": "Not sure"
+   },
+   "notes": {
+    "template": "question",
+    "tag": "existing",
+    "why": "Calmer's panic question, copied on Alex's call (Sep 5): ask it, then show the SOS toolkit. New question on the existing card.",
+    "calmer": "#19 to #20 (panic frequency, then the SOS preview)",
+    "evidence": "Alex Sep 5 5:32 to 6:00"
+   },
+   "principles": [
+    "payoff",
+    "rhythm"
+   ],
+   "how": "Calmer's panic question. The answer sets up the SOS preview on the next screen."
+  },
+  {
    "id": "singles_preview",
    "type": "textImage",
    "phase": 3,
    "branch": "a.goal_1==='stress'",
    "tap": true,
    "title": [
-    "Singles, for the",
-    "moment stress hits."
+    "Your SOS toolkit,",
+    "ready from day 1."
    ],
-   "body": "Singles are short sessions for right now: a rising panic, a hard conversation, a night you can't switch off. You'll find them on your Today screen from day 1.",
+   "body": "{{H.panic(a)}}Singles are short sessions for right now: a rising panic, a hard conversation, a night you can't switch off. You've unlocked them from day 1.",
    "mock": {
     "header": "Singles",
     "rows": [
@@ -643,11 +706,11 @@
     ]
    },
    "notes": {
-    "template": "textImage",
+    "template": "textImage (answers written in)",
     "tag": "unused",
-    "why": "Section preview as felt value, and Calmer's 'look for the helicopter' trick: teach an affordance in onboarding that is visibly waiting on home.",
+    "why": "Section preview as felt value, and Calmer's 'look for the helicopter' trick: teach an affordance in onboarding that is visibly waiting on home. Opens by saying back the panic answer; 'you've unlocked them' replaces 'you'll find them on your Today screen' (Alex, Sep 5: clerical).",
     "calmer": "#20 (Panic SOS preview)",
-    "evidence": "Alex 5:40 ('we literally have the same meditation, the SOS single')",
+    "evidence": "Alex 5:40 ('we literally have the same meditation, the SOS single'); Alex Sep 5 6:15 to 6:36",
     "fills": [
      "Real Single titles and durations from the catalog"
     ]
@@ -655,7 +718,8 @@
    "principles": [
     "felt-value",
     "rhythm",
-    "payoff"
+    "payoff",
+    "echo"
    ],
    "how": "A look at the part of the product that answers the stress just described, and an affordance the user will find waiting on home."
   },
@@ -734,14 +798,14 @@
      "when": "a.goal_sleep==='yes'"
     }
    ],
-   "body": "Your first sessions start there.",
+   "body": "Balance builds your first sessions around exactly this.",
    "cta": "Continue",
    "notes": {
-    "template": "text (with interpolation)",
+    "template": "text (answers written in)",
     "tag": "new",
-    "why": "The recap Alex called a major need, framed as what we heard (so it reads differently from the outcomes screen later). Interpolation needs template work; the static per-goal version is a list card.",
+    "why": "The recap Alex called a major need, framed as what we heard (so it reads differently from the outcomes screen later), closing with what Balance does about it in active voice (Alex, Sep 5). Writing answers into the copy needs template work; the static per-goal version is a list card.",
     "calmer": "#15 (answer-echo checklist)",
-    "evidence": "Alex 5:00 to 5:15; synthesis #1"
+    "evidence": "Alex 5:00 to 5:15; synthesis #1; Alex Sep 5 6:48"
    },
    "principles": [
     "echo",
@@ -776,7 +840,11 @@
    "notes": {
     "template": "question",
     "tag": "existing",
-    "why": "Kept verbatim. Routes the post-onboarding destination (Sleep Single vs Plan) on the native side."
+    "why": "Kept verbatim. Routes the post-onboarding destination (Sleep Single vs Plan) on the native side.",
+    "evidence": "Alex Sep 5 23:28: this screen drew complaints in the March study",
+    "fills": [
+     "March complaints about this screen: decide whether it stays verbatim, moves, or gets a reason line"
+    ]
    },
    "principles": [
     "keep-what-works"
@@ -883,9 +951,9 @@
     "Most people who come",
     "for sleep say the same."
    ],
-   "body": "You said {{H.lower(H.list(L.keep_awake))}} keep{{H.pick((a.keep_awake||[]).length===1,'s','')}} you up. 69% of members in our survey reported better sleep, and your Plan starts with the wind-down that gets you there.",
+   "body": "You said {{H.lower(H.list(L.keep_awake))}} keep{{H.pick((a.keep_awake||[]).length===1,'s','')}} you up. Balance opens your Plan with a wind-down built for exactly that, and 69% of members in our survey reported better sleep.",
    "notes": {
-    "template": "text (with interpolation)",
+    "template": "text (answers written in)",
     "tag": "new",
     "why": "Validation echo for the sleep path.",
     "calmer": "#8",
@@ -908,7 +976,9 @@
     "helps you fall asleep."
    ],
    "body": "In a randomized trial of adults with sleep trouble, a mindfulness program improved sleep quality more than sleep-hygiene education alone.",
-   "cite": "Black et al., JAMA Internal Medicine, 2015. [Confirm with Anna.] Results vary from person to person.",
+   "sourceBadge": "JAMA Internal Medicine",
+   "sourceBadgeLabel": "Published in",
+   "cite": "Black et al., 2015. [Confirm with Anna.] Results vary from person to person.",
    "notes": {
     "template": "goalMeditationPrimer",
     "tag": "unused",
@@ -1045,10 +1115,10 @@
      "when": "a.goal_stress==='yes'"
     }
    ],
-   "body": "Your Plan starts with the wind-down.",
+   "body": "Your Plan opens with a wind-down built around this.",
    "cta": "Continue",
    "notes": {
-    "template": "text (with interpolation)",
+    "template": "text (answers written in)",
     "tag": "new",
     "why": "What-we-heard recap for the sleep path.",
     "calmer": "#15"
@@ -1164,7 +1234,7 @@
    ],
    "body": "{{H.happy(a)}} 82% of members in our survey feel more emotionally steady.",
    "notes": {
-    "template": "text (with interpolation)",
+    "template": "text (answers written in)",
     "tag": "new",
     "why": "Validation echo for the mood path.",
     "calmer": "#8",
@@ -1188,7 +1258,9 @@
     "mood over a few weeks."
    ],
    "body": "Across randomized trials, meditation programs reduced distress and lifted mood in everyday adults, not only in clinical groups.",
-   "cite": "Galante et al., Nature Mental Health, 2023. Results vary from person to person. Balance is not a substitute for professional care.",
+   "sourceBadge": "Nature Mental Health",
+   "sourceBadgeLabel": "Published in",
+   "cite": "Galante et al., 2023. Results vary from person to person. Balance is not a substitute for professional care.",
    "notes": {
     "template": "goalMeditationPrimer",
     "tag": "unused",
@@ -1322,10 +1394,10 @@
      "when": "a.improve_mood && a.improve_mood!=='unsure'"
     }
    ],
-   "body": "Your first sessions build on that.",
+   "body": "Balance tailors your first sessions to build on this.",
    "cta": "Continue",
    "notes": {
-    "template": "text (with interpolation)",
+    "template": "text (answers written in)",
     "tag": "new",
     "why": "What-we-heard recap for the mood path.",
     "calmer": "#15"
@@ -1439,13 +1511,13 @@
     "Attention wanders.",
     "That's what it does."
    ],
-   "body": "You said {{H.pulls(a)}}. Meditation is practice at noticing that and coming back. 78% of members in our survey feel more present and focused.",
+   "body": "You said {{H.pulls(a)}}. Meditation is practice at noticing that and coming back, and Balance tailors your first sessions to it. 78% of members in our survey feel more present and focused.",
    "notes": {
-    "template": "text (with interpolation)",
+    "template": "text (answers written in)",
     "tag": "new",
     "why": "Validation echo for the focus path.",
     "calmer": "#8",
-    "evidence": "Synthesis #1"
+    "evidence": "Synthesis #1; Alex Sep 5 14:44 (78% stays: the survey has no 80%+ focus stat)"
    },
    "principles": [
     "echo",
@@ -1643,10 +1715,10 @@
      "when": "a.procrastinate && a.procrastinate!=='unsure'"
     }
    ],
-   "body": "Your first sessions train attention to come back.",
+   "body": "Balance tailors your first sessions to train attention around this.",
    "cta": "Continue",
    "notes": {
-    "template": "text (with interpolation)",
+    "template": "text (answers written in)",
     "tag": "new",
     "why": "What-we-heard recap for the focus path.",
     "calmer": "#15"
@@ -1748,6 +1820,99 @@
     "felt-value"
    ],
    "how": "Sleep content for people who picked it as a secondary goal."
+  },
+  {
+   "id": "stress_panic_b",
+   "type": "question",
+   "phase": 4,
+   "branch": "a.goal_stress==='yes' && a.goal_1!=='stress'",
+   "questionId": "panic_spikes",
+   "title": [
+    "Do you get sudden spikes",
+    "of stress or panic?"
+   ],
+   "subtitle": "Singles are made for those moments.",
+   "options": [
+    {
+     "id": "often",
+     "text": "Often",
+     "color": "misty_peach"
+    },
+    {
+     "id": "sometimes",
+     "text": "Sometimes",
+     "color": "papaya_whip"
+    },
+    {
+     "id": "rarely",
+     "text": "Rarely",
+     "color": "mint_green"
+    }
+   ],
+   "subAnswer": {
+    "id": "unsure",
+    "text": "Not sure"
+   },
+   "notes": {
+    "template": "question",
+    "tag": "existing",
+    "why": "The panic question for users who picked stress as a secondary goal (Alex, Sep 5: show the SOS toolkit to anyone with a stress goal, not only stress #1).",
+    "calmer": "#19",
+    "evidence": "Alex Sep 5 5:48 to 6:00"
+   },
+   "principles": [
+    "payoff",
+    "rhythm"
+   ],
+   "how": "The panic question for people who picked stress as a secondary goal."
+  },
+  {
+   "id": "singles_preview_b",
+   "type": "textImage",
+   "phase": 4,
+   "branch": "a.goal_stress==='yes' && a.goal_1!=='stress'",
+   "tap": true,
+   "title": [
+    "Your SOS toolkit,",
+    "ready from day 1."
+   ],
+   "body": "{{H.panic(a)}}Singles are short sessions for right now: a rising panic, a hard conversation, a night you can't switch off. You've unlocked them from day 1.",
+   "mock": {
+    "header": "Singles",
+    "rows": [
+     {
+      "t": "SOS",
+      "s": "3 min · when panic rises",
+      "color": "misty_peach",
+      "hl": true
+     },
+     {
+      "t": "Before a hard conversation",
+      "s": "5 min",
+      "color": "papaya_whip"
+     },
+     {
+      "t": "Unwind",
+      "s": "10 min",
+      "color": "polar_blue"
+     }
+    ]
+   },
+   "notes": {
+    "template": "textImage (answers written in)",
+    "tag": "unused",
+    "why": "SOS Singles preview for the stress-as-secondary-goal path.",
+    "calmer": "#20",
+    "evidence": "Alex Sep 5 5:48 to 6:00",
+    "fills": [
+     "Real Single titles and durations from the catalog"
+    ]
+   },
+   "principles": [
+    "felt-value",
+    "echo"
+   ],
+   "how": "The SOS toolkit shown to anyone with a stress goal, not only stress #1."
   },
   {
    "id": "exercise",
@@ -1852,13 +2017,16 @@
     "What you already do",
     "counts for a lot."
    ],
-   "body": "{{H.Days(a)}}, so your first sessions run 10 minutes or less, with 5-minute versions for the days that get away from you. No pressure, and no streak to protect.",
+   "body": "{{H.Days(a)}}. Your first session runs 10 minutes, {{H.roomLine(a)}} No pressure, and no streak to protect.",
    "notes": {
-    "template": "text (with interpolation)",
+    "template": "text (answers written in)",
     "tag": "new",
-    "why": "De-shaming beat that speaks back to the schedule answer, before the aspiration question.",
+    "why": "De-shaming beat that speaks back to the schedule answer, before the aspiration question. The first session is always 10 minutes (static); the back half changes with the schedule answer: 5-minute versions for packed days, longer versions for people with room to unwind (Alex, Sep 5).",
     "calmer": "#31 (non-judgment beat)",
-    "evidence": "Alex: more moments that speak back to the user"
+    "evidence": "Alex: more moments that speak back to the user; Alex Sep 5 7:57 to 8:33",
+    "fills": [
+     "Session lengths are set per exercise in the app (supportedDurationsInMinutes); confirm the longest Plan session length with content before saying '20 minutes'"
+    ]
    },
    "principles": [
     "no-deficit",
@@ -2006,12 +2174,11 @@
      "who": "Sgomz, App Store review"
     }
    ],
-   "cite": "Reviews verbatim from the App Store.",
    "cta": "Continue",
    "notes": {
     "template": "userReview",
     "tag": "unused",
-    "why": "One proof screen: badges and 3 verbatim reviews. The age-specific member count moved up to the 'right place' screen so it reflects the age answer the moment it is given. userReview shows one quote per card in the deck.",
+    "why": "One proof screen: badges and 3 verbatim reviews. The 'reviews verbatim from the App Store' line is cut (Alex, Sep 5: the cards already say App Store review); 'Members' stays. The age-specific member count moved up to the 'right place' screen so it reflects the age answer the moment it is given. userReview shows one quote per card in the deck.",
     "calmer": "#33 (social proof carousel)",
     "evidence": "Alex 7:28; Alex: combine reviews and the age stat, then reflect answers back earlier",
     "fills": [
@@ -2034,7 +2201,7 @@
     "Built by hand,",
     "for you."
    ],
-   "body": "Ofosu and Leah recorded every segment by hand. Balance is choosing the ones that fit your answers, so your first session sounds like it was made for you. Because it was.",
+   "body": "Ofosu and Leah recorded every segment themselves, in the studio. Balance chooses the ones that fit your answers, so your first session is tailored to exactly what you told us.",
    "foot": "Switch coaches anytime.",
    "cta": "Continue",
    "sessions": {
@@ -2044,7 +2211,7 @@
     },
     "sleep": {
      "title": "Letting the day go",
-     "coach": "Leah"
+     "coach": "Ofosu"
     },
     "mood": {
      "title": "Meeting the day as it is",
@@ -2062,11 +2229,12 @@
    "notes": {
     "template": "meditationLoading (personalization reveal) + new animation",
     "tag": "new",
-    "why": "Option 3 (Alex, Sep 4): the coaches appear where the Plan gets made. Their faces, the user's answer chips, and the first session that comes out of them replace the generic Creating Program screen. Replaces dead time instead of adding a step; the standalone coaches card is gone from this version.",
+    "why": "Option 3 (Alex, Sep 4): the coaches appear where the Plan gets made. Their faces, the user's answer chips, and the first session that comes out of them replace the generic Creating Program screen. Replaces dead time instead of adding a step; the standalone coaches card is gone from this version. Sep 5: 'recorded by hand' became 'recorded themselves, in the studio' (they do not record by hand), 'is choosing' became 'chooses', and the first session is always with Ofosu, since that is what the product does.",
     "calmer": "#34 (named-instrument loading), #37 (result reveal)",
-    "evidence": "Round 2 A4; March D1/F1; Growth Gems principle 2; coaches prior art (angle 2)",
+    "evidence": "Round 2 A4; March D1/F1; Growth Gems principle 2; coaches prior art (angle 2); Alex Sep 5 9:36 to 10:47 and 24:46",
     "fills": [
-     "The 'recorded every segment by hand' mechanism: confirm wording and any number with Anna or Cindy",
+     "Headline alternatives if 'Built by hand' overstates it: 'Recorded by 2 people. Assembled for you.' or 'Made by 2 people, for 1.'",
+     "The recording mechanism: confirm wording with Anna or Cindy",
      "Session titles per goal from the catalog"
     ]
    },
@@ -2086,6 +2254,7 @@
    "title": [
     "Your starting point."
    ],
+   "subtitle": "You today, from your answers. Next: where Balance takes it.",
    "scoreLabel": "Starting point",
    "cta": "Continue",
    "scores": [
@@ -2213,28 +2382,28 @@
    "profiles": {
     "stress": {
      "name": "The Overdrive Mind",
-     "insight": "Your mind rarely gets to idle. {{H.exp(a)}} and {{H.days(a)}}, so week 1 is short sessions that teach your mind how to settle."
+     "insight": "Your mind rarely gets to idle. {{H.exp(a)}} and {{H.days(a)}}, so {{H.week1(a)}}."
     },
     "sleep": {
      "name": "The Wired and Tired",
-     "insight": "Your body is ready for rest before your mind is. {{H.exp(a)}}, so week 1 starts with the wind-down, then works on the stress underneath it."
+     "insight": "Your body is ready for rest before your mind is. {{H.exp(a)}} and {{H.days(a)}}, so {{H.week1(a)}}."
     },
     "mood": {
      "name": "The Weather Watcher",
-     "insight": "Your mood moves with the day. {{H.exp(a)}} and {{H.days(a)}}, so week 1 is short check-ins that notice what you feel before it takes over."
+     "insight": "Your mood moves with the day. {{H.exp(a)}} and {{H.days(a)}}, so {{H.week1(a)}}."
     },
     "focus": {
      "name": "The Open Browser",
-     "insight": "Attention keeps opening new tabs. {{H.exp(a)}}, so week 1 trains it to come back in sessions short enough to finish."
+     "insight": "Attention keeps opening new tabs. {{H.exp(a)}} and {{H.days(a)}}, so {{H.week1(a)}}."
     }
    },
    "cite": "Based only on your answers. Not a clinical assessment.",
    "notes": {
     "template": "goalMeditationPrimer (static per goal) or new gauge template",
     "tag": "new",
-    "why": "A named result profile is where 'it understood me' landed in round 2. Sub-scores derive only from answers actually given, so no manufactured headroom (P18). The insight speaks back to experience and schedule.",
+    "why": "A named result profile is where 'it understood me' landed in round 2. Sub-scores derive only from answers actually given, so no manufactured headroom (P18). The insight speaks back to experience and schedule, and the week-1 line now changes with the schedule answer (short sessions for packed days, longer ones for people with room to unwind) instead of assuming everyone is busy (Alex, Sep 5). A subtitle bridges from the assembly screen, which Alex felt this followed abruptly, and points at the projection next.",
     "calmer": "#37 (Mental Health Load gauge)",
-    "evidence": "Round 2 A4; Alex 8:09; web funnel 'Here's Your Mental Health Profile / The Overdrive Mode'",
+    "evidence": "Round 2 A4; Alex 8:09; web funnel 'Here's Your Mental Health Profile / The Overdrive Mode'; Alex Sep 5 10:47 to 12:13",
     "fills": [
      "Profile names: content pass",
      "Score mapping: agree the rules with DS so nothing reads as a diagnosis"
@@ -2245,7 +2414,7 @@
     "honest-result",
     "no-deficit"
    ],
-   "how": "A named profile built only from the answers given, with an insight that names the user's experience and schedule."
+   "how": "You today, from the answers given: a named profile with an insight that names the user's experience and schedule, and a week 1 that fits their days. The next screen is you in a few weeks with Balance."
   },
   {
    "id": "chart",
@@ -2263,17 +2432,18 @@
    ],
    "withLabel": "With Balance",
    "aloneLabel": "On your own",
-   "body": "In a 2025 survey of 3,700+ members, 77% said they respond to stress better and 69% reported better sleep. On your own, most people report little change.",
+   "body": "In a 2025 survey of 3,700+ members, 85% reported improved mental and emotional well-being{{H.goalStat(a)}}. On your own, most people report little change.",
    "cite": "Illustrative curve. Survey figures from the Balance whitepaper, 2025.",
    "cta": "Continue",
    "notes": {
-    "template": "textImage (static image per goal)",
+    "template": "textImage (static image per goal) or Lottie",
     "tag": "new",
-    "why": "The progress graph Alex called 'so important': on your own vs with Balance, never 'Balance Premium'. A static image per goal fits textImage.",
+    "why": "The progress graph Alex called 'so important': on your own vs with Balance, never 'Balance Premium'. The line and dots now draw in one after another (Alex, Sep 5: 'ding, ding, ding'), which makes it a Lottie rather than a still. Leads with the survey's 85% well-being figure, then the goal's own stat.",
     "calmer": "#38 (projection graph)",
-    "evidence": "Alex 8:35 to 9:00",
+    "evidence": "Alex 8:35 to 9:00; Alex Sep 5 12:21 to 12:55",
     "fills": [
-     "Copy pass against the web funnel's Before/Day 2/Day 30 timeline"
+     "Copy pass against the web funnel's Before/Day 2/Day 30 timeline",
+     "A Lottie per goal, or one animation with the stat line swapped"
     ]
    },
    "principles": [
@@ -2482,13 +2652,13 @@
     "Your Plan is ready,",
     "{{a.name}}."
    ],
-   "body": "Your first session is 10 minutes with Ofosu, built for {{H.goalsPhrase(a)}}.{{H.pick(!!H.firstFuture(a,L),' Week 1 works toward '+H.firstFuture(a,L)+'.','')}} You'll find it on your Today screen.",
+   "body": "Your first session is 10 minutes with Ofosu, built for {{H.goalsPhrase(a)}}.{{H.readyLine(a,L)}}{{H.pick(!!H.firstFuture(a,L),' Week 1 works toward '+H.firstFuture(a,L)+'.','')}}",
    "cta": "See my Plan",
    "notes": {
     "template": "Swift program-ready card (copy) / text",
     "tag": "swift",
-    "why": "Program-ready card that names the first session, echoes the goals and the first 'look forward to' pick. No 'free'-led framing at the commit moment (March H3).",
-    "evidence": "March H3; angle 2's 'your first session' reveal parked",
+    "why": "Program-ready card that names the first session, echoes the goals, what the user told us (symptom, what keeps them up, what pulls attention) and the first 'look forward to' pick. 'You'll find it on your Today screen' is cut (Alex, Sep 5: we are not teaching people where to find things here). No 'free'-led framing at the commit moment (March H3).",
+    "evidence": "March H3; angle 2's 'your first session' reveal parked; Alex Sep 5 13:17 to 14:00",
     "fills": [
      "Confirm with Matheus whether the Swift program-ready card can take the first name (the Lua text cards can)"
     ]

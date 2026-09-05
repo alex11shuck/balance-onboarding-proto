@@ -20,7 +20,7 @@ const personas=[
  {a:{ name:'Lee', age:40, age_count:691213, goals:['stress'], goal_1:'stress', goal_stress:'yes', goal_sleep:'no', goal_mood:'no', goal_focus:'no', how_often_feel_stress:'unsure', how_experience_stress:['moodiness'], stress_source:'unsure', exercise:'1', schedule:'packed', future:['energy'], has_meditated_before:'once_or_twice', paywall:'declined' },
   L:{ name:'Lee', age_count:'691,213', goals:'Reduce Stress', goal_1:'Reduce Stress', how_often_feel_stress:'Not sure', how_experience_stress:'Moodiness', stress_source:'Not sure', exercise:'Once or twice a week', schedule:'Packed, every day', future:'Energy for the things I enjoy', has_meditated_before:'Tried it once or twice' }},
  {a:{}, L:{}}];
-const decks = fs.readdirSync(__dirname+'/../decks').filter(f=>f.endsWith('.json') && f!=='index.json').map(f=>f.replace(/\.json$/,''));
+const decks = fs.readdirSync(__dirname+'/../decks').filter(f=>f.endsWith('.json') && !f.startsWith('index')).map(f=>f.replace(/\.json$/,''));
 let bad=0, rendered=0;
 for(const f of decks){
   const d=JSON.parse(fs.readFileSync(__dirname+`/../decks/${f}.json`,'utf8'));

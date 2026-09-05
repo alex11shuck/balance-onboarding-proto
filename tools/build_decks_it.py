@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Builds decks/it_wishlist.json and decks/it_constrained.json: Insight Timer's onboarding package in Balance's skin.
+"""Builds decks/it_wishlist.json and decks/it_constrained.json: Insight Timer's onboarding flow in Balance's skin.
 Same shape as build_decks.py (Calmer): the wish list is authored below, the constrained deck is derived from it so the whittle is
 visible in one place, and both go through decklib's lint, copy/edits.json applier and writer.
 
@@ -169,7 +169,7 @@ add(id="signup", type="signup", phase=5, branch="a.paywall==='trial'", title=["S
     notes=N("Swift auth bookend","swift","Insight Timer never creates an account: no email, no SSO, anonymous through home. Balance's trial needs one, so the adaptation is to ask after the trial starts rather than before the paywall. A Swift bookend change and a strategy call, not deck work.",
       ref="Insight Timer #26 (home reached with no sign-up ever)", evidence="Teardown: 'move sign-up after the paywall decision rather than before it, not removal'; benchmark: the deferred account gate is the archetype's norm"))
 add(id="end", type="end", title=["Prototype ends here."], body="In the app, a started trial hands off to the first session on the Today screen. A decline shows today's counter-offer, then lands on the Today screen with the program locked.",
-    note="This is the wish-list version of Insight Timer's package: proof and preferences in place of symptom questions, built as if templates were free. The constrained version keeps today's goal-1 question blocks and reminder tracks and inserts Insight Timer's screens around them.",
+    note="This is the wish-list version of Insight Timer's flow: proof and preferences in place of symptom questions, built as if templates were free. The constrained version keeps today's goal-1 question blocks and reminder tracks and inserts Insight Timer's screens around them.",
     notes=N("(prototype only)","existing","End card for reviewers."))
 
 PR = {
@@ -223,7 +223,7 @@ def stamp(cards):
         if how and "how" not in c: c["how"] = how
 stamp(W)
 WISH = {"id":"it_wishlist","name":"Wish list","pair":"it_constrained","pairName":"constrained","principles":IT_PRINCIPLES,
-        "description":"Insight Timer's package in Balance's skin: proof stacked before the first question, interests instead of diagnoses, chart-backed benefit beats, a consecutive-days commitment with a praise ladder, a dosage-lowering chart before the minutes ask, a plan built from the answers and a dated outlook, then today's paywall. Built as if templates were free.",
+        "description":"Insight Timer's flow in Balance's skin: proof stacked before the first question, interests instead of diagnoses, chart-backed benefit beats, a consecutive-days commitment with a praise ladder, a dosage-lowering chart before the minutes ask, a plan built from the answers and a dated outlook, then today's paywall. Built as if templates were free.",
         "phases":["Welcome","About you","What works","Your routine","Your plan"], "cards": W}
 
 # ---------------- Constrained: today's flow kept, Insight Timer's screens inserted ----------------
@@ -244,7 +244,7 @@ for cid in ("commitment","minutes"):
     by[cid]["type"] = "question"; by[cid].pop("cta", None)
     setnotes(cid, why=by[cid]["notes"]["why"].split(" Plain single-select")[0].split(" The conditional footnote")[0]+" Plain single-select here.", loss="The praise / footnote line after selection (per-answer copy).")
 by["commitment"]["style"] = "compact"
-by["goal_set"]["body"] = "Balance will track it with you."; setnotes("goal_set", loss="The goal said back (interpolation).")
+by["goal_set"]["body"] = "Balance will track it with you."; setnotes("goal_set", loss="The goal said back (answers written into the copy).")
 by["reminder_time"].update({"subtitle":"A daily nudge for your session.","default":"6:00 pm"})
 setnotes("reminder_time", why="Existing training-reminder card. The template keys its default off the time-of-day answer in production; the prototype shows the static default here.", loss="Default time following the answer (production does this; the prototype's constrained deck does not interpolate).")
 by["when"]["branch"] = NO_SLEEP; setnotes("when", why="Today's 'When would you like to meditate?' card on today's branch (no sleep goal).", loss="Asking sleep users when they practice.")
@@ -259,7 +259,7 @@ by["projection"].update({"static":True,"title":["Where 6 weeks with","Balance ge
 by["projection"].pop("kicker", None); setnotes("projection", tag="unused", template="textImage (static image per goal)", why="The same graph as a baked image per goal branch on textImage. The prototype draws it live; production ships 4 images.", loss="The computed date and the goal-specific figure in the body.")
 sign = by["signup"]; sign.pop("branch", None); sign.update({"title":["Create an account to","save your program."],"body":"Your program follows you across devices."})
 setnotes("signup", template="Swift auth bookend", tag="existing", why="Sign-up stays before the paywall, as today.", loss="Sign-up after the trial starts (wish list).")
-by["end"].update({"note":"This is the constrained version of Insight Timer's package: today's goal-1 question blocks and reminder tracks kept intact, Insight Timer's screens inserted around them, only card templates that exist in the app today. Every screen here is a session.json content change except the paywall and trial reminder (Superwall), Creating Program, program-ready and sign-up (Swift)."})
+by["end"].update({"note":"This is the constrained version of Insight Timer's flow: today's goal-1 question blocks and reminder tracks kept intact, Insight Timer's screens inserted around them, only card templates that exist in the app today. Every screen here is a session.json content change except the paywall and trial reminder (Superwall), Creating Program, program-ready and sign-up (Swift)."})
 
 # today's cards (deck map, Aug 7 pin), with a reason line each; kept only in the constrained version
 TWOWK = "Over the last 2 weeks."

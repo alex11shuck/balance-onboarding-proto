@@ -49,7 +49,17 @@ const H = { lower:x=>String(x||'').toLowerCase(), first:x=>Array.isArray(x)?x[0]
   outcome:(a)=>({stress:"In a 2025 survey of 3,700+ members, 77% said they respond to stress better.", sleep:"In a 2025 survey of 3,700+ members, 69% reported better sleep.", mood:"In a 2025 survey of 3,700+ members, 82% said they feel more emotionally steady.", focus:"In a 2025 survey of 3,700+ members, 78% said they feel more present and focused."})[a.goal_1]||"In a 2025 survey of 3,700+ members, 85% reported improved mental and emotional well-being.",
   outcomeShort:(a)=>({stress:"respond to stress better", sleep:"sleep better", mood:"feel more emotionally steady", focus:"feel more present and focused"})[a.goal_1]||"feel better",
   outcomePct:(a)=>({stress:"77%", sleep:"69%", mood:"82%", focus:"78%"})[a.goal_1]||"85%",
-  whenPhrase:(a)=>({morning:"in the morning", afternoon:"in the afternoon", evening:"in the evening"})[a.when_to_meditate]||"each day" };
+  whenPhrase:(a)=>({morning:"in the morning", afternoon:"in the afternoon", evening:"in the evening"})[a.when_to_meditate]||"each day",
+  panic:(a)=>({often:"You said the spikes come often, so this matters. ", sometimes:"You said the spikes come sometimes. ", rarely:"Even rare spikes deserve a plan. "})[a.panic_spikes]||"",
+  roomLine:(a)=>(['some','open'].includes(a.schedule)) ? "and when you have space to really unwind, there are longer versions too." : "with 5-minute versions for the days that get away from you.",
+  week1:(a)=>{ const open=['some','open'].includes(a.schedule); const g=a.goal_1||'stress'; const m={stress:["week 1 is short sessions that teach your mind how to settle","week 1 gives you longer sessions with real time to unwind and settle"], sleep:["week 1 starts with a short wind-down, then works on the stress underneath it","week 1 starts with a full wind-down, then works on the stress underneath it"], mood:["week 1 is short check-ins that notice what you feel before it takes over","week 1 gives your check-ins room to breathe, so you notice what you feel before it takes over"], focus:["week 1 trains attention to come back in sessions short enough to finish","week 1 trains attention to come back, with longer sessions when you have the space"]}; return (m[g]||m.stress)[open?1:0]; },
+  goalStat:(a)=>({stress:", and 81% cope better with anxious feelings", sleep:", and 69% reported better sleep", mood:", and 82% feel more emotionally steady", focus:", and 78% feel more present and focused"})[a.goal_1]||"",
+  readyLine:(a,L)=>{ const g=a.goal_1||'stress';
+    if(g==='stress'){ const x=String(L.how_experience_stress||'').split(', ')[0]; return x? ` It starts with the ${x.toLowerCase()} you told us about.` : ''; }
+    if(g==='sleep'){ const k=String(L.keep_awake||'').split(', ')[0].toLowerCase(); if(!k) return ' It opens with a wind-down.'; return k==="just can't fall asleep" ? " It opens with a wind-down for the nights sleep won't come." : ` It opens with a wind-down for the nights ${k} keeps you up.`; }
+    if(g==='mood') return ' It starts with a check-in for the days a low mood gets in the way.';
+    if(g==='focus') return (a.most_distracting && a.most_distracting!=='unsure') ? ` It starts where ${H.pulls(a)}.` : '';
+    return ''; } };
 function tpl(str){ if(!str) return ''; return String(str).replace(/\{\{([^}]+)\}\}/g, (_,e)=>{ try{ const v = new Function('a','L','H','return ('+e+')')(S.a,S.L,H); return v==null?'':String(v);}catch(err){ return '['+e+']'; } }); }
 function tl(t){ return tpl(lines(t)); }
 function branchOK(card){ if(!card.branch) return true; try{ return !!new Function('a','L','return ('+card.branch+')')(S.a,S.L);}catch(e){ console.warn('branch error',card.id,e); return true; } }
@@ -83,28 +93,46 @@ function go(delta){
 function setHash(){ const id = S.deck.cards[S.idx]?.id; history.replaceState(null,'',`${location.pathname}${location.search}#/${S.deckId}/${id}`); }
 
 /* ---------- landing ---------- */
-async function loadManifest(){ if(DECKS.__index) return DECKS.__index; const r = await fetch(`decks/index.json?v=${Date.now()%100000}`); DECKS.__index = await r.json(); return DECKS.__index; }
+async function loadManifest(){ if(DECKS.__index) return DECKS.__index; const r = await fetch(`${window.PROTO_MANIFEST||'decks/index.json'}?v=${Date.now()%100000}`); DECKS.__index = await r.json(); return DECKS.__index; }
 async function renderLanding(){
   const man = await loadManifest();
   const loaded = {}; for(const base of man.bases) for(const id of base.decks) loaded[id] = await loadDeck(id);
-  const stat = d => { const q = d.cards.filter(x=>['question','scrollableQuestion','multiselect','keyboard','slider','commitment','goalRanking'].includes(x.type)).length; return `<div class="stats"><span><b>${d.cards.length}</b> screens</span><span><b>${q}</b> asks</span><span><b>${d.cards.filter(x=>x.notes&&x.notes.tag==='new').length}</b> new templates</span></div>`; };
+  const primaryId = (man.primary&&man.primary.deck) || man.bases[0].decks[0]; const primary = loaded[primaryId];
+  const stat = d => { const q = d.cards.filter(x=>['question','scrollableQuestion','multiselect','keyboard','slider','commitment','goalRanking'].includes(x.type)).length; return `<div class="stats"><span><b>${d.cards.length}</b> screens</span><span><b>${q}</b> questions</span><span><b>${d.cards.filter(x=>x.notes&&x.notes.tag==='new').length}</b> new templates</span></div>`; };
   const notesQ = modeQ();
-  const tq=(n,w)=>{ const p=[]; if(n) p.push('notes=1'); if(w) p.push('why=1'); return p.length?('?'+p.join('&')):''; };
+  const tq=(n,w,e)=>{ const p=[]; if(n) p.push('notes=1'); if(w) p.push('why=1'); if(e) p.push('edit=1'); return p.length?('?'+p.join('&')):''; };
   const vcard = id => { const d=loaded[id]; return `<div class="vcard"><h2 ${S.edit?`contenteditable data-deck="${id}" data-ek="deck:name" class="ed"`:''}>${esc(d.name)}</h2><p ${S.edit?`contenteditable data-deck="${id}" data-ek="deck:description" class="ed"`:''}>${esc(d.description)}</p>${stat(d)}<div class="row"><a class="btn" href="${location.pathname}${notesQ}#/${id}">Start</a><a class="btn secondary small" href="${location.pathname}${notesQ}#/map/${id}">Flow map</a></div></div>`; };
+  const g = primary.principles||{}; const pkeys = Object.keys(g);
   app.innerHTML = `<div class="landing">
-    <h1>Balance onboarding prototypes</h1>
-    <p class="sub">${esc(man.intro||'')} Tap through on a phone, or open the flow map for the screen-by-screen spec. Copy in <b>[brackets]</b> is a placeholder to verify.</p>
-    ${man.bases.map(base=>`<div class="base"><h2>${esc(base.name)}</h2><p class="basedesc">${esc(base.description||'')}</p><div class="versions">${base.decks.map(vcard).join('')}</div></div>`).join('')}
-    <div class="legend" style="margin-bottom:16px"><h3>Two review modes</h3>
-      <div class="row" style="margin:8px 0 12px"><a class="btn small ${S.why?'':'secondary'}" href="${location.pathname}${tq(S.notes,!S.why)}#/">${S.why?'✓ ':''}Why mode</a><a class="btn small ${S.notes?'':'secondary'}" href="${location.pathname}${tq(!S.notes,S.why)}#/">${S.notes?'✓ ':''}Build notes</a></div>
-      <a class="btn small ${S.edit?'':'secondary'}" href="${location.pathname}${(()=>{const p=[]; if(S.notes)p.push('notes=1'); if(S.why)p.push('why=1'); if(!S.edit)p.push('edit=1'); return p.length?'?'+p.join('&'):'';})()}#/" style="margin-left:-4px">${S.edit?'✓ ':''}Edit copy</a>
-      <b>Why mode</b> (for content design and marketing) shows the principles behind each screen: what it is doing for the user, and the research or competitor evidence it rests on. <b>Build notes</b> (for product and engineering) show each screen's template and what it costs to ship. Either mode adds a small button at the top of the phone; on a desktop the panel sits beside the frame. <b>Edit copy</b> lets you tap any line of text on a screen and rewrite it in place; taps stop navigating and a small bar moves you through the flow. Your edits stay on this device until you export them, and the export is a file the build applies on the next publish.</div>
+    <h1>${esc(man.title||'Balance onboarding prototype')}</h1>
+    <p class="sub">${esc(man.intro||'')}</p>
+    ${man.note?`<p class="foot-note" style="margin:-20px 0 26px">${esc(man.note)}</p>`:''}
+    <div class="hero-row"><a class="btn" href="${location.pathname}${tq(S.notes,true,S.edit)}#/${primaryId}">Start the review</a><span>Opens the ${esc(primary.name.toLowerCase())} with Why mode on, so each screen explains itself. Best on a phone.</span></div>
+    ${man.bases.map(base=>`<div class="base">${man.bases.length>1?`<h2>${esc(base.name)}</h2>`:''}${base.description?`<p class="basedesc">${esc(base.description)}</p>`:''}<div class="versions">${base.decks.map(vcard).join('')}</div></div>`).join('')}
+    <div class="legend"><h3>Three ways to review</h3>
+      <div class="moderow"><a class="btn small ${S.why?'':'secondary'}" href="${location.pathname}${tq(S.notes,!S.why,S.edit)}#/">${S.why?'✓ ':''}Why mode</a><div>For content design and marketing. The idea behind each screen and the evidence it rests on.</div></div>
+      <div class="moderow"><a class="btn small ${S.notes?'':'secondary'}" href="${location.pathname}${tq(!S.notes,S.why,S.edit)}#/">${S.notes?'✓ ':''}Build notes</a><div>For product and engineering. The template each screen uses and what it costs to ship.</div></div>
+      <div class="moderow"><a class="btn small ${S.edit?'':'secondary'}" href="${location.pathname}${tq(S.notes,S.why,!S.edit)}#/">${S.edit?'✓ ':''}Edit copy</a><div>Tap any line of text and rewrite it in place. Export hands your edits back for the next publish.</div></div>
+      <p class="modefoot">On a phone, the mode adds a small button at the top of the screen. On a desktop, the panel sits beside the phone.</p>
+    </div>
+    ${pkeys.length?`<div class="legend"><h3>The ideas behind the flow</h3><p class="modefoot" style="margin:0 0 10px">Every screen is tagged with the ideas it puts to work. Tap one to see what it means.</p>
+      <div class="pchips">${pkeys.map(k=>`<button class="pchip" data-pk="${esc(k)}">${esc(g[k].name)}</button>`).join('')}<button class="pchip all" data-pk="__all">Show all</button></div>
+      <div class="pdef" id="pdef" hidden></div></div>`:''}
     <div class="legend"><h3>Reading the build notes</h3>
-      Tags:
-      <div class="row" style="margin-top:8px">${Object.keys(TAG_LABEL).map(t=>`<span class="tag tag-${t}">${TAG_LABEL[t]}</span>`).join('')}</div>
-      <p style="margin:12px 0 0">The real onboarding is a JSON card array read by a Lua card engine, so every screen tagged <i>existing</i> or <i>built, unused</i> is a content change in <code>session.json</code>, not engineering. <i>Copy change</i> means new words on a card that already ships. <i>Swift bookend</i> and <i>Superwall dashboard</i> live outside the deck. <i>New template</i> is Lua engine work that ships to Android too.</p>
+      <div class="row" style="margin:6px 0 10px">${Object.keys(TAG_LABEL).map(t=>`<span class="tag tag-${t}">${TAG_LABEL[t]}</span>`).join('')}</div>
+      <p style="margin:0">The real onboarding is a list of cards read by the app, so <i>existing</i> and <i>built, unused</i> screens are content changes, not engineering. <i>New template</i> is engineering work that ships to Android too.</p>
     </div>
   </div>`;
+  const pdef = $('#pdef');
+  app.querySelectorAll('.pchip').forEach(b=>b.onclick=()=>{
+    const k=b.dataset.pk; const on=b.classList.contains('on');
+    app.querySelectorAll('.pchip').forEach(x=>x.classList.remove('on'));
+    if(on){ pdef.hidden=true; pdef.innerHTML=''; return; }
+    b.classList.add('on');
+    const one = p => `<div class="princ"><b>${esc(p.name)}</b><div>${esc(p.text)}</div>${p.source?`<div class="src">${esc(p.source)}</div>`:''}</div>`;
+    pdef.innerHTML = k==='__all' ? `<div class="gloss">${pkeys.map(x=>one(g[x])).join('')}</div>` : one(g[k]);
+    pdef.hidden=false;
+  });
   if(S.edit){ app.querySelectorAll('[data-deck]').forEach(el=>{ const dk=el.dataset.deck, key=el.dataset.ek; const d=loaded[dk]; el.addEventListener('focus',()=>el.dataset.before=el.innerText); el.addEventListener('blur',()=>{ const now=el.innerText.trim(); if(now===(el.dataset.before||'').trim()) return; const st=edStore(); st[dk]=st[dk]||{}; st[dk]['_deck']=st[dk]['_deck']||{}; st[dk]['_deck'][key]={source:key==='deck:name'?d.name:d.description, rendered:el.dataset.before, edited:now, dynamic:false}; edSave(st); el.classList.add('ed-changed'); }); }); }
 }
 
@@ -117,7 +145,7 @@ function renderMap(d){
   app.innerHTML = `<div class="map">
     <p><a href="${location.pathname}${notesQ}#/">← All versions</a></p>
     <h1>${esc(d.name)}: flow map</h1>
-    <p style="color:var(--dark);max-width:760px">${esc(d.description)} Core questions are counted the way the 23-app Health &amp; Fitness benchmark counts them (field median 6, ceiling 12; Balance today 8 on the stress + sleep path).</p>
+    <p style="color:var(--dark);max-width:760px">${esc(d.description)}</p>
     <div class="summary"><div class="stat"><b>${d.cards.length}</b>screens in the deck</div><div class="stat"><b>${asks.length}</b>asks (questions, pickers, entries)</div>${Object.keys(tags).map(t=>`<div class="stat"><b>${tags[t]}</b><span class="tag tag-${t}">${TAG_LABEL[t]||t}</span></div>`).join('')}</div>
     <div style="overflow-x:auto"><table><thead><tr><th>#</th><th>Screen</th><th>Type / template</th><th>Shown when</th><th>Tag</th><th>Source</th><th>Notes</th>${S.why?'<th>Principles</th>':''}</tr></thead><tbody>
     ${d.cards.map((c,i)=>{ const n=c.notes||{}; return `<tr><td class="n">${i+1}</td><td><a href="${location.pathname}${notesQ}#/${d.id}/${c.id}"><b>${esc((Array.isArray(c.title)?c.title.join(' '):(c.title||c.id)).replace(/<[^>]+>/g,''))}</b></a><br><code>${esc(c.id)}</code></td><td>${esc(c.type)}${n.template&&n.template!==c.type?`<br><code>${esc(n.template)}</code>`:''}</td><td>${c.branch?`<code>${esc(c.branch)}</code>`:'everyone'}</td><td><span class="tag tag-${n.tag||'existing'}">${TAG_LABEL[n.tag]||n.tag||'Existing template'}</span></td><td>${n.ref?`${esc(n.ref)}<br>`:''}${n.calmer?`Calmer ${esc(n.calmer)}<br>`:''}${esc(n.evidence||'')}</td><td>${esc(n.why||'')}${n.loss?`<br><b>Lost vs wish list:</b> ${esc(n.loss)}`:''}${n.fills&&n.fills.length?`<br><b>Verify:</b> ${n.fills.map(esc).join('; ')}`:''}</td>${S.why?`<td>${(c.principles||[]).map(k=>`<span class="tag tag-why">${esc((g[k]||{}).name||k)}</span>`).join(' ')}${c.how?`<br><span style="color:var(--dark)">${esc(c.how)}</span>`:''}</td>`:''}</tr>`; }).join('')}
@@ -171,6 +199,7 @@ const CHECK = `<svg class="check" viewBox="0 0 22 22" fill="none"><circle cx="11
 const LOCK = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#878888" stroke-width="2"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg>`;
 function head(card, opts={}){ return `${card.kicker?`<div class="kicker">${tpl(card.kicker)}</div>`:''}<h1 class="title ${opts.sm?'sm':''}">${tl(card.title)}</h1>${card.subtitle?`<p class="subtitle">${tl(card.subtitle)}</p>`:''}`; }
 function reassure(card){ return card.reassure ? `<div class="reassure">${LOCK}<span>${tpl(card.reassure)}</span></div>` : ''; }
+function srcBadge(card){ return card.sourceBadge ? `<div class="srcbadge"><span class="jl">${esc(card.sourceBadgeLabel||'Published in')}</span><span class="jn">${esc(card.sourceBadge)}</span></div>` : ''; }
 function cta(label, extra=''){ return S.edit ? `<div class="bottom">${extra}<div class="cta" id="cta" role="button">${esc(label||'Continue')}</div></div>` : `<div class="bottom">${extra}<button class="cta" id="cta">${esc(label||'Continue')}</button></div>`; }
 function tapToContinue(){ const c=S.deck.cards[S.idx]||{}; const l=c.tapLabel||'Tap to continue'; return S.edit ? `<div class="bottom" style="align-items:center"><div class="ghost tap" id="cta" role="button">${esc(l)}</div></div>` : `<div class="bottom" style="align-items:center"><button class="ghost tap" id="cta">${esc(l)}</button></div>`; }
 function bindNext(sel='#cta'){ const b = $(sel); if(b) b.onclick = ()=>go(1); }
@@ -187,7 +216,7 @@ RENDER.welcome = (c, el)=>{
   bindNext();
 };
 RENDER.text = (c, el)=>{
-  el.innerHTML = `${c.image?`<div style="font-size:56px;margin-bottom:22px">${c.image.length<=3?c.image:`<img src="assets/icons/${c.image}.png" style="width:96px;height:96px" alt="">`}</div>`:''}${head(c)}${(c.body && !c.items)?`<p class="body ${c.bodyInk?'ink':''}">${tl(c.body)}</p>`:''}${c.items?`<div class="vlist">${c.items.filter(it=>{ if(typeof it==='string'||!it.when) return true; try{ return !!new Function('a','L','return ('+it.when+')')(S.a,S.L);}catch(e){ return true; } }).map(it=>`<div class="vitem">${CHECK}<div><div class="t">${tpl(it.title||it.text||it)}</div>${it.subtitle?`<div class="s">${tpl(it.subtitle)}</div>`:''}</div></div>`).join('')}</div>`:''}${(c.body && c.items)?`<p class="body">${tl(c.body)}</p>`:''}${reassure(c)}${c.cite?`<p class="cite">${tpl(c.cite)}</p>`:''}<div class="spacer"></div>`;
+  el.innerHTML = `${c.image?`<div style="font-size:56px;margin-bottom:22px">${c.image.length<=3?c.image:`<img src="assets/icons/${c.image}.png" style="width:96px;height:96px" alt="">`}</div>`:''}${head(c)}${(c.body && !c.items)?`<p class="body ${c.bodyInk?'ink':''}">${tl(c.body)}</p>`:''}${c.items?`<div class="vlist">${c.items.filter(it=>{ if(typeof it==='string'||!it.when) return true; try{ return !!new Function('a','L','return ('+it.when+')')(S.a,S.L);}catch(e){ return true; } }).map(it=>`<div class="vitem">${CHECK}<div><div class="t">${tpl(it.title||it.text||it)}</div>${it.subtitle?`<div class="s">${tpl(it.subtitle)}</div>`:''}</div></div>`).join('')}</div>`:''}${(c.body && c.items)?`<p class="body">${tl(c.body)}</p>`:''}${reassure(c)}${srcBadge(c)}${c.cite?`<p class="cite">${tpl(c.cite)}</p>`:''}<div class="spacer"></div>`;
   el.insertAdjacentHTML('beforeend', c.tap ? tapToContinue() : cta(c.cta)); bindNext();
 };
 RENDER.textImage = (c, el)=>{
@@ -230,8 +259,8 @@ RENDER.goalRanking = (c, el)=>{
   phase1();
 };
 RENDER.goalsMetrics = (c, el)=>{
-  const order = S.a.goals || ['stress','sleep']; const rows = order.map(g=>c.metrics.find(m=>m.goal===g)).filter(Boolean);
-  el.innerHTML = `${head(c)}<div class="metrics">${rows.map(m=>{ const [n,...rest]=m.text.split(' '); return `<div class="metric" style="background:${colorVar(GOAL_COLOR[m.goal])}"><span class="n">${n}</span><span>${rest.join(' ')}</span></div>`; }).join('')}</div>${c.disclaimer?`<div class="disclaimer">${tl(c.disclaimer)}</div>`:''}<div class="spacer"></div>`;
+  const order = S.a.goals || ['stress','sleep']; const rows = (c.lead?[Object.assign({goal:'all'},c.lead)]:[]).concat(order.map(g=>c.metrics.find(m=>m.goal===g)).filter(Boolean));
+  el.innerHTML = `${head(c)}<div class="metrics">${rows.map(m=>{ const [n,...rest]=m.text.split(' '); return `<div class="metric ${m.goal==='all'?'lead':''}" style="background:${colorVar(GOAL_COLOR[m.goal]||'mint_green')}"><span class="n">${n}</span><span>${rest.join(' ')}</span></div>`; }).join('')}</div>${c.disclaimer?`<div class="disclaimer">${tl(c.disclaimer)}</div>`:''}<div class="spacer"></div>`;
   el.insertAdjacentHTML('beforeend', c.tap===false ? cta('Continue') : tapToContinue()); bindNext();
 };
 RENDER.ageMetrics = (c, el)=>{
@@ -329,8 +358,9 @@ RENDER.chart = (c, el)=>{
   const w=320,h=170; const px = i=>28+i*(w-48)/3; const withY=[132,96,62,38], aloneY=[132,124,118,114];
   const path = ys => ys.map((y,i)=>`${i?'L':'M'}${px(i)} ${y}`).join(' ');
   const labels = c.weeks||['Today','Week 1','Week 3','Week 6'];
-  el.innerHTML = `${head(c,{sm:true})}<div class="chart"><svg viewBox="0 0 ${w} ${h}"><line x1="22" y1="140" x2="${w-8}" y2="140" stroke="#E3E6E8"/><path d="${path(aloneY)}" stroke="#C6CBCE" stroke-width="3" fill="none" stroke-dasharray="6 6" stroke-linecap="round"/><path d="${path(withY)}" stroke="#30C5CA" stroke-width="4" fill="none" stroke-linecap="round"/>${withY.map((y,i)=>`<circle cx="${px(i)}" cy="${y}" r="5" fill="#fff" stroke="#30C5CA" stroke-width="3"/>`).join('')}${labels.map((l,i)=>`<text x="${px(i)}" y="160" font-size="11" text-anchor="middle" fill="#878888" font-family="Work Sans, sans-serif">${esc(l)}</text>`).join('')}</svg><div class="leg"><span><i style="background:#30C5CA"></i>${tpl(c.withLabel||'With Balance')}</span><span><i style="background:#C6CBCE"></i>${tpl(c.aloneLabel||'On your own')}</span></div></div>${c.body?`<p class="body">${tl(c.body)}</p>`:''}${c.cite?`<p class="cite">${tpl(c.cite)}</p>`:''}${learnMore(c)}<div class="spacer"></div>`;
+  el.innerHTML = `${head(c,{sm:true})}<div class="chart ${c.static?'in':''}" id="chz"><svg viewBox="0 0 ${w} ${h}"><line x1="22" y1="140" x2="${w-8}" y2="140" stroke="#E3E6E8"/><path d="${path(aloneY)}" stroke="#C6CBCE" stroke-width="3" fill="none" stroke-dasharray="6 6" stroke-linecap="round"/><path class="cw" d="${path(withY)}" stroke="#30C5CA" stroke-width="4" fill="none" stroke-linecap="round"/>${withY.map((y,i)=>`<circle class="cd" style="transition-delay:${(0.15+i*0.45).toFixed(2)}s" cx="${px(i)}" cy="${y}" r="5" fill="#fff" stroke="#30C5CA" stroke-width="3"/>`).join('')}${labels.map((l,i)=>`<text x="${px(i)}" y="160" font-size="11" text-anchor="middle" fill="#878888" font-family="Work Sans, sans-serif">${esc(l)}</text>`).join('')}</svg><div class="leg"><span><i style="background:#30C5CA"></i>${tpl(c.withLabel||'With Balance')}</span><span><i style="background:#C6CBCE"></i>${tpl(c.aloneLabel||'On your own')}</span></div></div>${c.body?`<p class="body">${tl(c.body)}</p>`:''}${c.cite?`<p class="cite">${tpl(c.cite)}</p>`:''}${learnMore(c)}<div class="spacer"></div>`;
   el.insertAdjacentHTML('beforeend', cta(c.cta)); bindNext(); bindLearnMore(c);
+  if(!c.static) setTimeout(()=>{ const z=$('#chz'); if(z) z.classList.add('in'); }, 150);
 };
 RENDER.comparison = (c, el)=>{
   const pick = (arr)=> arr.flatMap(x=>{ if(typeof x==='string') return [tpl(x)]; if(x.from){ return String(S.L[x.from]||'').split(', ').filter(Boolean).map(t=>x.prefix?tpl(x.prefix)+t.charAt(0).toLowerCase()+t.slice(1):t); } if(x.when){ try{ if(!new Function('a','L','return ('+x.when+')')(S.a,S.L)) return []; }catch(e){} } return [tpl(x.text)]; }).filter(Boolean).slice(0,5);
@@ -391,7 +421,7 @@ RENDER.end = (c, el)=>{
   $('#cta').onclick=()=>{ S.idx=-1; location.hash = `#/${S.deckId}`; route(); };
 };
 
-/* ---------- Insight Timer package renderers ---------- */
+/* ---------- Insight Timer flow renderers ---------- */
 RENDER.donut = (c, el)=>{
   const pct = Number(c.pct||85); const r=64, C=2*Math.PI*r; const off = C*(1-pct/100);
   el.innerHTML = `${head(c,{sm:true})}<div class="donut"><svg viewBox="0 0 160 160"><circle cx="80" cy="80" r="${r}" stroke="#E3E6E8" stroke-width="18" fill="none"/><circle id="dn" cx="80" cy="80" r="${r}" stroke="#30C5CA" stroke-width="18" fill="none" stroke-linecap="round" stroke-dasharray="${C.toFixed(1)}" stroke-dashoffset="${(c.static?off:C).toFixed(1)}" transform="rotate(-90 80 80)"/><text x="80" y="90" text-anchor="middle" font-size="36" font-weight="300" fill="#0A0A0B" font-family="Work Sans, sans-serif">${esc(c.label||pct+'%')}</text></svg>${c.legend?`<div class="leg">${c.legend.map(l=>`<span><i style="background:${l.color||'#30C5CA'}"></i>${tpl(l.text)}</span>`).join('')}</div>`:''}</div>${c.body?`<p class="body">${tl(c.body)}</p>`:''}${c.cite?`<p class="cite">${tpl(c.cite)}</p>`:''}${learnMore(c)}<div class="spacer"></div>`;

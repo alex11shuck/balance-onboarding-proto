@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Regenerates the Insight Timer package spec in the context directory from decks/it_wishlist.json and decks/it_constrained.json."""
+"""Regenerates the Insight Timer flow spec in the context directory from decks/it_wishlist.json and decks/it_constrained.json."""
 import json, os, re
 R=os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),'decks')
-OUT='/Users/alexshuck/Desktop/context-directory/projects/balance-onboarding-prototypes/prototype-insighttimer-package-v1.md'
+OUT='/Users/alexshuck/Desktop/context-directory/projects/balance-onboarding-prototypes/prototype-insighttimer-flow-v1.md'
 W=json.load(open(R+'/it_wishlist.json')); C=json.load(open(R+'/it_constrained.json'))
 cw={c['id']:c for c in W['cards']}; cc={c['id']:c for c in C['cards']}
 TAG={'existing':'existing template','unused':'built, unused','copy':'copy change','swift':'Swift bookend','superwall':'Superwall','new':'new template','cut':'cut'}
@@ -48,13 +48,13 @@ def tags(d):
     for c in d['cards']: k=c.get('notes',{}).get('tag','existing'); t[k]=t.get(k,0)+1
     return ', '.join(f"{v} {TAG[k]}" for k,v in sorted(t.items()))
 wa=sum(1 for c in W['cards'] if c['type'] in asks); ca=sum(1 for c in C['cards'] if c['type'] in asks)
-doc=f"""# Balance onboarding prototype v1: Insight Timer's package, two versions
+doc=f"""# Balance onboarding prototype v1: Insight Timer's flow, two versions
 
-_Built Sep 4, 2026 (evening), autonomously and **unreviewed**: Alex asked for the Calmer prototyping process rerun with Insight Timer as the base and without his input, so there is no talk-over for this one. Live at **https://alex11shuck.github.io/balance-onboarding-proto/** (the landing page now lists both packages; deep links `#/it_wishlist` and `#/it_constrained`, flow maps at `#/map/it_wishlist` and `#/map/it_constrained`; `?notes=1`, `?why=1` and `?edit=1` work the same way). Source: [alex11shuck/balance-onboarding-proto](https://github.com/alex11shuck/balance-onboarding-proto), builder `tools/build_decks_it.py`. Inputs: the [Insight Timer teardown](competitors/insighttimer-2026-08-12.md) (26 screens, Megan's Aug 12 recording), the [deck map](baseline/deck-map.md), the [cross-app synthesis](competitors/synthesis-2026-08-20.md), [Megan's takeaways triage](competitors/megan-takeaways-triage-2026-08-21.md), the round-2 reads on the Insight Timer arm (P1, P5, P9, P10, P11, P23 in [researcher-coding-corrections.md](researcher-coding-corrections.md) and the Sep 3 dry run), the [proof facts](proof-facts-2026-09-04.md), the [Meet-the-coaches decision](handcrafted-coaches-screen-angles.md), the [23-app vertical benchmark](vertical-benchmarks-23-apps.md), and the standing directives from Alex's [Calmer talk-over](competitors/calmer-alex-walkthrough-2026-09-04.md) that are not Calmer-specific (keep the goal screens, stop at today's paywall, never 'Balance Premium', laurels, no chatbot companion, sign-up after the trial in the wish list)._
+_Built Sep 4, 2026 (evening), autonomously and **unreviewed**: Alex asked for the Calmer prototyping process rerun with Insight Timer as the base and without his input, so there is no talk-over for this one. Live at **https://alex11shuck.github.io/balance-onboarding-proto/** (the landing page now lists both flows; deep links `#/it_wishlist` and `#/it_constrained`, flow maps at `#/map/it_wishlist` and `#/map/it_constrained`; `?notes=1`, `?why=1` and `?edit=1` work the same way). Source: [alex11shuck/balance-onboarding-proto](https://github.com/alex11shuck/balance-onboarding-proto), builder `tools/build_decks_it.py`. Inputs: the [Insight Timer teardown](competitors/insighttimer-2026-08-12.md) (26 screens, Megan's Aug 12 recording), the [deck map](baseline/deck-map.md), the [cross-app synthesis](competitors/synthesis-2026-08-20.md), [Megan's takeaways triage](competitors/megan-takeaways-triage-2026-08-21.md), the round-2 reads on the Insight Timer arm (P1, P5, P9, P10, P11, P23 in [researcher-coding-corrections.md](researcher-coding-corrections.md) and the Sep 3 dry run), the [proof facts](proof-facts-2026-09-04.md), the [Meet-the-coaches decision](handcrafted-coaches-screen-angles.md), the [23-app vertical benchmark](vertical-benchmarks-23-apps.md), and the standing directives from Alex's [Calmer talk-over](competitors/calmer-alex-walkthrough-2026-09-04.md) that are not Calmer-specific (keep the goal screens, stop at today's paywall, never 'Balance Premium', laurels, no chatbot companion, sign-up after the trial in the wish list)._
 
 ## What it is
 
-Two clickable flows on the same URL as the Calmer package, mobile-first, both ending on today's live paywall as a static terminal screen with an ✕. Insight Timer's model is the inverse of Balance's (a huge free library with premium as an upsell), so three things are deliberately **not** copied: the skippable paywall, the "Free / No ads / Forever" decline off-ramp, and the absence of any account. What is copied is the architecture the teardown named: **proof density instead of diagnostics**, interests instead of symptoms, chart-backed benefit beats, a consecutive-days commitment with a praise ladder, a dosage-lowering chart right before the minutes ask, a plan built from the answers instead of a spinner, and a dated outlook instead of a result gauge.
+Two clickable flows on their own page (`insight-timer.html`), kept separate from the Calmer flow so feedback on that lands first (Alex, Sep 5), mobile-first, both ending on today's live paywall as a static terminal screen with an ✕. Insight Timer's model is the inverse of Balance's (a huge free library with premium as an upsell), so three things are deliberately **not** copied: the skippable paywall, the "Free / No ads / Forever" decline off-ramp, and the absence of any account. What is copied is the architecture the teardown named: **proof density instead of diagnostics**, interests instead of symptoms, chart-backed benefit beats, a consecutive-days commitment with a praise ladder, a dosage-lowering chart right before the minutes ask, a plan built from the answers instead of a spinner, and a dated outlook instead of a result gauge.
 
 | | Wish list | Constrained |
 |---|---|---|
@@ -69,9 +69,9 @@ Two clickable flows on the same URL as the Calmer package, mobile-first, both en
 | Coaches | angle 1 (Meet the coaches) as its own screen, in Insight Timer's teacher-count slot | same, static |
 | Interpolation | the plan summary chips, the goal-set echo, the reminder default, the dated outlook | none |
 
-## How it differs from the Calmer package
+## How it differs from the Calmer flow
 
-| | Calmer's package | Insight Timer's package |
+| | Calmer's flow | Insight Timer's flow |
 |---|---|---|
 | Asks in the wish list | 25 | {wa} |
 | Spine | ask, echo, teach, preview on every goal path | proof stacked before the first question, then interests, then benefit beats between short question blocks |
@@ -83,17 +83,17 @@ Two clickable flows on the same URL as the Calmer package, mobile-first, both en
 
 ## The slimming, in one view
 
-Of the {len(W['cards'])} wish-list screens: **{kept} carry over unchanged**, **{adapted} are adapted** (static rendering, praise lines stripped, interpolation removed), **{cut} cut**, and **{len(added)} of today's cards are added back** (the goal-1 question blocks, the early and late bedtime tracks, Creating Program and program-ready) because constraint #2 keeps the core branching. What the constrained version gives up, in order of how much it hurts:
+Of the {len(W['cards'])} wish-list screens: **{kept} carry over unchanged**, **{adapted} are adapted** (static rendering, praise lines stripped, answers written into the copy removed), **{cut} cut**, and **{len(added)} of today's cards are added back** (the goal-1 question blocks, the early and late bedtime tracks, Creating Program and program-ready) because constraint #2 keeps the core branching. What the constrained version gives up, in order of how much it hurts:
 
 1. **The plan built from the user's answers.** The summary becomes a static first-week list per goal branch. Insight Timer's chips are the one screen where its questions visibly pay off.
-2. **The dated outlook.** The date and the goal-specific figure need interpolation; the constrained card is the same graph as a baked image per goal with shared figures.
+2. **The dated outlook.** The date and the goal-specific figure need answers written into the copy; the constrained card is the same graph as a baked image per goal with shared figures.
 3. **The praise ladder and the dynamic footnote.** Commitment and minutes become plain single-selects. Round 2's P11 chose Insight Timer's maximum "just for fun" when the question was unclear, so the reason line matters more than the praise.
 4. **Animation.** The donut draw-in, the chip stagger and the four benefit charts render static; production ships an image per card on textImage.
 5. **Length.** The constrained deck is {len(C['cards'])} screens because today's diagnostics come back. That is the honest cost of constraint #2 against this base, and it is the first thing to decide (see Open for review).
 
 ## The principles (why mode)
 
-Turn on with `?why=1`. Shared with the Calmer package where the principle is the same; four are new to this base.
+Turn on with `?why=1`. Shared with the Calmer flow where the principle is the same; four are new to this base.
 
 {chr(10).join(f"- **{v['name']}.** {v['text']} _{v.get('source','')}_" for v in W['principles'].values())}
 

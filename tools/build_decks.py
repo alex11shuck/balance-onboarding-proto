@@ -34,8 +34,8 @@ add(id="welcome", type="welcome", phase=1, longTitleOK=True, title=["Less stress
       calmer="#1 (welcome: 'built in collaboration with clinical psychologists')", evidence="Alex 1:40; ABCD test b_benefit; March A3; no clinical advisory claim exists, so the whitepaper's 'developed by experts in neuroscience, meditation instruction, and behavioral coaching' is the honest ceiling",
       fills=["Badges are text-only on purpose (Apple rejected a laurel with its logo in 2022); confirm wording with marketing","Rating and count pulled Sep 4, 2026 (4.88, 120,363 US ratings); refresh before shipping"]))
 add(id="assessment_intro", type="text", phase=1, tap=True, title=["Let's start with a","few questions."],
-    body="Your answers shape your Plan: what your first session works on, how long it runs, and how it adapts from there. It takes about 3 minutes.",
-    notes=N("text","copy","Tell people what the questions do before asking them. Replaces the current 'Answer a few questions to personalize your experience' card.",
+    body="Answer a few questions to personalize your Plan. They shape what your first session focuses on, which Singles are ready for hard moments, and how your meditations adapt as you go. About 3 minutes.",
+    notes=N("text","copy","Tell people what the questions do before asking them, keeping 'personalize your Plan' from today's card (Alex, Sep 5). 'Focuses on' replaced 'works on'; the two clauses now name Balance things (Singles, adapting meditations) instead of generic quiz copy.",
       calmer="#2 (assessment intro)", evidence="Alex 2:12; benchmark rule 2 (reason in the header)"))
 
 # ---------------- Part 2: About you ----------------
@@ -46,9 +46,9 @@ add(id="age", type="question", phase=2, questionId="age_band", derive="ageBand",
     options=[{"id":"13-17","text":"13 to 17","color":"purple_haze"},{"id":"18-24","text":"18 to 24","color":"polar_blue"},{"id":"25-34","text":"25 to 34","color":"mint_green"},{"id":"35-44","text":"35 to 44","color":"papaya_whip"},{"id":"45-54","text":"45 to 54","color":"apricot"},{"id":"55+","text":"55 and over","color":"misty_peach"}],
     notes=N("question","existing","Age bands instead of the numpad (the web funnel asks bands first). Existing subtitle kept as the reason line; reassurance added because the deck has none anywhere.",
       calmer="#4 (age)", evidence="Alex 2:34 (who-you-are first); benchmark rule 4; web funnel /age"))
-add(id="gender", type="question", phase=2, questionId="gender", title=["How do you identify?"], subtitle="Optional. Some members prefer sessions that speak to their experience.", reassure="Optional, and never shown anywhere.",
+add(id="gender", type="question", phase=2, questionId="gender", title=["How do you identify?"], noReason=True, reassure="Optional, and never shown anywhere.",
     options=[{"id":"woman","text":"Woman","color":"polar_blue"},{"id":"man","text":"Man","color":"mint_green"},{"id":"nonbinary","text":"Non-binary","color":"papaya_whip"},{"id":"prefer_not","text":"Prefer not to say","color":"purple_haze"}],
-    notes=N("question","existing","Calmer opens on gender and echoes it later. Kept (Alex, Sep 4); the echo stays light because a round-2 tester read Calmer's gendered copy as 'given to every woman'.",
+    notes=N("question","existing","Calmer opens on gender and echoes it later. Kept (Alex, Sep 4); the echo stays light because a round-2 tester read Calmer's gendered copy as 'given to every woman'. Subtitle cut Sep 5: the 'Prefer not to say' tile and the privacy line already say it is optional.",
       calmer="#3 (gender)", evidence="Alex 2:34; round 2 P6"))
 add(id="hdyhau", type="scrollableQuestion", phase=2, questionId="hdyhau", title=["How did you hear","about us?"], noReason=True,
     options=[{"id":"app_or_play_store","text":"App Store"},{"id":"mobile_game","text":"Mobile game"},{"id":"facebook_or_instagram","text":"Facebook or Instagram"},{"id":"search_engine","text":"Search engine"},{"id":"elevate_or_spark","text":"Elevate or Spark"},{"id":"family_and_friends","text":"Family and friends"},{"id":"tiktok","text":"TikTok"},{"id":"health_professional","text":"Health professional"},{"id":"other","text":"Other"}],
@@ -57,17 +57,18 @@ add(id="hdyhau", type="scrollableQuestion", phase=2, questionId="hdyhau", title=
       calmer="#1 (Alex's referral idea at 1:52)", evidence="Matheus: HDYHAU sits too close to the paywall; benchmark rule 2; Insight Timer offers 'Health Professional'",
       fills=["Confirm the new answer_id with data (Balance HDYHAU buckets differ from Elevate's)"]))
 add(id="right_place", type="textImage", phase=2, tap=True, title=["{{a.name}}, you're in","the right place."],
-    body="Balance has helped {{L.age_count}} people your age.{{H.pick(a.hdyhau==='family_and_friends',' Someone you know is one of them.','')}} Here's how it works: a 10-minute session each day, built from your answers and guided by 2 real coaches, plus a sleep library and Singles for the moments you need one.",
-    mock={"header":"Your program","pill":"Day 1","rows":[{"t":"Today's meditation","s":"10 min · with Ofosu","color":"polar_blue","hl":True},{"t":"Sleep library","s":"Stories, music, soundscapes","color":"purple_haze"},{"t":"Singles","s":"For the moment you need one","color":"mint_green"}]},
-    notes=N("textImage","unused","Show the product before asking anything personal, and reflect back what the user just gave: their name, the age-specific member count (March's strongest confidence builder) and the friend referral when there was one. Newcomers in round 2 reached a paywall without knowing what the app would do for them.",
-      calmer="#5 (section preview right after age)", evidence="Alex 2:51; round 2 A2 (newcomer gap); synthesis #10", fills=["Session length and 'made from your answers' mechanism: confirm with Anna"]))
+    body="Balance has helped {{L.age_count}} people your age.{{H.pick(a.hdyhau==='family_and_friends',' Someone you know is one of them.','')}} Inside: a 10-minute session each day, assembled from your answers by 2 real coaches, 400+ meditations, a sleep library, and Singles for the moment you need one.",
+    mock={"header":"Your program","pill":"Day 1","rows":[{"t":"Today's meditation","s":"10 min · with Ofosu","color":"polar_blue","hl":True},{"t":"Ofosu and Leah","s":"Your 2 coaches, every word theirs","color":"papaya_whip"},{"t":"Sleep library","s":"Stories, music, soundscapes","color":"purple_haze"},{"t":"Singles","s":"For the moment you need one","color":"mint_green"}]},
+    notes=N("textImage","unused","Show the product before asking anything personal, and reflect back what the user just gave: their name, the age-specific member count (March's strongest confidence builder) and the friend referral when there was one. Kept early on Alex's call (Sep 5): the apps we studied say 'you're in the right place' up front, so this screen carries the broad library (coaches, catalog, sleep, Singles) and the stats card after the goal pick carries 'how Balance helps your goals'.",
+      calmer="#5 (section preview right after age)", evidence="Alex 2:51; Alex Sep 5 2:16 to 3:46; round 2 A2 (newcomer gap); synthesis #10", fills=["Session length and the 'assembled from your answers' mechanism: confirm with Anna","Open (Alex, Sep 5): would a version right after the goal screens tell a more cohesive story, or proof too late?"]))
 
 # ---------------- Part 3: Your goals ----------------
 add(id="goals", type="goalRanking", phase=3, title=["Select the goals that","matter to you."], rankTitle=["Now select each goal","in order of importance."],
     notes=N("goalRanking","existing","Kept exactly as today, per Alex. Hardcoded in Lua, not authorable.", calmer="#13 (main priority)", evidence="Alex 4:35"))
-add(id="goals_metrics", type="goalsMetrics", phase=3, title=["Here's what our","members are saying:"], metrics=[{"goal":"stress","text":"77% respond to stress better"},{"goal":"mood","text":"82% feel more emotionally steady"},{"goal":"sleep","text":"69% report better sleep"},{"goal":"focus","text":"78% feel more present and focused"}],
+add(id="goals_metrics", type="goalsMetrics", phase=3, title=["Members with your goals","say Balance works:"], lead={"text":"85% feel better overall"}, metrics=[{"goal":"stress","text":"81% cope better with anxious feelings"},{"goal":"mood","text":"82% feel more emotionally steady"},{"goal":"sleep","text":"69% report better sleep"},{"goal":"focus","text":"78% feel more present and focused"}],
     disclaimer=["From a 2025 survey of more than","3,700 Balance members."],
-    notes=N("goalsMetrics","copy","Existing card with sourced, dated numbers from the Balance whitepaper (survey of 3,700+ members, 2025). Today's 95/92/82/75 line has no locatable source, and two different sleep numbers coexist in the codebase.", evidence="March B4/B5; whitepaper Personalization Pays Off (2025); Anna's Aug 11 DM"))
+    notes=N("goalsMetrics","copy","Existing card, reframed as 'how Balance helps your goals' now that the right-place screen carries the broad library (Alex, Sep 5). Numbers are the whitepaper's (3,700+ members, 2025); a general 85% well-being row leads because Alex wants 80%+ where the survey has it, and the stress row uses the 81% anxious-feelings stat over the 77% stress stat for the same reason. Today's 95/92/82/75 line has no locatable source.", evidence="March B4/B5; whitepaper Personalization Pays Off (2025); Anna's Aug 11 DM; Alex Sep 5 12:30 to 12:55",
+      fills=["Stress row: 81% 'cope better with anxious feelings' stands in for 77% 'respond to stress better'; content to confirm the swap reads honestly","Sleep has no 80%+ stat in the survey; 69% stays"]))
 
 # --- stress path ---
 add(id="stress_1", type="question", phase=3, branch=STRESS, questionId="how_often_feel_stress", title=["How often do you","feel stressed?"], subtitle=TWOWK+" It sets the pace of your first week.",
@@ -77,36 +78,40 @@ add(id="stress_2", type="multiselect", phase=3, branch=STRESS, questionId="how_e
     options=[{"id":"anxious_thoughts","text":"Anxious thoughts","color":"mint_green"},{"id":"exhaustion_or_tension","text":"Physical discomfort","color":"misty_peach"},{"id":"moodiness","text":"Moodiness","color":"purple_haze"},{"id":"difficulty_sleeping","text":"Difficulty sleeping","color":"papaya_whip"}],
     notes=N("question (allowMultipleAnswers)","existing","Same question, now multi-answer. The top quiz friction in March was being forced to pick one symptom. The question card already supports allowMultipleAnswers (unused in today's deck), so the icons and pastel rows stay.", calmer="#6 ('Which of these feel familiar?')", evidence="March B2 (8 of 18)"))
 add(id="stress_echo", type="text", phase=3, branch=STRESS, tap=True, kicker="You're not alone", title=["Stress like this is why","most people start."],
-    body="You said stress shows up as {{H.lower(H.list(L.how_experience_stress))}}. That's the pattern members describe most. In a survey of 3,700+ members, 77% said they respond to stress better. Your first sessions are built for it.",
-    notes=N("text (with interpolation)","new","Validation beat that reads the answer back within seconds. Today the flow asks 8 to 10 questions and reflects none of them until the loading screen.", calmer="#8 (validation interstitial)", evidence="Synthesis #1; Alex 5:00", fills=[]))
+    body="You said stress shows up as {{H.lower(H.list(L.how_experience_stress))}}. That's the pattern members describe most, and Balance tailors your first sessions to exactly that. In a 2025 survey of 3,700+ members, 81% said they cope better with anxious feelings.",
+    notes=N("text (answers written in)","new","Validation beat that reads the answer back within seconds, then says what Balance does with it in active voice (Alex, Sep 5: 'we'll tailor your first sessions to your specific symptoms', not 'built for it'). Today the flow asks 8 to 10 questions and reflects none of them until the loading screen.", calmer="#8 (validation interstitial)", evidence="Synthesis #1; Alex 5:00; Alex Sep 5 4:10 to 4:42", fills=[]))
 add(id="stress_science", type="primer", phase=3, branch=STRESS, title=["Meditation lowers","stress and anxiety."], body="The most widely cited meta-analysis of meditation, 47 randomized trials and 3,500+ participants, found measurable improvements in anxiety, depression and pain.",
-    cite="Goyal et al., JAMA Internal Medicine, 2014. Results vary from person to person. Balance is not a substitute for professional care.",
-    notes=N("goalMeditationPrimer","unused","Honest replacement for Calmer's agitation arc: one cited finding plus a disclaimer. The DID-YOU-KNOW-with-citation template (title, text, subtext) exists and is unused.", calmer="#9 to #11 (agitation), #36 (hope stat with disclaimer)", evidence="Anna's citation set; March B5", fills=["Disclaimer wording with content"]))
-add(id="singles_preview", type="textImage", phase=3, branch=STRESS, tap=True, title=["Singles, for the","moment stress hits."], body="Singles are short sessions for right now: a rising panic, a hard conversation, a night you can't switch off. You'll find them on your Today screen from day 1.",
-    mock={"header":"Singles","rows":[{"t":"SOS","s":"3 min · when panic rises","color":"misty_peach","hl":True},{"t":"Before a hard conversation","s":"5 min","color":"papaya_whip"},{"t":"Unwind","s":"10 min","color":"polar_blue"}]},
-    notes=N("textImage","unused","Section preview as felt value, and Calmer's 'look for the helicopter' trick: teach an affordance in onboarding that is visibly waiting on home.", calmer="#20 (Panic SOS preview)", evidence="Alex 5:40 ('we literally have the same meditation, the SOS single')", fills=["Real Single titles and durations from the catalog"]))
+    sourceBadge="JAMA Internal Medicine", sourceBadgeLabel="Published in", cite="Goyal et al., 2014. Results vary from person to person. Balance is not a substitute for professional care.",
+    notes=N("goalMeditationPrimer + journal badge","unused","Honest replacement for Calmer's agitation arc: one cited finding plus a disclaimer. The journal name now sits in a badge so the source reads as proof, not a footnote (Alex, Sep 5: 'logos proofing'). The DID-YOU-KNOW-with-citation template (title, text, subtext) exists and is unused; the badge is an asset on it.", calmer="#9 to #11 (agitation), #36 (hope stat with disclaimer)", evidence="Anna's citation set; March B5; Alex Sep 5 4:54 to 5:18", fills=["Disclaimer wording with content","The JAMA wordmark needs the publisher's permission; the prototype shows a styled citation badge, not the logo","Press that has cited Balance: none on file, marketing to supply if we add press logos elsewhere in the flow"]))
+PANIC_OPTS=[{"id":"often","text":"Often","color":"misty_peach"},{"id":"sometimes","text":"Sometimes","color":"papaya_whip"},{"id":"rarely","text":"Rarely","color":"mint_green"}]
+SOS_MOCK={"header":"Singles","rows":[{"t":"SOS","s":"3 min · when panic rises","color":"misty_peach","hl":True},{"t":"Before a hard conversation","s":"5 min","color":"papaya_whip"},{"t":"Unwind","s":"10 min","color":"polar_blue"}]}
+SOS_BODY="{{H.panic(a)}}Singles are short sessions for right now: a rising panic, a hard conversation, a night you can't switch off. You've unlocked them from day 1."
+add(id="stress_panic", type="question", phase=3, branch=STRESS, questionId="panic_spikes", title=["Do you get sudden spikes","of stress or panic?"], subtitle="Singles are made for those moments.", options=PANIC_OPTS, subAnswer={"id":"unsure","text":"Not sure"},
+    notes=N("question","existing","Calmer's panic question, copied on Alex's call (Sep 5): ask it, then show the SOS toolkit. New question on the existing card.", calmer="#19 to #20 (panic frequency, then the SOS preview)", evidence="Alex Sep 5 5:32 to 6:00"))
+add(id="singles_preview", type="textImage", phase=3, branch=STRESS, tap=True, title=["Your SOS toolkit,","ready from day 1."], body=SOS_BODY, mock=SOS_MOCK,
+    notes=N("textImage (answers written in)","unused","Section preview as felt value, and Calmer's 'look for the helicopter' trick: teach an affordance in onboarding that is visibly waiting on home. Opens by saying back the panic answer; 'you've unlocked them' replaces 'you'll find them on your Today screen' (Alex, Sep 5: clerical).", calmer="#20 (Panic SOS preview)", evidence="Alex 5:40 ('we literally have the same meditation, the SOS single'); Alex Sep 5 6:15 to 6:36", fills=["Real Single titles and durations from the catalog"]))
 add(id="stress_3", type="question", phase=3, branch=STRESS, questionId="stress_source", title=["What's the biggest","source of your stress?"], subtitle="Your sessions are matched to it.",
     options=[{"id":"money","text":"Money","color":"purple_haze","icon":"icon-money"},{"id":"work_or_school","text":"Work or school","color":"polar_blue","icon":"icon-work"},{"id":"health","text":"Health","color":"mint_green","icon":"icon-health"},{"id":"relationships","text":"Relationships","color":"misty_peach","icon":"icon-people"}], subAnswer={"id":"unsure","text":"Not sure"},
     notes=N("question","copy","Existing card plus a reason line.", calmer="#14 (stress drivers)"))
 add(id="stress_recap", type="text", phase=3, branch=STRESS, kicker="Got it", title=["Here's what we","heard, {{a.name}}."],
     items=[{"text":"Stress shows up as {{H.lower(H.list(L.how_experience_stress))}}"},{"text":"{{L.stress_source}} is the biggest source right now","when":"a.stress_source && a.stress_source!=='unsure'"},{"text":"Better sleep matters to you too","when":"a.goal_sleep==='yes'"}],
-    body="Your first sessions start there.", cta="Continue",
-    notes=N("text (with interpolation)","new","The recap Alex called a major need, framed as what we heard (so it reads differently from the outcomes screen later). Interpolation needs template work; the static per-goal version is a list card.", calmer="#15 (answer-echo checklist)", evidence="Alex 5:00 to 5:15; synthesis #1"))
+    body="Balance builds your first sessions around exactly this.", cta="Continue",
+    notes=N("text (answers written in)","new","The recap Alex called a major need, framed as what we heard (so it reads differently from the outcomes screen later), closing with what Balance does about it in active voice (Alex, Sep 5). Writing answers into the copy needs template work; the static per-goal version is a list card.", calmer="#15 (answer-echo checklist)", evidence="Alex 5:00 to 5:15; synthesis #1; Alex Sep 5 6:48"))
 
 # --- sleep-first path ---
 add(id="sleep_ready", type="question", phase=3, branch=SLEEP1, questionId="ready_to_sleep", title=["Do you need help falling","asleep right now?"], subtitle="If yes, your first session is a Sleep Single tonight.",
     options=[{"id":"yes","text":"Yes, I'm ready to sleep","color":"polar_blue"},{"id":"no","text":"No, I'm not ready for sleep","color":"purple_haze"}],
-    notes=N("question","existing","Kept verbatim. Routes the post-onboarding destination (Sleep Single vs Plan) on the native side."))
+    notes=N("question","existing","Kept verbatim. Routes the post-onboarding destination (Sleep Single vs Plan) on the native side.", evidence="Alex Sep 5 23:28: this screen drew complaints in the March study", fills=["March complaints about this screen: decide whether it stays verbatim, moves, or gets a reason line"]))
 add(id="sleep_1", type="question", phase=3, branch=SLEEP1, questionId="fall_asleep_time", title=["How long does it usually","take you to fall asleep?"], subtitle=TWOWK,
     options=[{"id":"0_15","text":"0 to 15 minutes","color":"mint_green"},{"id":"15_30","text":"15 to 30 minutes","color":"papaya_whip"},{"id":"30_plus","text":"30 minutes or more","color":"misty_peach"}], subAnswer={"id":"unsure","text":"Not sure"},
     notes=N("question","copy","Existing card with the 2-week window.", calmer="#24 (sleep frequency item)"))
 add(id="sleep_2", type="multiselect", phase=3, branch=SLEEP1, questionId="keep_awake", title=["What tends to keep","you awake at night?"], subtitle="Select all that apply.",
     options=[{"id":"stress","text":"Stress","color":"misty_peach"},{"id":"discomfort","text":"Discomfort","color":"mint_green"},{"id":"noise","text":"Noise","color":"papaya_whip"},{"id":"cant_fall_asleep","text":"Just can't fall asleep","color":"purple_haze"}],
     notes=N("question (allowMultipleAnswers)","existing","Same question, now multi-answer (March B2).", calmer="#6"))
-add(id="sleep_echo", type="text", phase=3, branch=SLEEP1, tap=True, kicker="You're not alone", title=["Most people who come","for sleep say the same."], body="You said {{H.lower(H.list(L.keep_awake))}} keep{{H.pick((a.keep_awake||[]).length===1,'s','')}} you up. 69% of members in our survey reported better sleep, and your Plan starts with the wind-down that gets you there.",
-    notes=N("text (with interpolation)","new","Validation echo for the sleep path.", calmer="#8", evidence="Synthesis #1"))
+add(id="sleep_echo", type="text", phase=3, branch=SLEEP1, tap=True, kicker="You're not alone", title=["Most people who come","for sleep say the same."], body="You said {{H.lower(H.list(L.keep_awake))}} keep{{H.pick((a.keep_awake||[]).length===1,'s','')}} you up. Balance opens your Plan with a wind-down built for exactly that, and 69% of members in our survey reported better sleep.",
+    notes=N("text (answers written in)","new","Validation echo for the sleep path.", calmer="#8", evidence="Synthesis #1"))
 add(id="sleep_science", type="primer", phase=3, branch=SLEEP1, title=["A wind-down routine","helps you fall asleep."], body="In a randomized trial of adults with sleep trouble, a mindfulness program improved sleep quality more than sleep-hygiene education alone.",
-    cite="Black et al., JAMA Internal Medicine, 2015. [Confirm with Anna.] Results vary from person to person.",
+    sourceBadge="JAMA Internal Medicine", sourceBadgeLabel="Published in", cite="Black et al., 2015. [Confirm with Anna.] Results vary from person to person.",
     notes=N("goalMeditationPrimer","unused","Cited education beat in place of Calmer's cortisol chart.", calmer="#26 (cortisol education)", evidence="Alex 6:33", fills=["Confirm the citation and wording with Anna"]))
 add(id="sleep_library_preview", type="textImage", phase=3, branch=SLEEP1, tap=True, title=["Your sleep library is","ready when you are."], body="Sleep meditations, stories, music and soundscapes, plus the Sleep Single for nights you're ready to drift off right now.",
     mock={"header":"Sleep","rows":[{"t":"Sleep Single","s":"Tonight · 12 min","color":"purple_haze","hl":True},{"t":"Sleep stories","s":"[N] stories","color":"polar_blue"},{"t":"Soundscapes","s":"Rain, ocean, campfire","color":"mint_green"}]},
@@ -116,8 +121,8 @@ add(id="sleep_3", type="question", phase=3, branch=SLEEP1, questionId="chronotyp
     notes=N("question","copy","Existing card plus a reason line."))
 add(id="sleep_recap", type="text", phase=3, branch=SLEEP1, kicker="Got it", title=["Here's what we","heard, {{a.name}}."],
     items=[{"text":"{{H.list(L.keep_awake)}} keep{{H.pick((a.keep_awake||[]).length===1,'s','')}} you up"},{"text":"It takes you {{H.lower(L.fall_asleep_time)}} to fall asleep","when":"a.fall_asleep_time && a.fall_asleep_time!=='unsure'"},{"text":"You're a {{H.lower(L.chronotype)}}","when":"a.chronotype && a.chronotype!=='unsure' && a.chronotype!=='both'"},{"text":"Less stress matters to you too","when":"a.goal_stress==='yes'"}],
-    body="Your Plan starts with the wind-down.", cta="Continue",
-    notes=N("text (with interpolation)","new","What-we-heard recap for the sleep path.", calmer="#15"))
+    body="Your Plan opens with a wind-down built around this.", cta="Continue",
+    notes=N("text (answers written in)","new","What-we-heard recap for the sleep path.", calmer="#15"))
 
 # --- mood path (full rhythm) ---
 add(id="mood_1", type="question", phase=3, branch=MOOD, questionId="low_mood_freq", title=["How often does a low","mood get in the way?"], subtitle=TWOWK+" It sets the pace of your first week.", options=FREQ4, subAnswer={"id":"unsure","text":"Not sure"},
@@ -126,9 +131,9 @@ add(id="mood_2", type="question", phase=3, branch=MOOD, questionId="happiest_aro
     options=[{"id":"family","text":"Family","color":"papaya_whip"},{"id":"friends","text":"Friends","color":"mint_green"},{"id":"myself","text":"By myself","color":"purple_haze"}], subAnswer={"id":"unsure","text":"Not sure"},
     notes=N("question","copy","Existing card plus a reason line."))
 add(id="mood_echo", type="text", phase=3, branch=MOOD, tap=True, kicker="You're not alone", title=["Hard weeks are why","most people start."], body="{{H.happy(a)}} 82% of members in our survey feel more emotionally steady.",
-    notes=N("text (with interpolation)","new","Validation echo for the mood path.", calmer="#8", evidence="Synthesis #1"))
+    notes=N("text (answers written in)","new","Validation echo for the mood path.", calmer="#8", evidence="Synthesis #1"))
 add(id="mood_science", type="primer", phase=3, branch=MOOD, title=["A daily practice lifts","mood over a few weeks."], body="Across randomized trials, meditation programs reduced distress and lifted mood in everyday adults, not only in clinical groups.",
-    cite="Galante et al., Nature Mental Health, 2023. Results vary from person to person. Balance is not a substitute for professional care.",
+    sourceBadge="Nature Mental Health", sourceBadgeLabel="Published in", cite="Galante et al., 2023. Results vary from person to person. Balance is not a substitute for professional care.",
     notes=N("goalMeditationPrimer","unused","Cited education beat for the mood path.", calmer="#9 to #11", fills=[]))
 add(id="mood_preview", type="textImage", phase=3, branch=MOOD, tap=True, title=["Check in, then","meet the day."], body="Each day starts with a 10-second mood check-in. Balance picks a session for how you feel, and Singles are there for the harder moments.",
     mock={"header":"Today","pill":"Mood check-in","rows":[{"t":"How are you feeling?","s":"Tap a mood","color":"papaya_whip","hl":True},{"t":"Today's meditation","s":"Picked for your mood · 10 min","color":"polar_blue"},{"t":"[Lift] Single","s":"5 min · for a low moment","color":"mint_green"}]},
@@ -137,8 +142,8 @@ add(id="mood_3", type="question", phase=3, branch=MOOD, questionId="improve_mood
     options=[{"id":"alone","text":"Spend time alone","color":"purple_haze"},{"id":"talk","text":"Talk to others","color":"polar_blue"},{"id":"distract","text":"Distract myself","color":"papaya_whip"},{"id":"sleep","text":"Sleep on it","color":"mint_green"}], subAnswer={"id":"unsure","text":"Not sure"},
     notes=N("question","copy","Existing card plus a reason line."))
 add(id="mood_recap", type="text", phase=3, branch=MOOD, kicker="Got it", title=["Here's what we","heard, {{a.name}}."], items=[{"text":"A low mood gets in the way {{H.lower(L.low_mood_freq)}}","when":"a.low_mood_freq && a.low_mood_freq!=='unsure'"},{"text":"You're happiest {{H.pick(a.happiest_around==='myself','on your own','around '+H.lower(L.happiest_around))}}","when":"a.happiest_around && a.happiest_around!=='unsure'"},{"text":"{{L.improve_mood}} is what helps today","when":"a.improve_mood && a.improve_mood!=='unsure'"}],
-    body="Your first sessions build on that.", cta="Continue",
-    notes=N("text (with interpolation)","new","What-we-heard recap for the mood path.", calmer="#15"))
+    body="Balance tailors your first sessions to build on this.", cta="Continue",
+    notes=N("text (answers written in)","new","What-we-heard recap for the mood path.", calmer="#15"))
 
 # --- focus path (full rhythm) ---
 add(id="focus_1", type="question", phase=3, branch=FOCUS, questionId="most_distracting", title=["What do you find the","most distracting?"], subtitle="Your sessions train attention around it.",
@@ -147,8 +152,8 @@ add(id="focus_1", type="question", phase=3, branch=FOCUS, questionId="most_distr
 add(id="focus_2", type="question", phase=3, branch=FOCUS, questionId="finishing_tasks", title=["Do you have difficulty","finishing tasks?"], subtitle=TWOWK,
     options=[{"id":"always","text":"Almost always","color":"misty_peach"},{"id":"depends","text":"Depends on the task","color":"papaya_whip"},{"id":"rarely","text":"Rarely","color":"purple_haze"}], subAnswer={"id":"unsure","text":"Not sure"},
     notes=N("question","copy","Existing card plus the 2-week window."))
-add(id="focus_echo", type="text", phase=3, branch=FOCUS, tap=True, kicker="You're not alone", title=["Attention wanders.","That's what it does."], body="You said {{H.pulls(a)}}. Meditation is practice at noticing that and coming back. 78% of members in our survey feel more present and focused.",
-    notes=N("text (with interpolation)","new","Validation echo for the focus path.", calmer="#8", evidence="Synthesis #1"))
+add(id="focus_echo", type="text", phase=3, branch=FOCUS, tap=True, kicker="You're not alone", title=["Attention wanders.","That's what it does."], body="You said {{H.pulls(a)}}. Meditation is practice at noticing that and coming back, and Balance tailors your first sessions to it. 78% of members in our survey feel more present and focused.",
+    notes=N("text (answers written in)","new","Validation echo for the focus path.", calmer="#8", evidence="Synthesis #1; Alex Sep 5 14:44 (78% stays: the survey has no 80%+ focus stat)"))
 add(id="focus_adhd", type="question", phase=3, branch=FOCUS, questionId="has_adhd_or_add", title=["Do you have ADD/ADHD?"], subtitle="These conditions can affect focus.", reassure="Stays in your program. Never shared, never used for anything else.",
     options=[{"id":"yes","text":"Yes","color":"purple_haze"},{"id":"maybe","text":"I think I do","color":"papaya_whip"},{"id":"no","text":"No","color":"misty_peach"},{"id":"not_shared","text":"I prefer not to share","color":"mint_green"}], subAnswer={"id":"unsure","text":"Not sure"},
     notes=N("question","copy","Existing card with a specific reassurance line beside the most sensitive ask in the flow.", evidence="Benchmark rule 4"))
@@ -161,14 +166,14 @@ add(id="focus_3", type="question", phase=3, branch=FOCUS, questionId="procrastin
     options=[{"id":"always","text":"Almost always","color":"misty_peach"},{"id":"sometimes","text":"Sometimes","color":"papaya_whip"},{"id":"rarely","text":"Rarely","color":"purple_haze"}], subAnswer={"id":"unsure","text":"Not sure"},
     notes=N("question","copy","Existing card with the 2-week window."))
 add(id="focus_recap", type="text", phase=3, branch=FOCUS, kicker="Got it", title=["Here's what we","heard, {{a.name}}."], items=[{"text":"{{H.pulls(a).charAt(0).toUpperCase()+H.pulls(a).slice(1)}}","when":"a.most_distracting && a.most_distracting!=='unsure'"},{"text":"Finishing tasks is hard {{H.lower(L.finishing_tasks)}}","when":"a.finishing_tasks && a.finishing_tasks!=='unsure'"},{"text":"You procrastinate {{H.lower(L.procrastinate)}}","when":"a.procrastinate && a.procrastinate!=='unsure'"}],
-    body="Your first sessions train attention to come back.", cta="Continue",
-    notes=N("text (with interpolation)","new","What-we-heard recap for the focus path.", calmer="#15"))
+    body="Balance tailors your first sessions to train attention around this.", cta="Continue",
+    notes=N("text (answers written in)","new","What-we-heard recap for the focus path.", calmer="#15"))
 
 # --- everyone: coaches ---
 add(id="coaches", type="coaches", phase=3, title=["Meet Ofosu and Leah,","your coaches."], subtitle="They'll guide you toward {{H.goalsPhrase(a)}}.", bios=[{"name":"Ofosu","text":"Has taught meditation for over 20 years, including at the Insight Meditation Society and Spirit Rock."},{"name":"Leah","text":"Brings neuroscience, psychology and her own practice to every session. Has taught in 16+ countries."}],
-    body="Every session is written and recorded by the 2 of them, then pieced together for you from your answers. Your first session is with Ofosu. Switch anytime.", cta="Continue",
+    body="Every session is written and recorded by the 2 of them. Balance assembles your meditations from that library, just for you, from what you share. Your first session is with Ofosu. Switch anytime.", cta="Continue",
     notes=N("list (2 items with image, title, subtitle)","unused","The decided 'made by humans' screen (angle 1), warmed up on Alex's note: it names the user's goals, gives a quick background on each coach, carries the handcrafted line from angle 2, and says the first session is with Ofosu and you can switch anytime (coach switching exists in the app). Showcase, not chooser; no 'AI' in the copy.",
-      evidence="handcrafted-coaches-screen-angles.md; 3 competitors lean on teacher credibility", fills=["Bios trimmed from the approved website bios; Cindy to confirm the one-liners","Headline: question-and-statement register"]))
+      evidence="handcrafted-coaches-screen-angles.md; 3 competitors lean on teacher credibility; 'Balance assembles meditations just for you' is the website's own line (themindcompany.com/apps/balance)", fills=["Bios trimmed from the approved website bios; Cindy to confirm the one-liners","Headline: question-and-statement register"]))
 
 COACHES_CARD = W.pop([i for i,c in enumerate(W) if c["id"]=="coaches"][0])
 # ---------------- Part 4: Your routine ----------------
@@ -178,14 +183,19 @@ add(id="sleep_trouble", type="question", phase=4, branch=SLEEP_ANY_NOT_FIRST, qu
 add(id="sleep_preview_b", type="textImage", phase=4, branch=SLEEP_ANY_NOT_FIRST, tap=True, title=["Sleep is part of","your Plan too."], body="Sleep meditations, stories, music and soundscapes are ready on the nights you need them, alongside your daily session.",
     mock={"header":"Sleep","rows":[{"t":"Sleep Single","s":"Tonight · 12 min","color":"purple_haze","hl":True},{"t":"Sleep stories","s":"[N] stories","color":"polar_blue"},{"t":"Soundscapes","s":"Rain, ocean, campfire","color":"mint_green"}]},
     notes=N("textImage","unused","Sleep content preview for users who picked sleep as a secondary goal.", calmer="#25", evidence="Alex 6:15"))
+STRESS_ANY_NOT_FIRST = "a.goal_stress==='yes' && a.goal_1!=='stress'"
+add(id="stress_panic_b", type="question", phase=4, branch=STRESS_ANY_NOT_FIRST, questionId="panic_spikes", title=["Do you get sudden spikes","of stress or panic?"], subtitle="Singles are made for those moments.", options=PANIC_OPTS, subAnswer={"id":"unsure","text":"Not sure"},
+    notes=N("question","existing","The panic question for users who picked stress as a secondary goal (Alex, Sep 5: show the SOS toolkit to anyone with a stress goal, not only stress #1).", calmer="#19", evidence="Alex Sep 5 5:48 to 6:00"))
+add(id="singles_preview_b", type="textImage", phase=4, branch=STRESS_ANY_NOT_FIRST, tap=True, title=["Your SOS toolkit,","ready from day 1."], body=SOS_BODY, mock=SOS_MOCK,
+    notes=N("textImage (answers written in)","unused","SOS Singles preview for the stress-as-secondary-goal path.", calmer="#20", evidence="Alex Sep 5 5:48 to 6:00", fills=["Real Single titles and durations from the catalog"]))
 add(id="exercise", type="slider", phase=4, questionId="exercise", title=["How often do you","move your body?"], subtitle="Exercise, walks, yoga. It all counts.", default=1, poles=["Rarely","Most days"],
     stops=[{"id":"0","label":"Rarely","caption":"I rarely exercise"},{"id":"1","label":"Once or twice a week","caption":"Once or twice a week"},{"id":"2","label":"A few times a week","caption":"A few times a week"},{"id":"3","label":"Most days","caption":"Most days"}],
     notes=N("slider","new","Whole-health question in Calmer's slider form. Sliders are on the deck map's hard-limits list, so the constrained version is a 4-option select.", calmer="#28 (exercise slider)", evidence="Alex 6:47"))
 add(id="schedule", type="question", phase=4, questionId="schedule", title=["How busy is","your schedule?"], subtitle="Even 5 minutes can change your day. We'll make it work.",
     options=[{"id":"packed","text":"Packed, every day","color":"misty_peach"},{"id":"busy","text":"Busy most days","color":"papaya_whip"},{"id":"some","text":"Some room to breathe","color":"mint_green"},{"id":"open","text":"Pretty open","color":"polar_blue"}],
     notes=N("question","existing","Lifted from the web funnel, rationale line included (content-vetted copy).", evidence="web-onboarding-2026-08-20.md /schedule; Alex 8:58"))
-add(id="no_judgment", type="text", phase=4, tap=True, title=["What you already do","counts for a lot."], body="{{H.Days(a)}}, so your first sessions run 10 minutes or less, with 5-minute versions for the days that get away from you. No pressure, and no streak to protect.",
-    notes=N("text (with interpolation)","new","De-shaming beat that speaks back to the schedule answer, before the aspiration question.", calmer="#31 (non-judgment beat)", evidence="Alex: more moments that speak back to the user"))
+add(id="no_judgment", type="text", phase=4, tap=True, title=["What you already do","counts for a lot."], body="{{H.Days(a)}}. Your first session runs 10 minutes, {{H.roomLine(a)}} No pressure, and no streak to protect.",
+    notes=N("text (answers written in)","new","De-shaming beat that speaks back to the schedule answer, before the aspiration question. The first session is always 10 minutes (static); the back half changes with the schedule answer: 5-minute versions for packed days, longer versions for people with room to unwind (Alex, Sep 5).", calmer="#31 (non-judgment beat)", evidence="Alex: more moments that speak back to the user; Alex Sep 5 7:57 to 8:33", fills=["Session lengths are set per exercise in the app (supportedDurationsInMinutes); confirm the longest Plan session length with content before saying '20 minutes'"]))
 add(id="future", type="multiselect", phase=4, questionId="future", max=3, kicker="When you feel better", title=["What do you look","forward to?"], subtitle="Pick up to 3.",
     options=[{"id":"calm_nights","text":"Calm nights and deep sleep","color":"purple_haze"},{"id":"clear_head","text":"A clearer head at work","color":"polar_blue"},{"id":"patience","text":"More patience with the people I love","color":"papaya_whip"},{"id":"present","text":"Feeling present instead of racing ahead","color":"mint_green"},{"id":"hard_moments","text":"Handling hard moments without spiraling","color":"misty_peach"},{"id":"energy","text":"Energy for the things I enjoy","color":"apricot"}],
     notes=N("multiselect","existing","Positive-future question, neutral framing. Picks come back on the outcomes screen and the program-ready card.", calmer="#32 ('reclaim' outcomes multi)", evidence="Alex 7:05 to 7:26"))
@@ -193,13 +203,13 @@ add(id="experience", type="question", phase=4, questionId="has_meditated_before"
     notes=N("question","copy","Existing card, one shared version with a reason line instead of 4 goal-specific copies."))
 
 # ---------------- Part 5: Your program ----------------
-add(id="proof", type="userReview", phase=5, title=["Members like you","say it works."], laurels=BADGES, reviews=REVIEWS, cite="Reviews verbatim from the App Store.", cta="Continue",
-    notes=N("userReview","unused","One proof screen: badges and 3 verbatim reviews. The age-specific member count moved up to the 'right place' screen so it reflects the age answer the moment it is given. userReview shows one quote per card in the deck.", calmer="#33 (social proof carousel)", evidence="Alex 7:28; Alex: combine reviews and the age stat, then reflect answers back earlier", fills=["Reviews are verbatim public App Store reviews (Sep 4, 2026); the 'real voices and not AI' line is in on Alex's call","Age counts on record date from Jan 2022; confirm the January 2026 refresh with Yana"]))
+add(id="proof", type="userReview", phase=5, title=["Members like you","say it works."], laurels=BADGES, reviews=REVIEWS, cta="Continue",
+    notes=N("userReview","unused","One proof screen: badges and 3 verbatim reviews. The 'reviews verbatim from the App Store' line is cut (Alex, Sep 5: the cards already say App Store review); 'Members' stays. The age-specific member count moved up to the 'right place' screen so it reflects the age answer the moment it is given. userReview shows one quote per card in the deck.", calmer="#33 (social proof carousel)", evidence="Alex 7:28; Alex: combine reviews and the age stat, then reflect answers back earlier", fills=["Reviews are verbatim public App Store reviews (Sep 4, 2026); the 'real voices and not AI' line is in on Alex's call","Age counts on record date from Jan 2022; confirm the January 2026 refresh with Yana"]))
 add(id="loading", type="assembly", phase=5, title=["Built by hand,","for you."],
-    body="Ofosu and Leah recorded every segment by hand. Balance is choosing the ones that fit your answers, so your first session sounds like it was made for you. Because it was.", foot="Switch coaches anytime.", cta="Continue",
-    sessions={"stress":{"title":"Settling a busy mind","coach":"Ofosu"},"sleep":{"title":"Letting the day go","coach":"Leah"},"mood":{"title":"Meeting the day as it is","coach":"Ofosu"},"focus":{"title":"Coming back to one thing","coach":"Ofosu"},"default":{"title":"Settling a busy mind","coach":"Ofosu"}},
-    notes=N("meditationLoading (personalization reveal) + new animation","new","Option 3 (Alex, Sep 4): the coaches appear where the Plan gets made. Their faces, the user's answer chips, and the first session that comes out of them replace the generic Creating Program screen. Replaces dead time instead of adding a step; the standalone coaches card is gone from this version.", calmer="#34 (named-instrument loading), #37 (result reveal)", evidence="Round 2 A4; March D1/F1; Growth Gems principle 2; coaches prior art (angle 2)", fills=["The 'recorded every segment by hand' mechanism: confirm wording and any number with Anna or Cindy","Session titles per goal from the catalog"]))
-add(id="profile", type="profile", phase=5, kicker="Your Balance profile", title=["Your starting point."], scoreLabel="Starting point", cta="Continue",
+    body="Ofosu and Leah recorded every segment themselves, in the studio. Balance chooses the ones that fit your answers, so your first session is tailored to exactly what you told us.", foot="Switch coaches anytime.", cta="Continue",
+    sessions={"stress":{"title":"Settling a busy mind","coach":"Ofosu"},"sleep":{"title":"Letting the day go","coach":"Ofosu"},"mood":{"title":"Meeting the day as it is","coach":"Ofosu"},"focus":{"title":"Coming back to one thing","coach":"Ofosu"},"default":{"title":"Settling a busy mind","coach":"Ofosu"}},
+    notes=N("meditationLoading (personalization reveal) + new animation","new","Option 3 (Alex, Sep 4): the coaches appear where the Plan gets made. Their faces, the user's answer chips, and the first session that comes out of them replace the generic Creating Program screen. Replaces dead time instead of adding a step; the standalone coaches card is gone from this version. Sep 5: 'recorded by hand' became 'recorded themselves, in the studio' (they do not record by hand), 'is choosing' became 'chooses', and the first session is always with Ofosu, since that is what the product does.", calmer="#34 (named-instrument loading), #37 (result reveal)", evidence="Round 2 A4; March D1/F1; Growth Gems principle 2; coaches prior art (angle 2); Alex Sep 5 9:36 to 10:47 and 24:46", fills=["Headline alternatives if 'Built by hand' overstates it: 'Recorded by 2 people. Assembled for you.' or 'Made by 2 people, for 1.'","The recording mechanism: confirm wording with Anna or Cindy","Session titles per goal from the catalog"]))
+add(id="profile", type="profile", phase=5, kicker="Your Balance profile", title=["Your starting point."], subtitle="You today, from your answers. Next: where Balance takes it.", scoreLabel="Starting point", cta="Continue",
     scores=[{"label":"Stress load","from":"how_often_feel_stress","map":{"always":"low","sometimes":"mid","rarely":"good","unsure":"mid"},"text":{"low":"High","mid":"Moderate","good":"Low"}},
             {"label":"Mood","from":"low_mood_freq","map":{"not_at_all":"good","some":"mid","most":"low","nearly_every":"low","unsure":"mid"},"text":{"good":"Steady","mid":"Up and down","low":"Needs care"}},
             {"label":"Focus","from":"finishing_tasks","map":{"always":"low","depends":"mid","rarely":"good","unsure":"mid"},"text":{"low":"Scattered","mid":"Uneven","good":"Steady"}},
@@ -208,15 +218,15 @@ add(id="profile", type="profile", phase=5, kicker="Your Balance profile", title=
             {"label":"Movement","from":"exercise","map":{"0":"low","1":"mid","2":"good","3":"good"},"text":{"low":"Rare","mid":"Some","good":"Regular"}},
             {"label":"Room in your day","from":"schedule","map":{"packed":"low","busy":"mid","some":"good","open":"good"},"text":{"low":"Tight","mid":"Some","good":"Open"}},
             {"label":"Experience","from":"has_meditated_before","map":{"none":"mid","once_or_twice":"mid","a_little":"good","a_lot":"good"},"text":{"mid":"Starting out","good":"Practicing"}}],
-    profiles={"stress":{"name":"The Overdrive Mind","insight":"Your mind rarely gets to idle. {{H.exp(a)}} and {{H.days(a)}}, so week 1 is short sessions that teach your mind how to settle."},
-              "sleep":{"name":"The Wired and Tired","insight":"Your body is ready for rest before your mind is. {{H.exp(a)}}, so week 1 starts with the wind-down, then works on the stress underneath it."},
-              "mood":{"name":"The Weather Watcher","insight":"Your mood moves with the day. {{H.exp(a)}} and {{H.days(a)}}, so week 1 is short check-ins that notice what you feel before it takes over."},
-              "focus":{"name":"The Open Browser","insight":"Attention keeps opening new tabs. {{H.exp(a)}}, so week 1 trains it to come back in sessions short enough to finish."}},
+    profiles={"stress":{"name":"The Overdrive Mind","insight":"Your mind rarely gets to idle. {{H.exp(a)}} and {{H.days(a)}}, so {{H.week1(a)}}."},
+              "sleep":{"name":"The Wired and Tired","insight":"Your body is ready for rest before your mind is. {{H.exp(a)}} and {{H.days(a)}}, so {{H.week1(a)}}."},
+              "mood":{"name":"The Weather Watcher","insight":"Your mood moves with the day. {{H.exp(a)}} and {{H.days(a)}}, so {{H.week1(a)}}."},
+              "focus":{"name":"The Open Browser","insight":"Attention keeps opening new tabs. {{H.exp(a)}} and {{H.days(a)}}, so {{H.week1(a)}}."}},
     cite="Based only on your answers. Not a clinical assessment.",
-    notes=N("goalMeditationPrimer (static per goal) or new gauge template","new","A named result profile is where 'it understood me' landed in round 2. Sub-scores derive only from answers actually given, so no manufactured headroom (P18). The insight speaks back to experience and schedule.", calmer="#37 (Mental Health Load gauge)", evidence="Round 2 A4; Alex 8:09; web funnel 'Here's Your Mental Health Profile / The Overdrive Mode'", fills=["Profile names: content pass","Score mapping: agree the rules with DS so nothing reads as a diagnosis"]))
+    notes=N("goalMeditationPrimer (static per goal) or new gauge template","new","A named result profile is where 'it understood me' landed in round 2. Sub-scores derive only from answers actually given, so no manufactured headroom (P18). The insight speaks back to experience and schedule, and the week-1 line now changes with the schedule answer (short sessions for packed days, longer ones for people with room to unwind) instead of assuming everyone is busy (Alex, Sep 5). A subtitle bridges from the assembly screen, which Alex felt this followed abruptly, and points at the projection next.", calmer="#37 (Mental Health Load gauge)", evidence="Round 2 A4; Alex 8:09; web funnel 'Here's Your Mental Health Profile / The Overdrive Mode'; Alex Sep 5 10:47 to 12:13", fills=["Profile names: content pass","Score mapping: agree the rules with DS so nothing reads as a diagnosis"]))
 add(id="chart", type="chart", phase=5, title=["Feel better, faster,","with Balance."], weeks=["Today","Week 1","Week 3","Week 6"], withLabel="With Balance", aloneLabel="On your own",
-    body="In a 2025 survey of 3,700+ members, 77% said they respond to stress better and 69% reported better sleep. On your own, most people report little change.", cite="Illustrative curve. Survey figures from the Balance whitepaper, 2025.", cta="Continue",
-    notes=N("textImage (static image per goal)","new","The progress graph Alex called 'so important': on your own vs with Balance, never 'Balance Premium'. A static image per goal fits textImage.", calmer="#38 (projection graph)", evidence="Alex 8:35 to 9:00", fills=["Copy pass against the web funnel's Before/Day 2/Day 30 timeline"]))
+    body="In a 2025 survey of 3,700+ members, 85% reported improved mental and emotional well-being{{H.goalStat(a)}}. On your own, most people report little change.", cite="Illustrative curve. Survey figures from the Balance whitepaper, 2025.", cta="Continue",
+    notes=N("textImage (static image per goal) or Lottie","new","The progress graph Alex called 'so important': on your own vs with Balance, never 'Balance Premium'. The line and dots now draw in one after another (Alex, Sep 5: 'ding, ding, ding'), which makes it a Lottie rather than a still. Leads with the survey's 85% well-being figure, then the goal's own stat.", calmer="#38 (projection graph)", evidence="Alex 8:35 to 9:00; Alex Sep 5 12:21 to 12:55", fills=["Copy pass against the web funnel's Before/Day 2/Day 30 timeline","A Lottie per goal, or one animation with the stat line swapped"]))
 add(id="comparison", type="comparison", phase=5, title=["What changes","with Balance."], withoutTitle="On your own", withTitle="With Balance",
     without=[{"text":"{{H.first(String(L.how_experience_stress||'').split(', '))||'Anxious thoughts'}} keep coming back","when":"a.goal_1==='stress'"},{"text":"Sleep stays hit and miss","when":"a.goal_sleep==='yes'"},{"text":"Low days run the week","when":"a.goal_1==='mood'"},{"text":"Attention keeps slipping","when":"a.goal_1==='focus'"},"Not sure where to start"],
     with_=[{"from":"future"},{"text":"A 10-minute session built for you, every day"}], cta="Continue",
@@ -230,8 +240,8 @@ add(id="reminder_time", type="setReminderTime", phase=5, branch=NO_SLEEP, questi
     notes=N("setReminderTime","existing","Existing training-reminder card."))
 add(id="push", type="pushOptIn", phase=5, questionId="push", title=["Get a reminder at","{{a.goal_sleep==='yes'?'your target bedtime':'your chosen time'}}"], body="{{a.goal_sleep==='yes'?'Reminders help you set a consistent sleep schedule.':'Reminders help you build better habits.'}}", cta="Continue",
     notes=N("pushOptIn","copy","Existing OS permission wrapper. Benchmark rule 8 wants a real opt-in number here; none exists in our data yet, so the line is out rather than invented.", evidence="Benchmark rule 8"))
-add(id="program_ready", type="text", phase=5, title=["Your Plan is ready,","{{a.name}}."], body="Your first session is 10 minutes with Ofosu, built for {{H.goalsPhrase(a)}}.{{H.pick(!!H.firstFuture(a,L),' Week 1 works toward '+H.firstFuture(a,L)+'.','')}} You'll find it on your Today screen.", cta="See my Plan",
-    notes=N("Swift program-ready card (copy) / text","swift","Program-ready card that names the first session, echoes the goals and the first 'look forward to' pick. No 'free'-led framing at the commit moment (March H3).", evidence="March H3; angle 2's 'your first session' reveal parked", fills=["Confirm with Matheus whether the Swift program-ready card can take the first name (the Lua text cards can)"]))
+add(id="program_ready", type="text", phase=5, title=["Your Plan is ready,","{{a.name}}."], body="Your first session is 10 minutes with Ofosu, built for {{H.goalsPhrase(a)}}.{{H.readyLine(a,L)}}{{H.pick(!!H.firstFuture(a,L),' Week 1 works toward '+H.firstFuture(a,L)+'.','')}}", cta="See my Plan",
+    notes=N("Swift program-ready card (copy) / text","swift","Program-ready card that names the first session, echoes the goals, what the user told us (symptom, what keeps them up, what pulls attention) and the first 'look forward to' pick. 'You'll find it on your Today screen' is cut (Alex, Sep 5: we are not teaching people where to find things here). No 'free'-led framing at the commit moment (March H3).", evidence="March H3; angle 2's 'your first session' reveal parked; Alex Sep 5 13:17 to 14:00", fills=["Confirm with Matheus whether the Swift program-ready card can take the first name (the Lua text cards can)"]))
 add(id="cytr", type="cytr", phase=5, title=["We'll remind you 2 days","before your trial ends"],
     notes=N("Superwall post_sign_up (trial reminder step)","superwall","Today's Choose-Your-Trial-Reminder screen, kept as is, right before the paywall (Alex).", evidence="CYTR +24.7% trial starts (prior art)"))
 add(id="paywall", type="paywall", phase=5, design="live", headlines={"stress":"Reduce daily stress and anxiety","sleep":"Fall asleep faster, wake up rested","focus":"Sharpen your focus","mood":"Feel steadier every day","default":"Reduce daily stress and anxiety"},
@@ -256,7 +266,7 @@ PR = {
 "payoff",
 "arrival"
 ],
-"Tell people what the questions do before the first one. 3 minutes is a promise about their time."
+"Tell people what the questions do before the first one, in the words today's card already uses ('personalize your Plan'). 3 minutes is a promise about their time."
 ],
 "first_name": [
 [
@@ -304,9 +314,10 @@ PR = {
 "goals_metrics": [
 [
 "sourced",
-"proof-early"
+"proof-early",
+"payoff"
 ],
-"Same card as today, with numbers that have a source and a date."
+"Same card as today, reframed as how Balance helps the goals just picked, with numbers that have a source and a date."
 ],
 "stress_1": [
 [
@@ -339,13 +350,35 @@ PR = {
 ],
 "One cited finding with a disclaimer, placed where Calmer puts the scare."
 ],
+"stress_panic": [
+[
+"payoff",
+"rhythm"
+],
+"Calmer's panic question. The answer sets up the SOS preview on the next screen."
+],
 "singles_preview": [
 [
 "felt-value",
 "rhythm",
-"payoff"
+"payoff",
+"echo"
 ],
 "A look at the part of the product that answers the stress just described, and an affordance the user will find waiting on home."
+],
+"stress_panic_b": [
+[
+"payoff",
+"rhythm"
+],
+"The panic question for people who picked stress as a secondary goal."
+],
+"singles_preview_b": [
+[
+"felt-value",
+"echo"
+],
+"The SOS toolkit shown to anyone with a stress goal, not only stress #1."
 ],
 "stress_3": [
 [
@@ -610,7 +643,7 @@ PR = {
 "honest-result",
 "no-deficit"
 ],
-"A named profile built only from the answers given, with an insight that names the user's experience and schedule."
+"You today, from the answers given: a named profile with an insight that names the user's experience and schedule, and a week 1 that fits their days. The next screen is you in a few weeks with Balance."
 ],
 "chart": [
 [
@@ -689,7 +722,7 @@ for c in W:
     pk, how = PR.get(c["id"], ([], ""))
     if pk: c["principles"] = pk
     if how: c["how"] = how
-WISH = {"id":"wishlist","name":"Wish list","principles":PRINCIPLES,"description":"Calmer's package in Balance's skin: proof up front, questions in an ask, echo, teach, preview rhythm on every goal path, a named result profile and a progress graph, then today's paywall. Built as if templates were free.",
+WISH = {"id":"wishlist","name":"Wish list","principles":PRINCIPLES,"description":"Calmer's flow in Balance's skin, built as if templates were free. Proof up front, a question rhythm that gives something back after every ask or two, a named profile and a progress graph, then today's paywall.",
         "phases":["Welcome","About you","Your goals","Your routine","Your program"], "cards": W}
 
 # ---------------- Constrained: derive by explicit overrides ----------------
@@ -704,54 +737,76 @@ def drop(cid):
 def replace(cid, card):
     global C, by
     C = [card if c["id"]==cid else c for c in C]; by = {c["id"]: c for c in C}
-def static_recap(cid, items, body):
+def static_recap(cid, items, body, combos):
     by[cid].update({"title":["Here's what","we heard."],"items":[{"text":t} if isinstance(t,str) else t for t in items],"body":body})
-    setnotes(cid, template="list (text, subTitle, items)", tag="unused", why="Static what-we-heard recap for this goal branch on the list template. The branch already scopes it.", loss="Name and the user's own answers in the copy; the list card does not replace the name placeholder.")
+    setnotes(cid, template="list (text, subTitle, items), one card per answer combination", tag="unused", why=f"What-we-heard recap that still reads the answers back (Alex, Sep 5: the prototype should show the echo here too). Every line is fixed copy shown by an answer rule, so production is one list card per answer combination ({combos}) on the branch predicates the deck already has, or the wish list's fill-in template.", loss="The name in the headline, and the card count grows with every question echoed.")
+def inc(q, v): return f"(a.{q}||[]).includes('{v}')"
+def eq(q, v): return f"a.{q}==='{v}'"
 
 # welcome: kept (config)
 # age: back to numpad keyboard
 by["age"].update({"type":"keyboard","questionId":"age","numpad":True,"placeholder":"age","title":["How old are you?"],"subtitle":"Your guidance will be tailored to your age group."})
 for k in ("options","derive","style"): by["age"].pop(k, None)
 setnotes("age", template="keyboard", tag="existing", why="Today's numpad age entry, kept. Reason line is the existing subTitle; the reassurance line is a second subTitle line.", loss="Age bands (web-funnel style).")
-setnotes("gender", why="Kept as an added question (Alex, Sep 4). Nothing downstream reads it in the constrained deck yet.", loss="No downstream use without interpolation.")
+setnotes("gender", why="Kept as an added question (Alex, Sep 4). Nothing downstream reads it in the constrained deck yet.", loss="No downstream use without answers written into copy.")
 # hdyhau: scrollableQuestion has no subTitle
 setnotes("hdyhau", why="Moved early and given the health-professional option (JSON).")
 # right_place: no HDYHAU echo
-by["right_place"]["body"] = "Here's how Balance works: a 10-minute session each day, built from your answers and guided by 2 real coaches, plus a sleep library and Singles for the moments you need one."
+by["right_place"]["body"] = "Inside Balance: a 10-minute session each day, assembled from your answers by 2 real coaches, 400+ meditations, a sleep library, and Singles for the moment you need one."
 setnotes("right_place", why="Show the product before asking anything personal. textImage replaces the name placeholder, so the name stays; the age count lives on its own ageMetrics card later; the paragraph goes in the Learn More panel.", loss="The age-count and friend-referral echoes; the body paragraph is behind Learn More.")
 # echo beats: static, on goalMeditationPrimer (title kicker, text, subtext)
-by["stress_echo"].update({"body":"Anxious thoughts, tension and restless nights are how stress shows up for most members. In a survey of 3,700+ members, 77% said they respond to stress better. Your first sessions are built for it."})
+by["stress_echo"].update({"body":"Anxious thoughts, tension and restless nights are how stress shows up for most members. Balance tailors your first sessions to the way it shows up for you. In a 2025 survey of 3,700+ members, 81% said they cope better with anxious feelings."})
 setnotes("stress_echo", template="goalMeditationPrimer (title, text, subtext)", tag="unused", why="Static validation beat on the stress branch: kicker, headline, small line.", loss="The user's own words read back.")
-by["sleep_echo"].update({"body":"Stress, discomfort and a mind that won't switch off are the usual reasons. 69% of members in our survey reported better sleep, and your Plan starts with the wind-down that gets you there."})
+by["sleep_echo"].update({"body":"Stress, discomfort and a mind that won't switch off are the usual reasons. Balance opens your Plan with a wind-down built for exactly that, and 69% of members in our survey reported better sleep."})
 setnotes("sleep_echo", template="goalMeditationPrimer (title, text, subtext)", tag="unused", why="Static validation beat on the sleep branch.", loss="The user's own answer read back.")
 by["mood_echo"].update({"body":"Whether you recharge alone or with the people you love, your sessions will help you protect that time. 82% of members in our survey feel more emotionally steady."})
 setnotes("mood_echo", template="goalMeditationPrimer (title, text, subtext)", tag="unused", why="Static validation beat on the mood branch.", loss="The echoed answer.")
-by["focus_echo"].update({"body":"Thoughts, screens, noise, other people: whatever pulls you away, meditation is practice at noticing it and coming back. 78% of members in our survey feel more present and focused."})
+by["focus_echo"].update({"body":"Thoughts, screens, noise, other people: whatever pulls you away, meditation is practice at noticing it and coming back, and Balance tailors your first sessions to it. 78% of members in our survey feel more present and focused."})
 setnotes("focus_echo", template="goalMeditationPrimer (title, text, subtext)", tag="unused", why="Static validation beat on the focus branch.", loss="The echoed answer.")
 # recaps: static list per goal
-static_recap("stress_recap", ["Stress that shows up in your thoughts, body or sleep","The pressure behind it: money, work, health or relationships",{"text":"Better sleep matters to you too","when":"a.goal_sleep==='yes'"}], "Your first sessions start right there.")
-static_recap("sleep_recap", ["What keeps you up at night","How long it takes you to fall asleep",{"text":"Less stress matters to you too","when":"a.goal_stress==='yes'"}], "Your program starts with the wind-down.")
-static_recap("mood_recap", ["How often a low mood gets in the way","Who you feel happiest around","What already helps"], "Your first sessions build on that.")
-static_recap("focus_recap", ["What pulls your attention away","How hard finishing tasks feels","How often you procrastinate"], "Your first sessions train attention to come back.")
+static_recap("stress_recap", [
+    {"text":"Stress shows up as anxious thoughts","when":inc("how_experience_stress","anxious_thoughts")},{"text":"Stress shows up in your body","when":inc("how_experience_stress","exhaustion_or_tension")},
+    {"text":"Stress shows up as moodiness","when":inc("how_experience_stress","moodiness")},{"text":"Stress gets in the way of your sleep","when":inc("how_experience_stress","difficulty_sleeping")},
+    {"text":"Stress that runs in the background","when":"!(a.how_experience_stress||[]).length"},
+    {"text":"Money is the biggest source right now","when":eq("stress_source","money")},{"text":"Work or school is the biggest source right now","when":eq("stress_source","work_or_school")},
+    {"text":"Health is the biggest source right now","when":eq("stress_source","health")},{"text":"Relationships are the biggest source right now","when":eq("stress_source","relationships")},
+    {"text":"Better sleep matters to you too","when":"a.goal_sleep==='yes'"}], "Balance builds your first sessions around exactly this.", "4 symptoms x 4 sources")
+static_recap("sleep_recap", [
+    {"text":"Stress keeps you up","when":inc("keep_awake","stress")},{"text":"Discomfort keeps you up","when":inc("keep_awake","discomfort")},{"text":"Noise keeps you up","when":inc("keep_awake","noise")},{"text":"You just can't fall asleep","when":inc("keep_awake","cant_fall_asleep")},
+    {"text":"You fall asleep within 15 minutes","when":eq("fall_asleep_time","0_15")},{"text":"It takes you 15 to 30 minutes to fall asleep","when":eq("fall_asleep_time","15_30")},{"text":"It takes you 30 minutes or more to fall asleep","when":eq("fall_asleep_time","30_plus")},
+    {"text":"You're a morning person","when":eq("chronotype","morning")},{"text":"You're a night person","when":eq("chronotype","night")},
+    {"text":"Less stress matters to you too","when":"a.goal_stress==='yes'"}], "Your Plan opens with a wind-down built around this.", "4 reasons x 3 times x 3 chronotypes")
+static_recap("mood_recap", [
+    {"text":"A low mood rarely gets in the way","when":eq("low_mood_freq","not_at_all")},{"text":"A low mood gets in the way some days","when":eq("low_mood_freq","some")},{"text":"A low mood gets in the way most days","when":eq("low_mood_freq","most")},{"text":"A low mood gets in the way nearly every day","when":eq("low_mood_freq","nearly_every")},
+    {"text":"You're happiest around family","when":eq("happiest_around","family")},{"text":"You're happiest around friends","when":eq("happiest_around","friends")},{"text":"You're happiest on your own","when":eq("happiest_around","myself")},
+    {"text":"Time alone is what helps today","when":eq("improve_mood","alone")},{"text":"Talking to others is what helps today","when":eq("improve_mood","talk")},{"text":"Distraction is what helps today","when":eq("improve_mood","distract")},{"text":"Sleeping on it is what helps today","when":eq("improve_mood","sleep")}],
+    "Balance tailors your first sessions to build on this.", "4 x 3 x 4 answers")
+static_recap("focus_recap", [
+    {"text":"Your thoughts pull your attention away","when":eq("most_distracting","thoughts")},{"text":"Your surroundings pull your attention away","when":eq("most_distracting","surroundings")},{"text":"Technology pulls your attention away","when":eq("most_distracting","technology")},{"text":"Other people pull your attention away","when":eq("most_distracting","people")},
+    {"text":"Finishing tasks is hard almost every time","when":eq("finishing_tasks","always")},{"text":"Finishing tasks depends on the task","when":eq("finishing_tasks","depends")},{"text":"Finishing tasks is rarely a problem","when":eq("finishing_tasks","rarely")},
+    {"text":"You often put off tasks and projects","when":eq("procrastinate","always")},{"text":"You sometimes put off tasks and projects","when":eq("procrastinate","sometimes")},{"text":"Putting things off is rare for you","when":eq("procrastinate","rarely")}],
+    "Balance tailors your first sessions to train attention around this.", "4 x 3 x 3 answers")
 cc = copy.deepcopy(COACHES_CARD); cc["subtitle"] = "They'll guide you toward your goals."
 cc["notes"] = N("list (2 items with image, title, subtitle)","unused","The constrained version keeps today's Creating Program animation, so the coaches get their own static card here instead of the assembly reveal (Alex, Sep 4). Faces, a quick background, the handcrafted line, 'switch anytime'.", evidence="handcrafted-coaches-screen-angles.md", loss="The Option 3 assembly reveal, and the goals named in the intro line.")
 i_r = [k for k,c in enumerate(C) if c["id"]=="focus_recap"][0]
 C.insert(i_r+1, cc); by = {c["id"]: c for c in C}
 # previews: textImage loses the body paragraph (Learn More)
-for cid in ("singles_preview","sleep_library_preview","sleep_preview_b","mood_preview","focus_preview"):
+for cid in ("singles_preview","singles_preview_b"):
+    by[cid]["body"] = "Singles are short sessions for right now: a rising panic, a hard conversation, a night you can't switch off. You've unlocked them from day 1."
+for cid in ("singles_preview","singles_preview_b","sleep_library_preview","sleep_preview_b","mood_preview","focus_preview"):
     setnotes(cid, why=by[cid]["notes"]["why"]+" textImage takes a headline and an image asset; the paragraph goes in the Learn More panel.", loss="Body paragraph on screen (behind Learn More).")
 # exercise: slider -> question
 replace("exercise", {"id":"exercise","type":"question","phase":4,"questionId":"exercise","title":["How often do you","move your body?"],"subtitle":"Exercise, walks, yoga. It all counts.",
   "options":[{"id":"0","text":"Rarely","color":"misty_peach"},{"id":"1","text":"Once or twice a week","color":"papaya_whip"},{"id":"2","text":"A few times a week","color":"mint_green"},{"id":"3","text":"Most days","color":"polar_blue"}],
   "notes":N("question","existing","Same question as a 4-option select. Sliders need a new template.", calmer="#28", loss="The slider interaction and per-stop art.")})
 # no_judgment static
-by["no_judgment"]["body"] = "Your first sessions run 10 minutes or less, with 5-minute versions for the days that get away from you. No pressure, and no streak to protect."
+by["no_judgment"]["body"] = "Your first session runs 10 minutes, with 5-minute versions for the days that get away from you and longer ones for when you have space to unwind. No pressure, and no streak to protect."
 setnotes("no_judgment", template="text", tag="existing", why="De-shaming beat after the lifestyle questions. Static.", loss="The schedule answer read back.")
 # proof: split back into ageMetrics + one userReview card
 i = [k for k,c in enumerate(C) if c["id"]=="proof"][0]
 age_card = {"id":"age_metrics","type":"ageMetrics","phase":5,"kicker":"Did you know?","title":["Balance has helped","<b>{{L.age_count}}</b> people your age."],"cite":"As of January 2026.",
   "notes":N("ageMetrics","copy","The age-specific stat, kept as its own card (the template computes the count).", evidence="March B4/B5", fills=["Confirm the January 2026 refresh of the age buckets with Yana"])}
-review_card = {"id":"proof","type":"userReview","phase":5,"title":["Members like you","say it works."],"laurels":BADGES,"reviews":REVIEWS[:1],"cite":"Verbatim from the App Store, Sep 2026.","cta":"Continue",
+review_card = {"id":"proof","type":"userReview","phase":5,"title":["Members like you","say it works."],"laurels":BADGES,"reviews":REVIEWS[:1],"cta":"Continue",
   "notes":N("userReview (one quote + image per card)","unused","One testimonial card. userReview shows a single quote and an asset, so the carousel is one card here (or several cards).", calmer="#33", loss="The combined age-stat headline and the 3-review carousel; badges depend on the asset.")}
 C = C[:i] + [age_card, review_card] + C[i+1:]; by = {c["id"]: c for c in C}
 # loading: static labels
@@ -765,26 +820,29 @@ replace("profile", {"id":"profile","type":"quizResult","phase":5,"kicker":"Your 
               "focus":{"name":"The Open Browser","body":"Attention that keeps opening new tabs.","insight":"Week 1 trains it to come back in sessions short enough to finish."}},
   "cite":"Based on your goal. Not a clinical assessment.",
   "notes":N("goalMeditationPrimer (static per goal)","unused","Named profile per goal branch: kicker, profile name as the text, insight as the subtext. quizResult is not a profile template (it scores a quiz), so the primer card carries it.", calmer="#37", evidence="Round 2 A4", loss="Answer-derived sub-scores, the score number, and the experience/schedule echo.", fills=["Profile names: content pass"])})
-setnotes("chart", template="textImage (static chart image per goal)", tag="unused", why="The same graph as a baked image per goal branch fits textImage. The prototype draws it live; production ships 4 images.", loss="Nothing visible; the curve is illustrative either way.")
+by["chart"]["body"] = "In a 2025 survey of 3,700+ members, 85% reported improved mental and emotional well-being and 82% feel more emotionally steady. On your own, most people report little change."
+setnotes("chart", template="textImage (static chart image per goal)", tag="unused", why="The same graph as a baked image per goal branch fits textImage. The prototype draws it in; production ships 4 stills, or a Lottie if the draw-in matters.", loss="The line drawing in, and the goal's own stat in the sentence.")
 # comparison: one static list per goal
-by["comparison"].update({"title":["What changes","with Balance."],"without":[],"with_":[{"text":"Calmer nights and deeper sleep","when":"a.goal_sleep==='yes'"},{"text":"A steadier response to stress","when":"a.goal_1==='stress'"},{"text":"A steadier mood through the day","when":"a.goal_1==='mood'"},{"text":"Attention that comes back","when":"a.goal_1==='focus'"},{"text":"A 10-minute session built for you, every day"},{"text":"Every word recorded by a real person"}]})
-setnotes("comparison", template="list (static per goal)", tag="unused", why="One static list per goal branch (the list card is single-column). The paywall intro screen going live next week carries the two-column framing.", loss="The two columns and the user's own 'look forward to' picks.")
+by["comparison"].update({"title":["What changes","with Balance."],
+  "without":[{"text":"Anxious thoughts keep coming back","when":"a.goal_1==='stress'"},{"text":"Sleep stays hit and miss","when":"a.goal_sleep==='yes'"},{"text":"Low days run the week","when":"a.goal_1==='mood'"},{"text":"Attention keeps slipping","when":"a.goal_1==='focus'"},"Not sure where to start"],
+  "with_":[{"text":"Calmer nights and deeper sleep","when":"a.goal_sleep==='yes'"},{"text":"A steadier response to stress","when":"a.goal_1==='stress'"},{"text":"A steadier mood through the day","when":"a.goal_1==='mood'"},{"text":"Attention that comes back","when":"a.goal_1==='focus'"},{"text":"A 10-minute session built for you, every day"},{"text":"Every word recorded by a real person"}]})
+setnotes("comparison", template="textImage (one baked image per goal, both columns in it)", tag="unused", why="Both columns kept, static per goal branch, shipped as one image (Alex, Sep 5: a single 'with Balance' block loses the point of the screen, which is on your own vs with us). The paywall intro screen going live next week carries the same framing.", loss="The user's own 'look forward to' picks; the columns are a picture, not live text.")
 for o in by["commitment"]["options"]: o.pop("praise", None)
 setnotes("commitment", template="question", tag="existing", why="Plain single-select; the praise ladder needs per-answer copy the template does not do.", loss="The praise line after selection.")
 by["push"].update({"title":["Get a daily reminder to","meet your goals"],"body":"Reminders help you build better habits."})
 setnotes("push", why="Existing OS permission wrapper with a real number in the subtext. One shared copy instead of a per-track echo.")
-by["program_ready"].update({"title":["Your Plan is ready,","{{a.name}}."],"body":"Your first session is 10 minutes with Ofosu, built around your top goal. You'll find it on your Today screen."})
+by["program_ready"].update({"title":["Your Plan is ready,","{{a.name}}."],"body":"Your first session is 10 minutes with Ofosu, built around your top goal. Everything you told us is already in it."})
 setnotes("program_ready", template="Swift program-ready card (copy)", tag="swift", why="Existing program-ready card with new copy and the name. No 'free'-led framing.", loss="Goal and 'look forward to' echo.")
 sign = by["signup"]; sign.pop("branch", None); sign.update({"title":["Create an account to","save your program."],"body":"Your program follows you across devices."})
-setnotes("signup", template="Swift auth bookend", tag="existing", why="Sign-up stays before the paywall, as today.", loss="Sign-up after the trial starts (wish list).")
-order = [c["id"] for c in C]; su = C.pop(order.index("signup")); C.insert([c["id"] for c in C].index("paywall"), su); by = {c["id"]: c for c in C}
+setnotes("signup", template="Swift auth bookend", tag="existing", why="Sign-up stays right after the program-ready card and before the trial reminder and paywall, as today (Alex, Sep 5: it just has to be before the paywall).", loss="Sign-up after the trial starts (wish list).")
+order = [c["id"] for c in C]; su = C.pop(order.index("signup")); C.insert([c["id"] for c in C].index("cytr"), su); by = {c["id"]: c for c in C}
 by["end"].update({"note":"This is the constrained version: only card templates that exist in the app today, the current goal-1 branching kept intact, new questions allowed. Every screen here is a session.json content change except the paywall (Superwall), program-ready and sign-up (Swift)."})
 for c in C:
     if "principles" not in c:
         pk, how = PR.get(c["id"], ([], ""))
         if pk: c["principles"] = pk
         if how: c["how"] = how
-CONS = {"id":"constrained","name":"Constrained","principles":PRINCIPLES,"description":"The same spine built only from card templates that exist in the app today (in use or built-but-unused), with today's branching kept intact and new questions allowed. Interpolation (except the name on text cards), sliders, the computed profile, the two-column outcomes card and the step counter are cut; what each cut loses is recorded per screen.",
+CONS = {"id":"constrained","name":"Constrained","principles":PRINCIPLES,"description":"The same flow using only card templates that exist in the app today, with today's branching kept and new questions allowed. Answers written into the copy (except the name), the slider, the computed profile and the step counter are cut; each screen records what it loses.",
         "cards": C}
 
 

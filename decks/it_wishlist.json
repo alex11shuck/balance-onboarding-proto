@@ -5,59 +5,59 @@
  "pairName": "constrained",
  "principles": {
   "arrival": {
-   "name": "Meet the arrival",
-   "text": "Most new users come from a Meta ad about stress or anxiety and have never used a meditation app. Orient them before asking anything personal, and speak to the reason they tapped.",
+   "name": "Match the ad they tapped",
+   "text": "Most new users arrive from a Meta ad about stress or anxiety and have never used a meditation app. Speak to the reason they tapped before asking anything personal.",
    "source": "HDYHAU Sep 4: Meta is 40% of respondents at 6.6% trial start vs 13.9% overall; round 2 A2 (newcomers reached a paywall not knowing what the app does)"
   },
   "proof-early": {
-   "name": "Proof before the ask",
-   "text": "Trust is built before the commitment moment, not at it. Awards, ratings and member counts go where the user is still deciding whether to invest 3 minutes.",
+   "name": "Lots of proof before the trial ask",
+   "text": "Awards, ratings, member counts and reviews appear while the user is still deciding whether to give us 3 minutes, not only at the paywall.",
    "source": "March A3 (the store listing was the strongest pre-app trust signal); Calmer #1; Insight Timer's 5 proof placements"
   },
   "payoff": {
-   "name": "Every ask has a payoff",
-   "text": "A question earns its place by changing something the user can see: a reason line for why we ask, and the answer used within 2 screens.",
+   "name": "Every question pays off",
+   "text": "Each question says why we ask, and the answer visibly changes something within 2 screens.",
    "source": "Growth Gems principle 2; 23-app benchmark rule 2 (reason in the header); rule 3 (result points back to what you said)"
   },
   "echo": {
-   "name": "Say it back",
-   "text": "Read the user's own words back to them. Personalization the user cannot see is not personalization to them.",
+   "name": "Say their answers back",
+   "text": "Read the user's own answers back to them. Personalization the user cannot see is not personalization to them.",
    "source": "Synthesis #1 (answer echo, the biggest gap vs the field); round 2 A4 (a named result is where 'it understood me' landed); Alex 5:00 ('a major need')"
   },
   "sourced": {
-   "name": "Sourced, dated evidence",
-   "text": "Every number carries a source and a date. Claims are stated plainly with a disclaimer where results vary. No 'clinically proven', no unsourced stats.",
+   "name": "Real numbers with a source",
+   "text": "Every number carries a source and a date, and results-vary language where it applies. No 'clinically proven', no unsourced stats.",
    "source": "March B4/B5 (age-specific stats were the strongest confidence builder; ours were dated and unsourced); Anna's citation set; Balance whitepaper 2025"
   },
   "felt-value": {
    "name": "Show the product before the paywall",
    "text": "The paywall arriving before any sense of the product was the abandonment trigger in March. Previews of real sections and a named first session stand in for felt value.",
-   "source": "March D1 (12 of 18) and F1 (5 of 6 newcomers); round 2 A5 (content access resolved the try-first objection); synthesis #10"
+   "source": "March D1 (12 of 18) and F1 (5 of 6 newcomers); round 2 A5 (content access resolved the try-first objection); synthesis #10; paid-UA field read Sep 5 (ReciMe has the user import a real recipe before its paywall)"
   },
   "humans": {
-   "name": "Made by humans, shown not said",
-   "text": "Faces, voices and the handcrafted mechanism answer the 'is this AI' worry without using the word, which plants the thought.",
+   "name": "Real coaches, shown not claimed",
+   "text": "Faces, voices and how the sessions get made answer the 'is this AI' worry without using the word, which plants the thought.",
    "source": "Cindy (Sep 2024); coaches prior art; App Store review 'Love that they use real voices and not AI'; 3 competitors sell teacher credibility"
   },
   "reassure": {
-   "name": "Specific reassurance beside sensitive asks",
+   "name": "A privacy line beside personal questions",
    "text": "A concrete, checkable line next to the field it protects ('never shown to anyone') builds more trust than any general promise.",
    "source": "23-app benchmark rule 4 (Strava, Gentler Streak: highest trust ratings in the set); the deck had zero reassurance copy"
   },
   "no-deficit": {
-   "name": "Compassion, never agitation",
-   "text": "No scare copy, no presupposed diagnosis, always a 'Not sure'. Validate what the user said, then teach. The structure of Calmer's agitate-then-absolve arc is used; its claims are not.",
-   "source": "Balance voice (compassionate, grounded); synthesis #9; Calmer's dark patterns documented-not-copied"
+   "name": "No scare copy",
+   "text": "Validate what the user said, then teach. No presupposed diagnosis, always a 'Not sure'. Calmer's agitate-then-absolve structure is used; its claims are not.",
+   "source": "Balance voice (compassionate, grounded); synthesis #9; Calmer's dark patterns documented, not copied"
   },
   "commit": {
-   "name": "A small commitment before the big one",
-   "text": "A realistic practice goal and a reminder time right before the paywall turn intent into a plan, and make the trial feel like a decision already half made.",
+   "name": "A small commitment before the trial",
+   "text": "A realistic practice goal and a reminder time right before the paywall turn intent into a plan, so the trial feels like a decision already half made.",
    "source": "Synthesis #4 (Insight Timer's praise ladder, cheapest high-leverage steal); Calmer #41; CYTR +24.7% trial starts"
   },
   "keep-what-works": {
    "name": "Keep what already tests well",
-   "text": "The goal screens, the reminder flow, the trial-reminder chooser and the live paywall stay as they are. The redesign is the connective tissue around them.",
-   "source": "Alex 4:35 ('keep our goal screens as they exist'); prior-art census (wins came from reordering and framing, not new content); CYTR and ReciMe are baseline wins"
+   "text": "The goal screens, the reminder flow, the trial-reminder chooser and the live paywall stay as they are. This is a constraint as much as a principle: no first test would remove the goal screens or change the reminder flow, so both versions keep them.",
+   "source": "Alex 4:35 ('keep our goal screens as they exist') and Sep 5 ('constraint-driven more than we know this is good'); prior-art census (wins came from reordering and framing, not new content); CYTR and ReciMe are baseline wins"
   },
   "voice": {
    "name": "Balance voice",
@@ -65,7 +65,7 @@
    "source": "Balance content style guide"
   },
   "trial-anxiety": {
-   "name": "Name the trial mechanics",
+   "name": "Say when the trial reminder comes",
    "text": "Forgetting to cancel is the objection behind the objection. Say when the reminder comes and what happens on day 7 before asking for the trial.",
    "source": "Round 2 A3 (the trial-reminder paywall was the only element praised unprompted for the objection it targets); Insight Timer and Calmer timelines"
   },
@@ -90,7 +90,7 @@
    "source": "Insight Timer #20 (plan summary: answers animate in as checked chips); Happier's plan summary; synthesis headline finding (a plan artifact is one of the four substitutes for felt value)"
   }
  },
- "description": "Insight Timer's package in Balance's skin: proof stacked before the first question, interests instead of diagnoses, chart-backed benefit beats, a consecutive-days commitment with a praise ladder, a dosage-lowering chart before the minutes ask, a plan built from the answers and a dated outlook, then today's paywall. Built as if templates were free.",
+ "description": "Insight Timer's flow in Balance's skin: proof stacked before the first question, interests instead of diagnoses, chart-backed benefit beats, a consecutive-days commitment with a praise ladder, a dosage-lowering chart before the minutes ask, a plan built from the answers and a dated outlook, then today's paywall. Built as if templates were free.",
  "phases": [
   "Welcome",
   "About you",
@@ -1284,7 +1284,7 @@
     "Prototype ends here."
    ],
    "body": "In the app, a started trial hands off to the first session on the Today screen. A decline shows today's counter-offer, then lands on the Today screen with the program locked.",
-   "note": "This is the wish-list version of Insight Timer's package: proof and preferences in place of symptom questions, built as if templates were free. The constrained version keeps today's goal-1 question blocks and reminder tracks and inserts Insight Timer's screens around them.",
+   "note": "This is the wish-list version of Insight Timer's flow: proof and preferences in place of symptom questions, built as if templates were free. The constrained version keeps today's goal-1 question blocks and reminder tracks and inserts Insight Timer's screens around them.",
    "notes": {
     "template": "(prototype only)",
     "tag": "existing",
